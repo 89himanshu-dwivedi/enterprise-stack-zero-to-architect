@@ -1,0 +1,30 @@
+{
+  "name": "salesforce-platform-event-sink",
+  "config": {
+    "connector.class": "io.confluent.salesforce.SalesforcePlatformEventSinkConnector",
+    "tasks.max": "1",
+
+    "topics": "payment-completed",
+
+    "salesforce.instance": "https://MyDomain.my.salesforce.com",
+    "salesforce.username": "integration.user@example.com",
+    "salesforce.password": "${file:/opt/secrets.properties:sf.password}",
+    "salesforce.password.token": "${file:/opt/secrets.properties:sf.token}",
+    "salesforce.consumer.key": "${file:/opt/secrets.properties:sf.consumer.key}",
+    "salesforce.consumer.secret": "${file:/opt/secrets.properties:sf.consumer.secret}",
+
+    "salesforce.platform.event.name": "Payment_Event__e",
+
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081",
+
+    "//": "keep well under the org's daily API allocation - this is the setting that saves you",
+    "consumer.override.max.poll.records": "200",
+
+    "errors.tolerance": "all",
+    "errors.deadletterqueue.topic.name": "payment-completed.dlq",
+    "errors.retry.timeout": "600000",
+    "errors.log.enable": "true"
+  }
+}

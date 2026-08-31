@@ -1,0 +1,42 @@
+<template>
+    <lightning-card title="Live order events" icon-name="standard:event">
+
+        <div class="slds-p-horizontal_medium">
+
+            <lightning-badge
+                label={connectionLabel}
+                class={connectionClass}>
+            </lightning-badge>
+
+            <template if:true={hasEvents}>
+                <table class="slds-table slds-table_bordered slds-m-top_small">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col"><div class="slds-truncate">Order</div></th>
+                            <th scope="col"><div class="slds-truncate">Status</div></th>
+                            <th scope="col"><div class="slds-truncate">Amount</div></th>
+                            <th scope="col"><div class="slds-truncate">Received</div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={events} for:item="event">
+                            <tr key={event.eventId} class="slds-hint-parent">
+                                <td><div class="slds-truncate">{event.orderId}</div></td>
+                                <td><div class="slds-truncate">{event.status}</div></td>
+                                <td><div class="slds-truncate">{event.amount}</div></td>
+                                <td><div class="slds-truncate">{event.receivedAt}</div></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </template>
+
+            <template if:false={hasEvents}>
+                <p class="slds-text-color_weak slds-m-vertical_medium">
+                    Waiting for events from Kafka&hellip;
+                </p>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

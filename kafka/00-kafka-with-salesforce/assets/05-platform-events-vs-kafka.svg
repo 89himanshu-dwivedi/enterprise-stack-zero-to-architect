@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 450" width="880" height="450" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Platform Events compared with Change Data Capture and Kafka">
+  <rect width="880" height="450" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">5 · &#8220;Why not just use Platform Events?&#8221;</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Often you should. This is the honest comparison &#8212; and the reason Kafka enters the picture at all.</text>
+
+  <rect x="24" y="66" width="832" height="34" rx="8" fill="#1b2a3a"/>
+  <g font-size="11" font-weight="700" fill="#a8d5ba">
+    <text x="44" y="88"></text>
+    <text x="280" y="88">Platform Events</text>
+    <text x="470" y="88">Change Data Capture</text>
+    <text x="690" y="88">Kafka</text>
+  </g>
+
+  <g font-size="10.5">
+    <rect x="24" y="104" width="832" height="34" rx="6" fill="#f4f7fb"/>
+    <text x="44" y="126" font-weight="700" fill="#1b2a3a">who runs it</text>
+    <text x="280" y="126" fill="#0f4d2a">Salesforce</text>
+    <text x="470" y="126" fill="#0f4d2a">Salesforce</text>
+    <text x="690" y="126" fill="#a01818">you, or a managed vendor</text>
+
+    <rect x="24" y="142" width="832" height="34" rx="6" fill="#ffffff"/>
+    <text x="44" y="164" font-weight="700" fill="#1b2a3a">retention / replay</text>
+    <text x="280" y="164" fill="#7a5b00">72 hours (high volume)</text>
+    <text x="470" y="164" fill="#7a5b00">72 hours</text>
+    <text x="690" y="164" fill="#0f4d2a">days, months, or forever</text>
+
+    <rect x="24" y="180" width="832" height="34" rx="6" fill="#f4f7fb"/>
+    <text x="44" y="202" font-weight="700" fill="#1b2a3a">throughput</text>
+    <text x="280" y="202" fill="#a01818">capped by org allocation</text>
+    <text x="470" y="202" fill="#a01818">capped by org allocation</text>
+    <text x="690" y="202" fill="#0f4d2a">millions per second</text>
+
+    <rect x="24" y="218" width="832" height="34" rx="6" fill="#ffffff"/>
+    <text x="44" y="240" font-weight="700" fill="#1b2a3a">ordering guarantee</text>
+    <text x="280" y="240" fill="#7a5b00">best effort</text>
+    <text x="470" y="240" fill="#0f4d2a">per record</text>
+    <text x="690" y="240" fill="#0f4d2a">strict, per partition key</text>
+
+    <rect x="24" y="256" width="832" height="34" rx="6" fill="#f4f7fb"/>
+    <text x="44" y="278" font-weight="700" fill="#1b2a3a">consumers outside Salesforce</text>
+    <text x="280" y="278" fill="#7a5b00">via Pub/Sub API</text>
+    <text x="470" y="278" fill="#7a5b00">via Pub/Sub API</text>
+    <text x="690" y="278" fill="#0f4d2a">anything, any language</text>
+
+    <rect x="24" y="294" width="832" height="34" rx="6" fill="#ffffff"/>
+    <text x="44" y="316" font-weight="700" fill="#1b2a3a">reprocess last month</text>
+    <text x="280" y="316" fill="#a01818">no</text>
+    <text x="470" y="316" fill="#a01818">no</text>
+    <text x="690" y="316" fill="#0f4d2a">yes &#8212; reset the offset</text>
+
+    <rect x="24" y="332" width="832" height="34" rx="6" fill="#f4f7fb"/>
+    <text x="44" y="354" font-weight="700" fill="#1b2a3a">cost of entry</text>
+    <text x="280" y="354" fill="#0f4d2a">already in your licence</text>
+    <text x="470" y="354" fill="#0f4d2a">already in your licence</text>
+    <text x="690" y="354" fill="#a01818">a cluster and a team</text>
+  </g>
+
+  <rect x="24" y="382" width="410" height="56" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="229" y="404" font-size="11.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Stay on Platform Events when&#8230;</text>
+  <text x="229" y="424" font-size="10.5" fill="#1e7a44" text-anchor="middle">it is Salesforce-to-Salesforce, volume is modest, and nobody</text>
+  <text x="229" y="435" font-size="10.5" fill="#1e7a44" text-anchor="middle">will ever ask to replay last quarter.</text>
+
+  <rect x="446" y="382" width="410" height="56" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="651" y="404" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">Bring in Kafka when&#8230;</text>
+  <text x="651" y="424" font-size="10.5" fill="#8a6d00" text-anchor="middle">non-Salesforce systems are in the picture, volume is real,</text>
+  <text x="651" y="435" font-size="10.5" fill="#8a6d00" text-anchor="middle">or you need long retention and replay.</text>
+</svg>

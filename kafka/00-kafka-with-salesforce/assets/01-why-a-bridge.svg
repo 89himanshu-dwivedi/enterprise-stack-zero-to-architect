@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" width="880" height="440" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Salesforce cannot speak the Kafka wire protocol, so a bridge is always required">
+  <defs>
+    <marker id="s1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="440" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">1 · The first thing to accept: Salesforce cannot talk to Kafka directly</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">There is no Kafka client for Apex, and there never will be. Every Salesforce&#8211;Kafka design is really a design for the <tspan font-weight="700">bridge</tspan> in the middle.</text>
+
+  <!-- salesforce -->
+  <rect x="24" y="70" width="230" height="130" rx="11" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="139" y="94" font-size="12.5" font-weight="700" fill="#12305e" text-anchor="middle">Salesforce</text>
+  <g fill="#ffffff" stroke="#2f5fa8" stroke-width="1.3">
+    <rect x="44" y="106" width="88" height="28" rx="6"/>
+    <rect x="146" y="106" width="88" height="28" rx="6"/>
+    <rect x="44" y="142" width="88" height="28" rx="6"/>
+    <rect x="146" y="142" width="88" height="28" rx="6"/>
+  </g>
+  <g font-size="10" font-weight="600" fill="#12305e" text-anchor="middle">
+    <text x="88" y="125">Apex</text><text x="190" y="125">Flow</text>
+    <text x="88" y="161">LWC</text><text x="190" y="161">Platform Events</text>
+  </g>
+  <text x="139" y="188" font-size="9" fill="#2f5fa8" text-anchor="middle">multi-tenant, sandboxed, HTTP-only egress</text>
+
+  <!-- blocked -->
+  <path d="M258 130 L490 130" fill="none" stroke="#c62828" stroke-width="2.4" stroke-dasharray="8 5" marker-end="url(#s1)"/>
+  <circle cx="374" cy="130" r="26" fill="#ffebee" stroke="#c62828" stroke-width="2.6"/>
+  <line x1="358" y1="114" x2="390" y2="146" stroke="#c62828" stroke-width="3"/>
+  <line x1="390" y1="114" x2="358" y2="146" stroke="#c62828" stroke-width="3"/>
+  <text x="374" y="176" font-size="11" font-weight="700" fill="#a01818" text-anchor="middle">not possible</text>
+
+  <!-- kafka -->
+  <rect x="496" y="70" width="230" height="130" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+  <text x="611" y="94" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka cluster</text>
+  <text x="611" y="118" font-size="10" fill="#1e7a44" text-anchor="middle">binary TCP protocol on 9092</text>
+  <text x="611" y="136" font-size="10" fill="#1e7a44" text-anchor="middle">long-lived, stateful connections</text>
+  <text x="611" y="154" font-size="10" fill="#1e7a44" text-anchor="middle">consumer groups, offsets, rebalances</text>
+  <text x="611" y="178" font-size="10" fill="#1e7a44" text-anchor="middle">expects a real client library in the process</text>
+
+  <!-- reasons -->
+  <rect x="744" y="70" width="112" height="130" rx="10" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.6"/>
+  <text x="800" y="92" font-size="10.5" font-weight="700" fill="#a01818" text-anchor="middle">why not</text>
+  <g font-size="9" fill="#a01818" text-anchor="middle">
+    <text x="800" y="112">no raw TCP</text>
+    <text x="800" y="128">from Apex</text>
+    <text x="800" y="148">no long-lived</text>
+    <text x="800" y="164">connections</text>
+    <text x="800" y="184">callouts are</text>
+    <text x="800" y="196">HTTP request/reply</text>
+  </g>
+
+  <!-- bridge -->
+  <text x="24" y="238" font-size="14" font-weight="700" fill="#1b2a3a">So every real design puts something in between</text>
+
+  <rect x="24" y="252" width="200" height="118" rx="11" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="124" y="278" font-size="11.5" font-weight="700" fill="#12305e" text-anchor="middle">Salesforce</text>
+  <text x="124" y="300" font-size="9.5" fill="#2f5fa8" text-anchor="middle">speaks HTTPS, gRPC,</text>
+  <text x="124" y="316" font-size="9.5" fill="#2f5fa8" text-anchor="middle">Platform Events, CDC</text>
+  <text x="124" y="342" font-size="9" fill="#2f5fa8" text-anchor="middle">and nothing else</text>
+
+  <path d="M224 310 L268 310" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#s1)"/>
+  <text x="246" y="300" font-size="8.5" fill="#5b6b7f" text-anchor="middle">HTTPS</text>
+  <text x="246" y="332" font-size="8.5" fill="#5b6b7f" text-anchor="middle">gRPC</text>
+
+  <rect x="274" y="252" width="332" height="118" rx="11" fill="#fff3cd" stroke="#b8860b" stroke-width="2.4"/>
+  <text x="440" y="278" font-size="12.5" font-weight="700" fill="#7a5b00" text-anchor="middle">THE BRIDGE</text>
+  <text x="440" y="298" font-size="10" fill="#8a6d00" text-anchor="middle">Kafka Connect &#183; MuleSoft &#183; a Spring Boot service &#183;</text>
+  <text x="440" y="314" font-size="10" fill="#8a6d00" text-anchor="middle">Heroku &#183; AWS EventBridge relay &#183; REST Proxy</text>
+  <text x="440" y="338" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">talks Salesforce on one side, Kafka on the other</text>
+  <text x="440" y="356" font-size="9" fill="#8a6d00" text-anchor="middle">this is where your retries, batching, mapping and idempotency live</text>
+
+  <path d="M606 310 L650 310" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#s1)"/>
+  <text x="628" y="300" font-size="8.5" fill="#5b6b7f" text-anchor="middle">Kafka</text>
+  <text x="628" y="332" font-size="8.5" fill="#5b6b7f" text-anchor="middle">protocol</text>
+
+  <rect x="656" y="252" width="200" height="118" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="756" y="278" font-size="11.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka</text>
+  <text x="756" y="300" font-size="9.5" fill="#1e7a44" text-anchor="middle">a normal producer and</text>
+  <text x="756" y="316" font-size="9.5" fill="#1e7a44" text-anchor="middle">consumer, exactly as in</text>
+  <text x="756" y="332" font-size="9.5" fill="#1e7a44" text-anchor="middle">parts 10 to 13</text>
+
+  <g fill="#f4b400" stroke="#8a6d00" stroke-width="1.2">
+    <circle r="6" cy="310"><animate attributeName="cx" dur="3.4s" repeatCount="indefinite" values="124;440;756"/><animate attributeName="opacity" dur="3.4s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.9;1"/></circle>
+  </g>
+
+  <rect x="24" y="386" width="832" height="42" rx="9" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.5"/>
+  <text x="440" y="406" font-size="11.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">The architectural question is never &#8220;how do I use Kafka in Apex&#8221;.</text>
+  <text x="440" y="422" font-size="10.5" fill="#5b6b7f" text-anchor="middle">It is &#8220;which bridge, which direction, and who owns the retry logic&#8221;.</text>
+</svg>

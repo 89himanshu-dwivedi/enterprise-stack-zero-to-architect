@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480" width="880" height="480" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Five ways to build the bridge between Salesforce and Kafka, compared">
+  <rect width="880" height="480" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">4 · Five ways to build the bridge</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Pick on operating model, not on features. Who runs it at 2am matters more than what it can do.</text>
+
+  <g>
+    <rect x="24" y="66" width="832" height="72" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+    <rect x="24" y="66" width="832" height="72" rx="10" fill="none" stroke="#0f4d2a" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.18;0.20;1"/>
+    </rect>
+    <text x="44" y="88" font-size="12.5" font-weight="700" fill="#0f4d2a">1 &#183; Kafka Connect with the Confluent Salesforce connectors &#160;&#9733; least code</text>
+    <text x="44" y="106" font-size="10" fill="#1e7a44" font-family="Consolas, monospace">SalesforcePlatformEventSource &#183; SalesforceCdcSource &#183; SalesforcePlatformEventSink &#183; SalesforceBulkApiSink</text>
+    <text x="44" y="124" font-size="10" fill="#1e7a44">Config files, no application code. Offsets, retries and scaling come free. Needs a Connect cluster and usually a Confluent licence.</text>
+  </g>
+
+  <g>
+    <rect x="24" y="148" width="832" height="72" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+    <rect x="24" y="148" width="832" height="72" rx="10" fill="none" stroke="#2f5fa8" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.20;0.22;0.38;0.40;1"/>
+    </rect>
+    <text x="44" y="170" font-size="12.5" font-weight="700" fill="#1b2a3a">2 &#183; MuleSoft &#8212; Salesforce&#8217;s own integration platform</text>
+    <text x="44" y="188" font-size="10" fill="#5b6b7f">Anypoint Kafka connector on one side, Salesforce connector on the other. DataWeave for the mapping.</text>
+    <text x="44" y="206" font-size="10" fill="#5b6b7f">The easy answer if your org already owns MuleSoft. Expensive if it does not.</text>
+  </g>
+
+  <g>
+    <rect x="24" y="230" width="832" height="72" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+    <rect x="24" y="230" width="832" height="72" rx="10" fill="none" stroke="#2f5fa8" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.40;0.42;0.58;0.60;1"/>
+    </rect>
+    <text x="44" y="252" font-size="12.5" font-weight="700" fill="#1b2a3a">3 &#183; Your own service &#8212; Spring Boot, Node, Python</text>
+    <text x="44" y="270" font-size="10" fill="#5b6b7f">Salesforce Pub/Sub API over gRPC on one side, a normal Kafka client on the other. Exactly parts 10 to 12 of this series.</text>
+    <text x="44" y="288" font-size="10" fill="#5b6b7f">Total control, zero licence cost &#8212; and you own the replay IDs, the retries and the pager.</text>
+  </g>
+
+  <g>
+    <rect x="24" y="312" width="832" height="72" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+    <rect x="24" y="312" width="832" height="72" rx="10" fill="none" stroke="#2f5fa8" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.60;0.62;0.78;0.80;1"/>
+    </rect>
+    <text x="44" y="334" font-size="12.5" font-weight="700" fill="#1b2a3a">4 &#183; Event Relay &#8594; Amazon EventBridge &#8594; MSK</text>
+    <text x="44" y="352" font-size="10" fill="#5b6b7f">A native Salesforce feature: relay Platform Events and CDC straight into EventBridge, then fan out to MSK or Lambda.</text>
+    <text x="44" y="370" font-size="10" fill="#5b6b7f">No servers to run. One-way out of Salesforce only, and it ties you to AWS.</text>
+  </g>
+
+  <g>
+    <rect x="24" y="394" width="832" height="72" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+    <rect x="24" y="394" width="832" height="72" rx="10" fill="none" stroke="#2f5fa8" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.80;0.82;0.98;1"/>
+    </rect>
+    <text x="44" y="416" font-size="12.5" font-weight="700" fill="#1b2a3a">5 &#183; Heroku &#8212; Apache Kafka on Heroku + Heroku Connect</text>
+    <text x="44" y="434" font-size="10" fill="#5b6b7f">Salesforce-owned platform. Heroku Connect keeps Postgres in sync with the org; a dyno moves data between Postgres and Kafka.</text>
+    <text x="44" y="452" font-size="10" fill="#5b6b7f">Fastest to stand up for a proof of concept. Watch the cost curve at real volume.</text>
+  </g>
+</svg>

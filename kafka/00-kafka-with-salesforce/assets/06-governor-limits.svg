@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 460" width="880" height="460" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The Salesforce governor limits that break naive Kafka integrations, and how to work with them">
+  <defs>
+    <marker id="s6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="460" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">6 · The limits that will break your first attempt</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Kafka has no idea Salesforce is multi-tenant. These are the walls you hit, and what to do about each.</text>
+
+  <!-- limits -->
+  <g>
+    <rect x="24" y="66" width="410" height="66" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+    <text x="44" y="88" font-size="11.5" font-weight="700" fill="#a01818">100 callouts per transaction</text>
+    <text x="44" y="106" font-size="10" fill="#a01818">Loop over 500 orders calling the REST Proxy and you die at 100.</text>
+    <text x="44" y="122" font-size="10" fill="#a01818">120 s cumulative callout time on top of that.</text>
+  </g>
+  <path d="M436 99 L470 99" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#s6)"/>
+  <rect x="476" y="66" width="380" height="66" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="496" y="88" font-size="11.5" font-weight="700" fill="#0f4d2a">send ONE batched request</text>
+  <text x="496" y="106" font-size="10" fill="#1e7a44">The REST Proxy accepts an array of records in a single POST.</text>
+  <text x="496" y="122" font-size="10" fill="#1e7a44">One callout for the whole trigger context, not one per record.</text>
+
+  <g>
+    <rect x="24" y="144" width="410" height="66" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+    <text x="44" y="166" font-size="11.5" font-weight="700" fill="#a01818">&#8220;Callout from a triggered Flow or trigger&#8221;</text>
+    <text x="44" y="184" font-size="10" fill="#a01818">You cannot make a callout after DML in the same transaction.</text>
+    <text x="44" y="200" font-size="10" fill="#a01818">The classic <tspan font-style="italic">uncommitted work pending</tspan> exception.</text>
+  </g>
+  <path d="M436 177 L470 177" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#s6)"/>
+  <rect x="476" y="144" width="380" height="66" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="496" y="166" font-size="11.5" font-weight="700" fill="#0f4d2a">go asynchronous</text>
+  <text x="496" y="184" font-size="10" fill="#1e7a44" font-family="Consolas, monospace">System.enqueueJob(new KafkaPublishQueueable(payloads));</text>
+  <text x="496" y="200" font-size="10" fill="#1e7a44">Or better: publish a Platform Event and let the bridge pull.</text>
+
+  <g>
+    <rect x="24" y="222" width="410" height="66" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+    <text x="44" y="244" font-size="11.5" font-weight="700" fill="#a01818">daily API request limit</text>
+    <text x="44" y="262" font-size="10" fill="#a01818">A topic doing 5,000 msg/s would burn an org&#8217;s daily allocation</text>
+    <text x="44" y="278" font-size="10" fill="#a01818">in well under a minute. This is the number one project killer.</text>
+  </g>
+  <path d="M436 255 L470 255" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#s6)"/>
+  <rect x="476" y="222" width="380" height="66" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="496" y="244" font-size="11.5" font-weight="700" fill="#0f4d2a">filter and aggregate in the bridge</text>
+  <text x="496" y="262" font-size="10" fill="#1e7a44">Only a fraction of a Kafka topic ever belongs in a CRM.</text>
+  <text x="496" y="278" font-size="10" fill="#1e7a44">Batch 200 at a time with the Composite API, or use Bulk API 2.0.</text>
+
+  <g>
+    <rect x="24" y="300" width="410" height="66" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+    <text x="44" y="322" font-size="11.5" font-weight="700" fill="#a01818">at-least-once means duplicates</text>
+    <text x="44" y="340" font-size="10" fill="#a01818">The bridge crashes after writing but before committing, and</text>
+    <text x="44" y="356" font-size="10" fill="#a01818">the same payment lands in Salesforce twice. (Part 11.)</text>
+  </g>
+  <path d="M436 333 L470 333" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#s6)"/>
+  <rect x="476" y="300" width="380" height="66" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="496" y="322" font-size="11.5" font-weight="700" fill="#0f4d2a">upsert on an External Id</text>
+  <text x="496" y="340" font-size="10" fill="#1e7a44" font-family="Consolas, monospace">PATCH /sobjects/Payment__c/Kafka_Event_Id__c/&lt;uuid&gt;</text>
+  <text x="496" y="356" font-size="10" fill="#1e7a44">Idempotency for free, enforced by the database.</text>
+
+  <g>
+    <rect x="24" y="378" width="410" height="66" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+    <text x="44" y="400" font-size="11.5" font-weight="700" fill="#a01818">6 MB heap &#183; 10 s CPU &#183; 12 MB async heap</text>
+    <text x="44" y="418" font-size="10" fill="#a01818">A fat JSON array from Kafka will blow the heap long before</text>
+    <text x="44" y="434" font-size="10" fill="#a01818">you finish deserialising it.</text>
+  </g>
+  <path d="M436 411 L470 411" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#s6)"/>
+  <rect x="476" y="378" width="380" height="66" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="496" y="400" font-size="11.5" font-weight="700" fill="#0f4d2a">keep payloads small and chunked</text>
+  <text x="496" y="418" font-size="10" fill="#1e7a44">Send ids and deltas, not whole documents. Cap the batch size</text>
+  <text x="496" y="434" font-size="10" fill="#1e7a44">in the bridge, where you actually control it.</text>
+</svg>

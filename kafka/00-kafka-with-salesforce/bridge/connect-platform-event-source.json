@@ -1,0 +1,28 @@
+{
+  "name": "salesforce-platform-event-source",
+  "config": {
+    "connector.class": "io.confluent.salesforce.SalesforcePlatformEventSourceConnector",
+    "tasks.max": "1",
+
+    "salesforce.instance": "https://MyDomain.my.salesforce.com",
+    "salesforce.username": "integration.user@example.com",
+    "salesforce.password": "${file:/opt/secrets.properties:sf.password}",
+    "salesforce.password.token": "${file:/opt/secrets.properties:sf.token}",
+    "salesforce.consumer.key": "${file:/opt/secrets.properties:sf.consumer.key}",
+    "salesforce.consumer.secret": "${file:/opt/secrets.properties:sf.consumer.secret}",
+
+    "salesforce.platform.event.name": "Order_Event__e",
+    "salesforce.initial.start": "latest",
+
+    "kafka.topic": "sfdc.order-events",
+
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081",
+
+    "errors.tolerance": "all",
+    "errors.deadletterqueue.topic.name": "sfdc.order-events.dlq",
+    "errors.deadletterqueue.context.headers.enable": "true",
+    "errors.log.enable": "true"
+  }
+}

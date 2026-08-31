@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" width="880" height="470" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="End to end order flow from Salesforce through Kafka and back to the Lightning page">
+  <defs>
+    <marker id="s7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="470" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">7 · The whole round trip &#8212; one order, end to end</text>
+
+  <rect x="24" y="46" width="832" height="30" rx="8" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4"/>
+  <g text-anchor="middle" font-size="11.5" font-weight="700">
+    <text x="440" y="66" fill="#12305e" opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.22;0.25;1"/>1 &#183; Sales rep clicks Save. The trigger publishes a Platform Event &#8212; no callout, no waiting.</text>
+    <text x="440" y="66" fill="#7a5b00" opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.25;0.28;0.47;0.50;1"/>2 &#183; The bridge is subscribed over gRPC. It picks the event up and produces to Kafka.</text>
+    <text x="440" y="66" fill="#0f4d2a" opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.50;0.53;0.72;0.75;1"/>3 &#183; Three downstream services consume the same topic independently &#8212; payment, inventory, shipping.</text>
+    <text x="440" y="66" fill="#12305e" opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.75;0.78;0.97;1"/>4 &#183; The result comes back as a Platform Event, and the LWC updates without a refresh.</text>
+  </g>
+
+  <!-- salesforce left -->
+  <rect x="24" y="90" width="200" height="200" rx="11" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="124" y="112" font-size="11.5" font-weight="700" fill="#12305e" text-anchor="middle">Salesforce org</text>
+  <rect x="42" y="124" width="164" height="44" rx="8" fill="#ffffff" stroke="#2f5fa8" stroke-width="1.4"/>
+  <text x="124" y="142" font-size="10" font-weight="700" fill="#12305e" text-anchor="middle">Order__c trigger</text>
+  <text x="124" y="158" font-size="8.5" fill="#2f5fa8" text-anchor="middle" font-family="Consolas, monospace">EventBus.publish()</text>
+  <rect x="42" y="178" width="164" height="44" rx="8" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.4"/>
+  <text x="124" y="196" font-size="10" font-weight="700" fill="#0f4d2a" text-anchor="middle">Order_Event__e</text>
+  <text x="124" y="212" font-size="8.5" fill="#1e7a44" text-anchor="middle">platform event bus</text>
+  <rect x="42" y="232" width="164" height="44" rx="8" fill="#ffffff" stroke="#2f5fa8" stroke-width="1.4">
+    <animate attributeName="stroke-width" dur="16s" repeatCount="indefinite" values="1.4;1.4;3.4;1.4" keyTimes="0;0.78;0.84;1"/>
+  </rect>
+  <text x="124" y="250" font-size="10" font-weight="700" fill="#12305e" text-anchor="middle">LWC &#183; empApi</text>
+  <text x="124" y="266" font-size="8.5" fill="#2f5fa8" text-anchor="middle">live tile on the record page</text>
+
+  <path d="M224 200 L268 200" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#s7)"/>
+  <text x="246" y="192" font-size="8" fill="#5b6b7f" text-anchor="middle">gRPC</text>
+
+  <!-- bridge -->
+  <rect x="274" y="152" width="170" height="96" rx="11" fill="#fff3cd" stroke="#b8860b" stroke-width="2"/>
+  <text x="359" y="176" font-size="11" font-weight="700" fill="#7a5b00" text-anchor="middle">bridge service</text>
+  <text x="359" y="196" font-size="9" fill="#8a6d00" text-anchor="middle">Pub/Sub API subscriber</text>
+  <text x="359" y="212" font-size="9" fill="#8a6d00" text-anchor="middle">+ Kafka producer</text>
+  <text x="359" y="232" font-size="8.5" fill="#8a6d00" text-anchor="middle">stores the replay ID after each batch</text>
+
+  <path d="M444 200 L488 200" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#s7)"/>
+
+  <!-- kafka -->
+  <rect x="494" y="140" width="150" height="120" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+  <text x="569" y="164" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle" font-family="Consolas, monospace">sfdc.order-events</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.3">
+    <rect x="510" y="176" width="118" height="24" rx="5"/>
+    <rect x="510" y="204" width="118" height="24" rx="5"/>
+    <rect x="510" y="232" width="118" height="24" rx="5"/>
+  </g>
+  <g font-size="8.5" fill="#0f4d2a" text-anchor="middle">
+    <text x="569" y="192">partition 0</text><text x="569" y="220">partition 1</text><text x="569" y="248">partition 2</text>
+  </g>
+
+  <g stroke="#1e7a44" stroke-width="1.6" fill="none" marker-end="url(#s7)">
+    <path d="M644 170 L692 130"/><path d="M644 200 L692 200"/><path d="M644 230 L692 270"/>
+  </g>
+
+  <g fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.6">
+    <rect x="698" y="104" width="158" height="52" rx="9"/>
+    <rect x="698" y="174" width="158" height="52" rx="9"/>
+    <rect x="698" y="244" width="158" height="52" rx="9"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="777" y="126" font-size="10.5" font-weight="700" fill="#12305e">Payment Service</text>
+    <text x="777" y="144" font-size="8.5" fill="#2f5fa8">group: payment-service</text>
+    <text x="777" y="196" font-size="10.5" font-weight="700" fill="#12305e">Inventory Service</text>
+    <text x="777" y="214" font-size="8.5" fill="#2f5fa8">group: inventory-service</text>
+    <text x="777" y="266" font-size="10.5" font-weight="700" fill="#12305e">Shipping Service</text>
+    <text x="777" y="284" font-size="8.5" fill="#2f5fa8">group: shipping-service</text>
+  </g>
+
+  <!-- forward dots -->
+  <circle r="6" fill="#f4b400" stroke="#8a6d00" stroke-width="1.2">
+    <animate attributeName="cx" dur="16s" repeatCount="indefinite" values="124;124;124;359;359;569;569;777;777" keyTimes="0;0.10;0.22;0.30;0.48;0.56;0.72;0.80;1"/>
+    <animate attributeName="cy" dur="16s" repeatCount="indefinite" values="146;200;200;200;200;200;200;196;196" keyTimes="0;0.10;0.22;0.30;0.48;0.56;0.72;0.80;1"/>
+  </circle>
+
+  <!-- return path -->
+  <path d="M777 296 L777 344 L124 344 L124 288" fill="none" stroke="#0f4d2a" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#s7)" opacity="0">
+    <animate attributeName="opacity" dur="16s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.74;0.78;0.97;1"/>
+  </path>
+  <text x="450" y="336" font-size="10" font-weight="700" fill="#0f4d2a" text-anchor="middle" opacity="0">
+    Payment Service publishes Payment_Event__e back into the org via the REST API
+    <animate attributeName="opacity" dur="16s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.74;0.78;0.97;1"/>
+  </text>
+  <circle r="6" fill="#0f4d2a">
+    <animateMotion dur="16s" repeatCount="indefinite" path="M777 296 L777 344 L124 344 L124 288" keyPoints="0;0;1;1" keyTimes="0;0.78;0.94;1" calcMode="linear"/>
+    <animate attributeName="opacity" dur="16s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.77;0.80;0.93;0.96;1"/>
+  </circle>
+
+  <rect x="24" y="366" width="410" height="92" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="229" y="388" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">what Salesforce gained</text>
+  <g font-size="10.5" fill="#1e7a44">
+    <text x="44" y="410">&#10003;&#160; the trigger finishes in milliseconds &#8212; no callout in the transaction</text>
+    <text x="44" y="428">&#10003;&#160; three consumers, and the org knows about none of them</text>
+    <text x="44" y="446">&#10003;&#160; a fourth service can be added tomorrow with zero Apex changes</text>
+  </g>
+
+  <rect x="446" y="366" width="410" height="92" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="651" y="388" font-size="12" font-weight="700" fill="#7a5b00" text-anchor="middle">what you now own</text>
+  <g font-size="10.5" fill="#8a6d00">
+    <text x="466" y="410">&#9888;&#160; a bridge that must be deployed, monitored and paged on</text>
+    <text x="466" y="428">&#9888;&#160; replay IDs, dead letter topics and duplicate handling</text>
+    <text x="466" y="446">&#9888;&#160; two systems to trace through when something goes missing</text>
+  </g>
+</svg>
