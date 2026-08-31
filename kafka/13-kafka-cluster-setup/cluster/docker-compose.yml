@@ -1,0 +1,47 @@
+services:
+  kafka-1:
+    build: ../../03-local-setup/docker
+    image: kafka-kraft:3.8.1
+    container_name: kafka-1
+    environment:
+      # identical on all three - this is what makes them one cluster
+      KAFKA_CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./properties/server1.properties:/opt/kafka/config/kraft/server.properties:ro
+      - ./logs/broker1:/tmp/kraft-combined-logs
+    networks:
+      - kafka-net
+
+  kafka-2:
+    build: ../../03-local-setup/docker
+    image: kafka-kraft:3.8.1
+    container_name: kafka-2
+    environment:
+      KAFKA_CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
+    ports:
+      - "8082:8082"
+    volumes:
+      - ./properties/server2.properties:/opt/kafka/config/kraft/server.properties:ro
+      - ./logs/broker2:/tmp/kraft-combined-logs
+    networks:
+      - kafka-net
+
+  kafka-3:
+    build: ../../03-local-setup/docker
+    image: kafka-kraft:3.8.1
+    container_name: kafka-3
+    environment:
+      KAFKA_CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
+    ports:
+      - "8083:8083"
+    volumes:
+      - ./properties/server3.properties:/opt/kafka/config/kraft/server.properties:ro
+      - ./logs/broker3:/tmp/kraft-combined-logs
+    networks:
+      - kafka-net
+
+networks:
+  kafka-net:
+    driver: bridge

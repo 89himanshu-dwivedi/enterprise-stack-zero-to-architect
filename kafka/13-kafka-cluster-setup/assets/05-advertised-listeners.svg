@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" width="880" height="430" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="listeners versus advertised listeners, and why external clients are told localhost while internal ones are told the container name">
+  <defs>
+    <marker id="x5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="430" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">5 · <tspan font-family="Consolas, monospace">listeners</tspan> vs <tspan font-family="Consolas, monospace">advertised.listeners</tspan></text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">If a server listens on several ports, how does a client know which one to use? The server has to <tspan font-weight="700">advertise</tspan> itself &#8212; and it advertises differently to different clients.</text>
+
+  <!-- listeners -->
+  <rect x="24" y="68" width="410" height="128" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="229" y="90" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle"><tspan font-family="Consolas, monospace">listeners</tspan> &#8212; where I bind</text>
+  <rect x="44" y="100" width="370" height="60" rx="8" fill="#1b2a3a"/>
+  <text x="56" y="120" font-size="10" fill="#a8d5ba" font-family="Consolas, monospace">listeners=INTERNAL://:9092,</text>
+  <text x="56" y="136" font-size="10" fill="#a8d5ba" font-family="Consolas, monospace">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;CONTROLLER://:9093,</text>
+  <text x="56" y="152" font-size="10" fill="#f4b400" font-family="Consolas, monospace">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;EXTERNAL://:8081</text>
+  <text x="229" y="182" font-size="10" fill="#1e7a44" text-anchor="middle">the sockets this broker actually opens</text>
+
+  <!-- advertised -->
+  <rect x="446" y="68" width="410" height="128" rx="11" fill="#fff3cd" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="651" y="90" font-size="12" font-weight="700" fill="#7a5b00" text-anchor="middle"><tspan font-family="Consolas, monospace">advertised.listeners</tspan> &#8212; what I tell clients</text>
+  <rect x="466" y="100" width="370" height="60" rx="8" fill="#1b2a3a"/>
+  <text x="478" y="122" font-size="10" fill="#a8d5ba" font-family="Consolas, monospace">advertised.listeners=</text>
+  <text x="478" y="138" font-size="10" fill="#a8d5ba" font-family="Consolas, monospace">&#160;&#160;INTERNAL://kafka-1:9092,</text>
+  <text x="478" y="154" font-size="10" fill="#f4b400" font-family="Consolas, monospace">&#160;&#160;EXTERNAL://localhost:8081</text>
+  <text x="651" y="182" font-size="10" fill="#8a6d00" text-anchor="middle">the address a client should come back on &#8212; and it differs by audience</text>
+
+  <!-- two audiences -->
+  <text x="24" y="228" font-size="14" font-weight="700" fill="#1b2a3a">Two kinds of client, two answers</text>
+
+  <rect x="24" y="242" width="410" height="164" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="229" y="264" font-size="12" font-weight="700" fill="#1b2a3a" text-anchor="middle">internal &#8212; inside the Docker network</text>
+  <rect x="48" y="276" width="150" height="52" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6"/>
+  <text x="123" y="298" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka CLI</text>
+  <text x="123" y="316" font-size="9" fill="#1e7a44" text-anchor="middle">another broker, a sidecar</text>
+  <path d="M198 302 L248 302" fill="none" stroke="#1e7a44" stroke-width="1.8" marker-end="url(#x5)"/>
+  <rect x="254" y="276" width="160" height="52" rx="9" fill="#1b2a3a"/>
+  <text x="334" y="300" font-size="10" fill="#a8d5ba" text-anchor="middle" font-family="Consolas, monospace">kafka-1:9092</text>
+  <text x="334" y="316" font-size="8.5" fill="#8ea3bb" text-anchor="middle">a private, in-network address</text>
+  <text x="229" y="352" font-size="10.5" fill="#5b6b7f" text-anchor="middle">These clients <tspan font-weight="700">do</tspan> know what <tspan font-family="Consolas, monospace">kafka-1</tspan>, <tspan font-family="Consolas, monospace">kafka-2</tspan></text>
+  <text x="229" y="368" font-size="10.5" fill="#5b6b7f" text-anchor="middle">and <tspan font-family="Consolas, monospace">kafka-3</tspan> mean, because they live in that network.</text>
+  <text x="229" y="392" font-size="10" fill="#0f4d2a" text-anchor="middle">Real deployments: a private IP such as <tspan font-family="Consolas, monospace">10.0.1.7:9092</tspan></text>
+
+  <rect x="446" y="242" width="410" height="164" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="651" y="264" font-size="12" font-weight="700" fill="#1b2a3a" text-anchor="middle">external &#8212; outside the cluster</text>
+  <rect x="470" y="276" width="150" height="52" rx="9" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.6"/>
+  <text x="545" y="298" font-size="10.5" font-weight="700" fill="#12305e" text-anchor="middle">your Java app</text>
+  <text x="545" y="316" font-size="9" fill="#2f5fa8" text-anchor="middle">running on your laptop</text>
+  <path d="M620 302 L670 302" fill="none" stroke="#2f5fa8" stroke-width="1.8" marker-end="url(#x5)"/>
+  <rect x="676" y="276" width="160" height="52" rx="9" fill="#1b2a3a"/>
+  <text x="756" y="300" font-size="10" fill="#f4b400" text-anchor="middle" font-family="Consolas, monospace">localhost:8081</text>
+  <text x="756" y="316" font-size="8.5" fill="#8ea3bb" text-anchor="middle">the published, public address</text>
+  <text x="651" y="352" font-size="10.5" fill="#5b6b7f" text-anchor="middle">These clients have <tspan font-weight="700">no idea</tspan> what <tspan font-family="Consolas, monospace">kafka-1</tspan> is &#8212;</text>
+  <text x="651" y="368" font-size="10.5" fill="#5b6b7f" text-anchor="middle">that name is internal to the cluster and would not resolve.</text>
+  <text x="651" y="392" font-size="10" fill="#12305e" text-anchor="middle">Real deployments: a public IP such as <tspan font-family="Consolas, monospace">172.31.3.124:8081</tspan></text>
+
+  <rect x="24" y="416" width="832" height="0" fill="none"/>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" width="880" height="440" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The four security protocols as a grid of authentication versus encryption, mapped per listener">
+  <rect width="880" height="440" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">6 · <tspan font-family="Consolas, monospace">listener.security.protocol.map</tspan></text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Two questions about any connection: <tspan font-weight="700">who are you</tspan>, and <tspan font-weight="700">can anyone read this</tspan>. The four protocol names are just the four combinations.</text>
+
+  <!-- grid -->
+  <text x="286" y="86" font-size="11" font-weight="700" fill="#5b6b7f" text-anchor="middle">no encryption</text>
+  <text x="560" y="86" font-size="11" font-weight="700" fill="#5b6b7f" text-anchor="middle">encrypted in transit (TLS)</text>
+  <text x="120" y="140" font-size="11" font-weight="700" fill="#5b6b7f" text-anchor="middle">no authentication</text>
+  <text x="120" y="230" font-size="11" font-weight="700" fill="#5b6b7f" text-anchor="middle">authentication required</text>
+  <text x="120" y="248" font-size="9" fill="#8ea3bb" text-anchor="middle">(SASL &#8212; username / password)</text>
+
+  <rect x="176" y="96" width="220" height="72" rx="10" fill="#fff8f8" stroke="#c62828" stroke-width="1.8"/>
+  <text x="286" y="122" font-size="12.5" font-weight="700" fill="#a01818" text-anchor="middle" font-family="Consolas, monospace">PLAINTEXT</text>
+  <text x="286" y="142" font-size="9.5" fill="#a01818" text-anchor="middle">open connection, readable bytes</text>
+  <text x="286" y="158" font-size="9" fill="#c0392b" text-anchor="middle">visible with the naked eye on the wire</text>
+
+  <rect x="450" y="96" width="220" height="72" rx="10" fill="#fffdf5" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="560" y="122" font-size="12.5" font-weight="700" fill="#7a5b00" text-anchor="middle" font-family="Consolas, monospace">SSL</text>
+  <text x="560" y="142" font-size="9.5" fill="#8a6d00" text-anchor="middle">open connection, encrypted bytes</text>
+  <text x="560" y="158" font-size="9" fill="#8a6d00" text-anchor="middle">nobody in the middle can read it</text>
+
+  <rect x="176" y="186" width="220" height="72" rx="10" fill="#fffdf5" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="286" y="212" font-size="12.5" font-weight="700" fill="#7a5b00" text-anchor="middle" font-family="Consolas, monospace">SASL_PLAINTEXT</text>
+  <text x="286" y="232" font-size="9.5" fill="#8a6d00" text-anchor="middle">you must log in, but the data is readable</text>
+  <text x="286" y="248" font-size="9" fill="#8a6d00" text-anchor="middle">fine inside a trusted network</text>
+
+  <rect x="450" y="186" width="220" height="72" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2.4"/>
+  <text x="560" y="212" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle" font-family="Consolas, monospace">SASL_SSL</text>
+  <text x="560" y="232" font-size="9.5" fill="#1e7a44" text-anchor="middle">log in <tspan font-style="italic">and</tspan> encrypt</text>
+  <text x="560" y="248" font-size="9" font-weight="700" fill="#0f4d2a" text-anchor="middle">what you want facing the outside world</text>
+
+  <rect x="690" y="96" width="166" height="162" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="773" y="120" font-size="11" font-weight="700" fill="#1b2a3a" text-anchor="middle">SASL =</text>
+  <text x="773" y="140" font-size="10" fill="#5b6b7f" text-anchor="middle">Simple Authentication and</text>
+  <text x="773" y="156" font-size="10" fill="#5b6b7f" text-anchor="middle">Security Layer</text>
+  <text x="773" y="182" font-size="10" fill="#5b6b7f" text-anchor="middle">&#8220;Is this connection open, or</text>
+  <text x="773" y="198" font-size="10" fill="#5b6b7f" text-anchor="middle">does it need credentials before</text>
+  <text x="773" y="214" font-size="10" fill="#5b6b7f" text-anchor="middle">the producer may send anything?&#8221;</text>
+  <text x="773" y="240" font-size="10" font-weight="700" fill="#1b2a3a" text-anchor="middle">Authentication and encryption</text>
+  <text x="773" y="254" font-size="10" font-weight="700" fill="#1b2a3a" text-anchor="middle">are separate decisions.</text>
+
+  <!-- mapping -->
+  <text x="24" y="292" font-size="14" font-weight="700" fill="#1b2a3a">And you pick one <tspan font-style="italic">per listener</tspan></text>
+
+  <rect x="24" y="304" width="410" height="120" rx="11" fill="#1b2a3a"/>
+  <text x="40" y="326" font-size="9.5" fill="#8ea3bb" font-family="Consolas, monospace">what this repo ships &#8212; simple, for learning</text>
+  <g font-size="10" font-family="Consolas, monospace" fill="#a8d5ba">
+    <text x="40" y="352">listener.security.protocol.map=</text>
+    <text x="40" y="370">&#160;&#160;CONTROLLER:PLAINTEXT,</text>
+    <text x="40" y="388">&#160;&#160;INTERNAL:PLAINTEXT,</text>
+    <text x="40" y="406">&#160;&#160;EXTERNAL:PLAINTEXT</text>
+  </g>
+
+  <rect x="446" y="304" width="410" height="120" rx="11" fill="#1b2a3a" stroke="#1e7a44" stroke-width="2"/>
+  <text x="462" y="326" font-size="9.5" fill="#8ea3bb" font-family="Consolas, monospace">what a real deployment looks like</text>
+  <g font-size="10" font-family="Consolas, monospace" fill="#a8d5ba">
+    <text x="462" y="352">listener.security.protocol.map=</text>
+    <text x="462" y="370">&#160;&#160;CONTROLLER:PLAINTEXT,&#160;&#160;<tspan fill="#8ea3bb">// private network</tspan></text>
+    <text x="462" y="388">&#160;&#160;INTERNAL:SSL,&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<tspan fill="#8ea3bb">// broker to broker</tspan></text>
+    <text x="462" y="406" fill="#f4b400">&#160;&#160;EXTERNAL:SASL_SSL&#160;&#160;&#160;&#160;&#160;<tspan fill="#8ea3bb">// the internet</tspan></text>
+  </g>
+</svg>

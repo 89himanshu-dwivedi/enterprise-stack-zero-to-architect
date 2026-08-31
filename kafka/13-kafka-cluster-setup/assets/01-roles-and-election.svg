@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" width="880" height="430" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Each node gets a role, and although several may be controllers only one is active at a time after a vote">
+  <rect width="880" height="430" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">1 · Every node is told what it is</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">When a server comes up you assign it a role: <tspan font-family="Consolas, monospace">controller</tspan>, <tspan font-family="Consolas, monospace">broker</tspan>, or both.</text>
+
+  <rect x="24" y="66" width="832" height="118" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6">
+    <rect x="48" y="86" width="180" height="80" rx="9"/>
+    <rect x="252" y="86" width="180" height="80" rx="9"/>
+    <rect x="456" y="86" width="180" height="80" rx="9"/>
+    <rect x="660" y="86" width="172" height="80" rx="9"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="138" y="110" font-size="11.5" font-weight="700" fill="#0f4d2a">server 1</text>
+    <text x="138" y="132" font-size="10" fill="#1e7a44" font-family="Consolas, monospace">process.roles=</text>
+    <text x="138" y="148" font-size="10" font-weight="700" fill="#7a5b00" font-family="Consolas, monospace">broker,controller</text>
+
+    <text x="342" y="110" font-size="11.5" font-weight="700" fill="#0f4d2a">server 2</text>
+    <text x="342" y="132" font-size="10" fill="#1e7a44" font-family="Consolas, monospace">process.roles=</text>
+    <text x="342" y="148" font-size="10" font-weight="700" fill="#7a5b00" font-family="Consolas, monospace">broker,controller</text>
+
+    <text x="546" y="110" font-size="11.5" font-weight="700" fill="#0f4d2a">server 3</text>
+    <text x="546" y="132" font-size="10" fill="#1e7a44" font-family="Consolas, monospace">process.roles=</text>
+    <text x="546" y="148" font-size="10" font-weight="700" fill="#7a5b00" font-family="Consolas, monospace">broker,controller</text>
+
+    <text x="746" y="110" font-size="11.5" font-weight="700" fill="#0f4d2a">server 4 &#8230; n</text>
+    <text x="746" y="132" font-size="10" fill="#1e7a44" font-family="Consolas, monospace">process.roles=</text>
+    <text x="746" y="148" font-size="10" font-weight="700" fill="#0f4d2a" font-family="Consolas, monospace">broker</text>
+  </g>
+  <text x="440" y="180" font-size="10" fill="#5b6b7f" text-anchor="middle">and every one of them needs a <tspan font-family="Consolas, monospace" font-weight="700">node.id</tspan> that no other node shares &#8212; that is what tells them apart</text>
+
+  <!-- election -->
+  <text x="24" y="222" font-size="14" font-weight="700" fill="#1b2a3a">Several controllers, one in charge</text>
+  <text x="24" y="242" font-size="11.5" fill="#5b6b7f">Assigning the controller role to three nodes does not give you three controllers. They vote among themselves and elect one.</text>
+
+  <rect x="24" y="256" width="832" height="126" rx="11" fill="#fffdf5" stroke="#b8860b" stroke-width="1.8"/>
+
+  <g fill="#fff3cd" stroke="#b8860b" stroke-width="1.6">
+    <rect x="90" y="278" width="180" height="72" rx="9"/>
+    <rect x="350" y="278" width="180" height="72" rx="9"/>
+    <rect x="610" y="278" width="180" height="72" rx="9"/>
+  </g>
+  <g font-size="11" font-weight="700" fill="#7a5b00" text-anchor="middle">
+    <text x="180" y="302">node 1</text><text x="440" y="302">node 2</text><text x="700" y="302">node 3</text>
+  </g>
+  <g font-size="9" fill="#8a6d00" text-anchor="middle">
+    <text x="180" y="320">controller candidate</text><text x="440" y="320">controller candidate</text><text x="700" y="320">controller candidate</text>
+  </g>
+
+  <!-- vote arrows -->
+  <g stroke="#b8860b" stroke-width="1.4" stroke-dasharray="5 4" fill="none">
+    <path d="M270 300 L346 300"/><path d="M346 330 L270 330"/>
+    <path d="M530 300 L606 300"/><path d="M606 330 L530 330"/>
+    <path d="M180 350 C 300 386 580 386 700 350"/>
+  </g>
+  <text x="440" y="382" font-size="9" fill="#8a6d00" text-anchor="middle">votes</text>
+
+  <!-- active badge cycles -->
+  <rect x="90" y="278" width="180" height="72" rx="9" fill="none" stroke="#0f4d2a" stroke-width="3.4" opacity="0">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0;0;0" keyTimes="0;0.25;0.3;0.62;0.66;0.9;0.95;1"/>
+  </rect>
+  <text x="180" y="340" font-size="10" font-weight="700" fill="#0f4d2a" text-anchor="middle" opacity="0">
+    ACTIVE CONTROLLER
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.25;0.3;0.62;0.66;1"/>
+  </text>
+  <rect x="610" y="278" width="180" height="72" rx="9" fill="none" stroke="#0f4d2a" stroke-width="3.4" opacity="0">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.68;0.73;0.96;1"/>
+  </rect>
+  <text x="700" y="340" font-size="10" font-weight="700" fill="#0f4d2a" text-anchor="middle" opacity="0">
+    ACTIVE CONTROLLER
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.68;0.73;0.96;1"/>
+  </text>
+  <text x="440" y="272" font-size="10" font-weight="700" fill="#7a5b00" text-anchor="middle" opacity="0">
+    voting &#8230; majority wins
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="1;1;0;0;1;1;0;0" keyTimes="0;0.22;0.28;0.63;0.66;0.7;0.74;1"/>
+  </text>
+
+  <rect x="24" y="392" width="832" height="30" rx="8" fill="#1b2a3a"/>
+  <text x="440" y="412" font-size="10.5" fill="#a8d5ba" text-anchor="middle" font-family="Consolas, monospace">controller.quorum.voters=1@kafka-1:9093,2@kafka-2:9093,3@kafka-3:9093&#160;&#160;&#8212; who is allowed to vote</text>
+</svg>

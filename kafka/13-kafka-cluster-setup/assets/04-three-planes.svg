@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 450" width="880" height="450" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Three kinds of traffic: the control plane between controllers, the data plane between brokers, and listeners for outside applications">
+  <defs>
+    <marker id="x4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="450" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">4 · Three kinds of traffic, three ports</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Two of them happen entirely <tspan font-weight="700">inside</tspan> the cluster. The outside world neither sees nor cares about them.</text>
+
+  <!-- cluster boundary -->
+  <rect x="24" y="70" width="580" height="272" rx="14" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2" stroke-dasharray="9 6"/>
+  <text x="44" y="92" font-size="11" font-weight="700" fill="#0f4d2a">inside the Kafka cluster</text>
+
+  <!-- controllers -->
+  <g fill="#fff3cd" stroke="#b8860b" stroke-width="1.8">
+    <rect x="52" y="106" width="160" height="60" rx="9"/>
+    <rect x="404" y="106" width="160" height="60" rx="9"/>
+  </g>
+  <g font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">
+    <text x="132" y="130">node &#183; controller</text><text x="484" y="130">node &#183; controller</text>
+  </g>
+  <g font-size="9" fill="#8a6d00" text-anchor="middle">
+    <text x="132" y="150">quorum member</text><text x="484" y="150">quorum member</text>
+  </g>
+  <path d="M212 136 L398 136" fill="none" stroke="#b8860b" stroke-width="2" marker-end="url(#x4)"/>
+  <path d="M398 152 L212 152" fill="none" stroke="#b8860b" stroke-width="2" marker-end="url(#x4)"/>
+  <rect x="240" y="98" width="130" height="24" rx="12" fill="#fff8e1" stroke="#b8860b" stroke-width="1.4"/>
+  <text x="305" y="115" font-size="10" font-weight="700" fill="#7a5b00" text-anchor="middle">CONTROL PLANE</text>
+  <circle r="5" cy="136" fill="#b8860b"><animate attributeName="cx" dur="2.4s" repeatCount="indefinite" values="132;484"/><animate attributeName="opacity" dur="2.4s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.85;1"/></circle>
+
+  <!-- brokers -->
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8">
+    <rect x="52" y="216" width="160" height="60" rx="9"/>
+    <rect x="404" y="216" width="160" height="60" rx="9"/>
+  </g>
+  <g font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">
+    <text x="132" y="240">node &#183; broker</text><text x="484" y="240">node &#183; broker</text>
+  </g>
+  <g font-size="9" fill="#1e7a44" text-anchor="middle">
+    <text x="132" y="260">leader of a partition</text><text x="484" y="260">follower of it</text>
+  </g>
+  <path d="M212 246 L398 246" fill="none" stroke="#1e7a44" stroke-width="2" marker-end="url(#x4)"/>
+  <rect x="248" y="208" width="114" height="24" rx="12" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.4"/>
+  <text x="305" y="225" font-size="10" font-weight="700" fill="#0f4d2a" text-anchor="middle">DATA PLANE</text>
+  <text x="305" y="268" font-size="9" fill="#1e7a44" text-anchor="middle">replicating records from leader to followers</text>
+  <circle r="5" cy="246" fill="#1e7a44"><animate attributeName="cx" dur="2s" repeatCount="indefinite" values="132;484"/><animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.85;1"/></circle>
+
+  <text x="314" y="308" font-size="10.5" fill="#0f4d2a" text-anchor="middle">Both of these use private, in-network addresses.</text>
+  <text x="314" y="326" font-size="10.5" fill="#0f4d2a" text-anchor="middle">Nothing outside the cluster ever touches them.</text>
+
+  <!-- outside -->
+  <rect x="640" y="70" width="216" height="272" rx="14" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="748" y="92" font-size="11" font-weight="700" fill="#12305e" text-anchor="middle">outside applications</text>
+  <rect x="664" y="108" width="168" height="56" rx="9" fill="#ffffff" stroke="#2f5fa8" stroke-width="1.6"/>
+  <text x="748" y="132" font-size="11" font-weight="700" fill="#12305e" text-anchor="middle">producer</text>
+  <text x="748" y="150" font-size="9" fill="#2f5fa8" text-anchor="middle">not ours to manage</text>
+  <rect x="664" y="216" width="168" height="56" rx="9" fill="#ffffff" stroke="#2f5fa8" stroke-width="1.6"/>
+  <text x="748" y="240" font-size="11" font-weight="700" fill="#12305e" text-anchor="middle">consumer</text>
+  <text x="748" y="258" font-size="9" fill="#2f5fa8" text-anchor="middle">not ours to manage</text>
+
+  <path d="M660 136 L570 136" fill="none" stroke="#2f5fa8" stroke-width="2" marker-end="url(#x4)"/>
+  <path d="M570 246 L660 246" fill="none" stroke="#2f5fa8" stroke-width="2" marker-end="url(#x4)"/>
+  <text x="748" y="192" font-size="11" font-weight="700" fill="#12305e" text-anchor="middle">LISTENERS</text>
+  <text x="748" y="300" font-size="9.5" fill="#2f5fa8" text-anchor="middle">these need a public address</text>
+  <text x="748" y="316" font-size="9.5" fill="#2f5fa8" text-anchor="middle">and a published port</text>
+
+  <!-- ports -->
+  <text x="24" y="374" font-size="14" font-weight="700" fill="#1b2a3a">Which means the server has to listen on three ports</text>
+  <g fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6">
+    <rect x="24" y="386" width="266" height="52" rx="9"/>
+    <rect x="306" y="386" width="266" height="52" rx="9"/>
+    <rect x="588" y="386" width="268" height="52" rx="9"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="157" y="406" font-size="11" font-weight="700" fill="#7a5b00" font-family="Consolas, monospace">CONTROLLER &#183; 9093</text>
+    <text x="157" y="424" font-size="9.5" fill="#5b6b7f">controller quorum traffic</text>
+    <text x="439" y="406" font-size="11" font-weight="700" fill="#0f4d2a" font-family="Consolas, monospace">INTERNAL &#183; 9092</text>
+    <text x="439" y="424" font-size="9.5" fill="#5b6b7f">inter-broker replication</text>
+    <text x="722" y="406" font-size="11" font-weight="700" fill="#12305e" font-family="Consolas, monospace">EXTERNAL &#183; 8081</text>
+    <text x="722" y="424" font-size="9.5" fill="#5b6b7f">producers and consumers</text>
+  </g>
+</svg>

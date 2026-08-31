@@ -7,7 +7,7 @@
 >
 > **Code:** [day03/](day03) — drop into the `kafka-playground` project from [part 10](../10-java-consumer-core-api/kafka-playground/pom.xml).
 >
-> Previous: [11 — Java producer and idempotency](../11-java-producer-and-idempotency/README.md) · [10 — A consumer in plain Java](../10-java-consumer-core-api/README.md) · [09 — Offset reset and replay](../09-offset-reset-and-replay/README.md) · [08 — Why is Kafka fast?](../08-why-kafka-is-fast/README.md) · [07 — `__consumer_offsets` and lag](../07-consumer-offsets-and-lag/README.md) · [06 — Rebalancing and scaling](../06-rebalancing-and-scaling-scenarios/README.md) · [05 — Consumer groups and partitions](../05-consumer-groups-and-partitions/README.md) · [04 — CLI, produce/consume, offsets](../04-cli-produce-consume/README.md) · [03 — Local setup](../03-local-setup/README.md) · [02 — Fundamentals](../02-kafka-fundamentals/README.md) · [01 — Why Kafka](../01-why-kafka-and-what-is-kafka/README.md)
+> Previous: [11 — Java producer and idempotency](../11-java-producer-and-idempotency/README.md) · Next: [13 — A real multi-broker cluster](../13-kafka-cluster-setup/README.md)
 
 ---
 

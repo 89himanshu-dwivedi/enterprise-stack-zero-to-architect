@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 460" width="880" height="460" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The docker compose layout: three containers on one network, published ports, a shared cluster id, mounted properties and separate log directories">
+  <defs>
+    <marker id="x7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="460" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">7 · What the Compose file actually builds</text>
+
+  <!-- host -->
+  <rect x="24" y="46" width="832" height="252" rx="14" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+  <text x="44" y="68" font-size="11" font-weight="700" fill="#5b6b7f">your machine</text>
+
+  <!-- docker network -->
+  <rect x="180" y="80" width="500" height="200" rx="12" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2" stroke-dasharray="8 5"/>
+  <text x="430" y="100" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">docker network &#8212; control plane 9093 &#183; data plane 9092 stay in here</text>
+
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8">
+    <rect x="200" y="114" width="146" height="146" rx="10"/>
+    <rect x="358" y="114" width="146" height="146" rx="10"/>
+    <rect x="516" y="114" width="146" height="146" rx="10"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="273" y="138" font-size="11.5" font-weight="700" fill="#0f4d2a">kafka-1</text>
+    <text x="431" y="138" font-size="11.5" font-weight="700" fill="#0f4d2a">kafka-2</text>
+    <text x="589" y="138" font-size="11.5" font-weight="700" fill="#0f4d2a">kafka-3</text>
+  </g>
+  <g font-size="9" fill="#1e7a44" text-anchor="middle" font-family="Consolas, monospace">
+    <text x="273" y="158">node.id=1</text><text x="431" y="158">node.id=2</text><text x="589" y="158">node.id=3</text>
+    <text x="273" y="174">9092 &#183; 9093 &#183; 8081</text><text x="431" y="174">9092 &#183; 9093 &#183; 8082</text><text x="589" y="174">9092 &#183; 9093 &#183; 8083</text>
+  </g>
+  <g fill="#fff3cd" stroke="#b8860b" stroke-width="1.4">
+    <rect x="214" y="188" width="118" height="24" rx="6"/>
+    <rect x="372" y="188" width="118" height="24" rx="6"/>
+    <rect x="530" y="188" width="118" height="24" rx="6"/>
+  </g>
+  <g font-size="8.5" font-weight="700" fill="#7a5b00" text-anchor="middle" font-family="Consolas, monospace">
+    <text x="273" y="204">cluster id: MkU3&#8230;</text><text x="431" y="204">cluster id: MkU3&#8230;</text><text x="589" y="204">cluster id: MkU3&#8230;</text>
+  </g>
+  <text x="431" y="230" font-size="9.5" font-weight="700" fill="#7a5b00" text-anchor="middle">identical cluster id = one cluster</text>
+  <text x="431" y="246" font-size="9" fill="#8a6d00" text-anchor="middle">change it on one container and that container becomes a cluster of its own</text>
+  <g stroke="#1e7a44" stroke-width="1.4" stroke-dasharray="4 4" fill="none">
+    <path d="M346 168 L356 168"/><path d="M504 168 L514 168"/>
+  </g>
+
+  <!-- published ports -->
+  <g fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.6">
+    <rect x="44" y="114" width="118" height="40" rx="8"/>
+    <rect x="44" y="164" width="118" height="40" rx="8"/>
+    <rect x="44" y="214" width="118" height="40" rx="8"/>
+  </g>
+  <g font-size="10" font-weight="700" fill="#12305e" text-anchor="middle" font-family="Consolas, monospace">
+    <text x="103" y="132">localhost:8081</text><text x="103" y="182">localhost:8082</text><text x="103" y="232">localhost:8083</text>
+  </g>
+  <g font-size="8" fill="#2f5fa8" text-anchor="middle">
+    <text x="103" y="146">&#8594; kafka-1</text><text x="103" y="196">&#8594; kafka-2</text><text x="103" y="246">&#8594; kafka-3</text>
+  </g>
+  <g stroke="#2f5fa8" stroke-width="1.6" fill="none" marker-end="url(#x7)">
+    <path d="M162 134 L196 134"/><path d="M162 184 L354 184"/><path d="M162 234 L512 234"/>
+  </g>
+
+  <rect x="700" y="114" width="140" height="146" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="770" y="140" font-size="11" font-weight="700" fill="#12305e" text-anchor="middle">producer</text>
+  <text x="770" y="160" font-size="11" font-weight="700" fill="#12305e" text-anchor="middle">consumer</text>
+  <text x="770" y="186" font-size="9" fill="#2f5fa8" text-anchor="middle">connect on</text>
+  <text x="770" y="202" font-size="9" fill="#2f5fa8" text-anchor="middle" font-family="Consolas, monospace">localhost:8081,8082,8083</text>
+  <text x="770" y="228" font-size="9" fill="#2f5fa8" text-anchor="middle">they never see 9092</text>
+  <text x="770" y="244" font-size="9" fill="#2f5fa8" text-anchor="middle">or 9093 at all</text>
+  <path d="M696 188 L668 188" fill="none" stroke="#2f5fa8" stroke-width="1.6" marker-end="url(#x7)"/>
+
+  <!-- mounts -->
+  <text x="24" y="326" font-size="14" font-weight="700" fill="#1b2a3a">Two things are mounted out to the host, and both matter</text>
+
+  <rect x="24" y="338" width="410" height="106" rx="11" fill="#fff3cd" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="229" y="360" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">the properties files</text>
+  <g font-size="9.5" fill="#8a6d00" font-family="Consolas, monospace">
+    <text x="44" y="382">./properties/server1.properties &#8594; kafka-1</text>
+    <text x="44" y="398">./properties/server2.properties &#8594; kafka-2</text>
+    <text x="44" y="414">./properties/server3.properties &#8594; kafka-3</text>
+  </g>
+  <text x="229" y="434" font-size="10" fill="#8a6d00" text-anchor="middle">change a property and restart &#8212; no rebuild, no shell into the container</text>
+
+  <rect x="446" y="338" width="410" height="106" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="651" y="360" font-size="11.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">a separate log directory per broker</text>
+  <g font-size="9.5" fill="#1e7a44" font-family="Consolas, monospace">
+    <text x="466" y="382">./logs/broker1 &#8594; kafka-1:/tmp/kraft-combined-logs</text>
+    <text x="466" y="398">./logs/broker2 &#8594; kafka-2:/tmp/kraft-combined-logs</text>
+    <text x="466" y="414">./logs/broker3 &#8594; kafka-3:/tmp/kraft-combined-logs</text>
+  </g>
+  <text x="651" y="434" font-size="10" fill="#0f4d2a" text-anchor="middle">point all three at one directory and the logs mix &#8212; you could never tell them apart</text>
+</svg>
