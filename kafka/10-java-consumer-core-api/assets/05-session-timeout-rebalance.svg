@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" width="880" height="470" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Why a restarted consumer waits 45 seconds, and how group.instance.id removes the wait">
+  <defs>
+    <marker id="u5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="470" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">5 · The mysterious 45-second wait on restart</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">You set <tspan font-family="Consolas, monospace">earliest</tspan>, restart, and nothing happens &#8212; until roughly 45 seconds later, when everything arrives at once.</text>
+
+  <!-- member id -->
+  <rect x="24" y="66" width="410" height="118" rx="11" fill="#1b2a3a"/>
+  <text x="40" y="88" font-size="9.5" fill="#8ea3bb" font-family="Consolas, monospace">consumer log, run #1</text>
+  <text x="40" y="110" font-size="10" fill="#a8d5ba" font-family="Consolas, monospace">Subscribed to topic(s): order-events</text>
+  <text x="40" y="128" font-size="10" fill="#f4b400" font-family="Consolas, monospace">memberId='consumer-play-group-1-a91f&#8230;'</text>
+  <text x="40" y="152" font-size="9.5" fill="#8ea3bb" font-family="Consolas, monospace">consumer log, run #2 &#8212; after a restart</text>
+  <text x="40" y="170" font-size="10" fill="#f4b400" font-family="Consolas, monospace">memberId='consumer-play-group-1-7c04&#8230;'&#160;&#160;&#8592; different!</text>
+
+  <rect x="446" y="66" width="410" height="118" rx="11" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.8"/>
+  <text x="651" y="90" font-size="12" font-weight="700" fill="#a01818" text-anchor="middle">the member ID is generated randomly</text>
+  <text x="651" y="112" font-size="11" fill="#a01818" text-anchor="middle">Every restart looks like a <tspan font-style="italic">completely different consumer</tspan></text>
+  <text x="651" y="130" font-size="11" fill="#a01818" text-anchor="middle">to the broker &#8212; not the same one coming back.</text>
+  <text x="651" y="156" font-size="11" fill="#a01818" text-anchor="middle">Meanwhile the single partition is still assigned to the</text>
+  <text x="651" y="172" font-size="11" fill="#a01818" text-anchor="middle">old member, which the broker has not given up on yet.</text>
+
+  <!-- heartbeat timeline -->
+  <rect x="24" y="198" width="832" height="120" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="44" y="222" font-size="11.5" font-weight="700" fill="#1b2a3a"><tspan font-family="Consolas, monospace">session.timeout.ms</tspan> &#8212; the heartbeat window (~45 s)</text>
+
+  <line x1="60" y1="266" x2="820" y2="266" stroke="#5b6b7f" stroke-width="2"/>
+  <g fill="#1e7a44">
+    <circle cx="90" cy="266" r="6"/><circle cx="150" cy="266" r="6"/><circle cx="210" cy="266" r="6"/>
+    <circle cx="270" cy="266" r="6"/>
+  </g>
+  <text x="180" y="252" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">heartbeats: &#8220;I am alive&#8221;</text>
+  <line x1="300" y1="244" x2="300" y2="288" stroke="#c62828" stroke-width="2"/>
+  <text x="300" y="304" font-size="9.5" font-weight="700" fill="#a01818" text-anchor="middle">consumer stops</text>
+  <rect x="300" y="256" width="440" height="20" rx="6" fill="#f8dede" stroke="#c62828" stroke-width="1.3"/>
+  <rect x="300" y="256" width="20" height="20" rx="6" fill="#c62828">
+    <animate attributeName="width" dur="5s" repeatCount="indefinite" values="20;440;440" keyTimes="0;0.8;1"/>
+  </rect>
+  <text x="520" y="252" font-size="9.5" font-weight="700" fill="#a01818" text-anchor="middle">broker waits out the session timeout</text>
+  <line x1="740" y1="244" x2="740" y2="288" stroke="#0f4d2a" stroke-width="2"/>
+  <text x="780" y="304" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">member declared dead</text>
+  <text x="780" y="252" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">&#8594; REBALANCE</text>
+  <text x="440" y="304" font-size="10" fill="#5b6b7f" text-anchor="middle">only now is the partition reassigned to your new member &#8212; and the messages finally arrive</text>
+
+  <!-- fix -->
+  <rect x="24" y="332" width="410" height="126" rx="11" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.8"/>
+  <text x="229" y="356" font-size="12" font-weight="700" fill="#a01818" text-anchor="middle">Tempting fix: lower <tspan font-family="Consolas, monospace">session.timeout.ms</tspan></text>
+  <text x="229" y="380" font-size="11" fill="#a01818" text-anchor="middle">It works, and you should not do it.</text>
+  <text x="229" y="402" font-size="10.5" fill="#a01818" text-anchor="middle">A short session timeout means a slow GC pause or a</text>
+  <text x="229" y="418" font-size="10.5" fill="#a01818" text-anchor="middle">brief network blip gets your consumer evicted, and</text>
+  <text x="229" y="434" font-size="10.5" fill="#a01818" text-anchor="middle">the whole group rebalances for nothing.</text>
+  <text x="229" y="452" font-size="10.5" font-weight="700" fill="#a01818" text-anchor="middle">Not a production recommendation.</text>
+
+  <rect x="446" y="332" width="410" height="126" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="651" y="356" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">Proper fix: give the consumer a stable identity</text>
+  <rect x="466" y="366" width="370" height="26" rx="6" fill="#1b2a3a"/>
+  <text x="478" y="384" font-size="9.5" fill="#a8d5ba" font-family="Consolas, monospace">props.put(ConsumerConfig.GROUP_INSTANCE_ID_CONFIG, "1");</text>
+  <text x="651" y="410" font-size="10.5" fill="#1e7a44" text-anchor="middle">Static membership. You supply the member ID instead of</text>
+  <text x="651" y="426" font-size="10.5" fill="#1e7a44" text-anchor="middle">the library inventing one, so on restart the broker sees</text>
+  <text x="651" y="442" font-size="10.5" fill="#1e7a44" text-anchor="middle">the <tspan font-weight="700">same</tspan> consumer coming back &#8212; no rebalance, no wait.</text>
+  <text x="651" y="456" font-size="9.5" fill="#0f4d2a" text-anchor="middle">The very first start is still slow &#8212; that one genuinely is new.</text>
+</svg>

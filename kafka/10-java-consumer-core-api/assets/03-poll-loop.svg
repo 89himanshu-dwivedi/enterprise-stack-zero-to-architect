@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 450" width="880" height="450" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Anatomy of the poll loop: subscribe, poll with a timeout, iterate records, commit, close in finally">
+  <defs>
+    <marker id="u3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#1e7a44"/>
+    </marker>
+  </defs>
+  <rect width="880" height="450" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">3 · Anatomy of the poll loop</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Kafka is pull-based, so the consumer has to keep asking. That is all the <tspan font-family="Consolas, monospace">while(true)</tspan> is for.</text>
+
+  <rect x="24" y="66" width="470" height="366" rx="12" fill="#1b2a3a"/>
+  <g font-size="11" font-family="Consolas, monospace" fill="#dbe4ee">
+    <text x="44" y="94">consumer.subscribe(List.of("order-events"));</text>
+    <text x="44" y="126">try {</text>
+    <text x="44" y="148">&#160;&#160;while (true) {</text>
+    <text x="44" y="176">&#160;&#160;&#160;&#160;ConsumerRecords&lt;String, String&gt; records =</text>
+    <text x="44" y="192">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;consumer.poll(Duration.ofMillis(1000));</text>
+    <text x="44" y="224">&#160;&#160;&#160;&#160;records.forEach(r -&gt;</text>
+    <text x="44" y="240">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;log.info("key {} value {}", r.key(), r.value()));</text>
+    <text x="44" y="272">&#160;&#160;&#160;&#160;if (!records.isEmpty()) {</text>
+    <text x="44" y="288">&#160;&#160;&#160;&#160;&#160;&#160;consumer.commitSync();</text>
+    <text x="44" y="304">&#160;&#160;&#160;&#160;}</text>
+    <text x="44" y="326">&#160;&#160;}</text>
+    <text x="44" y="348">} catch (Exception e) {</text>
+    <text x="44" y="364">&#160;&#160;log.error("consumer failed", e);</text>
+    <text x="44" y="380">} finally {</text>
+    <text x="44" y="396">&#160;&#160;consumer.close();</text>
+    <text x="44" y="412">}</text>
+  </g>
+
+  <!-- moving highlight -->
+  <rect x="34" y="84" width="450" height="18" rx="4" fill="#f4b400" opacity="0.18">
+    <animate attributeName="y" dur="12s" repeatCount="indefinite"
+      values="84;166;214;262;316;386;84" keyTimes="0;0.16;0.34;0.52;0.7;0.86;1" calcMode="discrete"/>
+    <animate attributeName="height" dur="12s" repeatCount="indefinite"
+      values="18;34;34;50;18;18;18" keyTimes="0;0.16;0.34;0.52;0.7;0.86;1" calcMode="discrete"/>
+  </rect>
+
+  <!-- explanations -->
+  <rect x="510" y="66" width="346" height="366" rx="12" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <g text-anchor="middle">
+    <g opacity="0"><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.15;0.17;1"/>
+      <text x="683" y="180" font-size="14" font-weight="700" fill="#0f4d2a">subscribe(&#8230;)</text>
+      <text x="683" y="208" font-size="11.5" fill="#1e7a44">Takes a list of topics, or a regex pattern.</text>
+      <text x="683" y="230" font-size="11.5" fill="#1e7a44">Nothing is fetched yet &#8212; you have only</text>
+      <text x="683" y="248" font-size="11.5" fill="#1e7a44">declared interest and joined the group.</text>
+    </g>
+    <g opacity="0"><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.17;0.19;0.33;0.35;1"/>
+      <text x="683" y="180" font-size="14" font-weight="700" fill="#0f4d2a">poll(Duration)</text>
+      <text x="683" y="208" font-size="11.5" fill="#1e7a44">The actual pull. The duration is how long</text>
+      <text x="683" y="226" font-size="11.5" fill="#1e7a44">this call waits before timing out, so the</text>
+      <text x="683" y="244" font-size="11.5" fill="#1e7a44">next one can go out for fresh messages.</text>
+      <text x="683" y="270" font-size="11.5" font-weight="700" fill="#0f4d2a">One call is not enough &#8212; hence the loop.</text>
+    </g>
+    <g opacity="0"><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.35;0.37;0.51;0.53;1"/>
+      <text x="683" y="170" font-size="14" font-weight="700" fill="#0f4d2a">ConsumerRecords&lt;K, V&gt;</text>
+      <text x="683" y="198" font-size="11.5" fill="#1e7a44">Generic &#8212; and the types must match the</text>
+      <text x="683" y="216" font-size="11.5" fill="#1e7a44">deserializers you configured.</text>
+      <text x="683" y="242" font-size="11.5" fill="#1e7a44">Each record also gives you</text>
+      <text x="683" y="262" font-size="10.5" fill="#0f4d2a" font-family="Consolas, monospace">offset() partition() topic()</text>
+      <text x="683" y="280" font-size="10.5" fill="#0f4d2a" font-family="Consolas, monospace">timestamp() serializedKeySize()</text>
+    </g>
+    <g opacity="0"><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.53;0.55;0.69;0.71;1"/>
+      <text x="683" y="180" font-size="14" font-weight="700" fill="#0f4d2a">commitSync()</text>
+      <text x="683" y="208" font-size="11.5" fill="#1e7a44">Acknowledge what you just processed.</text>
+      <text x="683" y="230" font-size="11.5" fill="#1e7a44">The empty check matters: poll times out</text>
+      <text x="683" y="248" font-size="11.5" fill="#1e7a44">every second and often returns nothing.</text>
+      <text x="683" y="274" font-size="11.5" fill="#1e7a44"><tspan font-family="Consolas, monospace">commitAsync()</tspan> is the fire-and-forget twin.</text>
+    </g>
+    <g opacity="0"><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.71;0.73;0.97;1"/>
+      <text x="683" y="180" font-size="14" font-weight="700" fill="#0f4d2a">finally { close(); }</text>
+      <text x="683" y="208" font-size="11.5" fill="#1e7a44">Always close the consumer.</text>
+      <text x="683" y="230" font-size="11.5" fill="#1e7a44">A clean close tells the group coordinator</text>
+      <text x="683" y="248" font-size="11.5" fill="#1e7a44">you are leaving, so the rebalance happens</text>
+      <text x="683" y="266" font-size="11.5" fill="#1e7a44">immediately instead of after a timeout.</text>
+    </g>
+  </g>
+
+  <path d="M330 150 L360 150" fill="none" stroke="#1e7a44" stroke-width="0" />
+  <path d="M470 200 C 500 200 500 316 470 316" fill="none" stroke="#1e7a44" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#u3)"/>
+</svg>

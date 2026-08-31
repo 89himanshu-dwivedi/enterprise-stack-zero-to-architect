@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" width="880" height="420" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="auto.offset.reset decides whether a brand new consumer group starts at the latest offset or the earliest">
+  <defs>
+    <marker id="u4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="420" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">4 · A brand-new consumer group sees nothing &#8212; <tspan font-family="Consolas, monospace">auto.offset.reset</tspan></text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Change <tspan font-family="Consolas, monospace">group.id</tspan> to something new, restart, and the seven orders you already published never arrive. This is why.</text>
+
+  <!-- log -->
+  <rect x="24" y="70" width="832" height="90" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="44" y="92" font-size="11" font-weight="700" fill="#0f4d2a">topic: order-events &#183; partition 0 &#8212; already holds seven records</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.3">
+    <rect x="60" y="102" width="98" height="40" rx="6"/><rect x="166" y="102" width="98" height="40" rx="6"/>
+    <rect x="272" y="102" width="98" height="40" rx="6"/><rect x="378" y="102" width="98" height="40" rx="6"/>
+    <rect x="484" y="102" width="98" height="40" rx="6"/><rect x="590" y="102" width="98" height="40" rx="6"/>
+    <rect x="696" y="102" width="98" height="40" rx="6"/>
+  </g>
+  <g font-size="10" font-weight="600" fill="#0f4d2a" text-anchor="middle">
+    <text x="109" y="127">order-1</text><text x="215" y="127">order-2</text><text x="321" y="127">order-3</text>
+    <text x="427" y="127">order-4</text><text x="533" y="127">order-5</text><text x="639" y="127">order-6</text>
+    <text x="745" y="127">order-7</text>
+  </g>
+  <polygon points="-8,98 8,98 0,86" fill="#c62828">
+    <animateTransform attributeName="transform" type="translate" dur="8s" repeatCount="indefinite"
+      values="800 0;800 0;800 0;109 0;109 0;800 0" keyTimes="0;0.42;0.48;0.54;0.94;1"/>
+  </polygon>
+
+  <!-- latest -->
+  <rect x="20" y="180" width="400" height="182" rx="12" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.6"/>
+  <text x="220" y="204" font-size="12.5" font-weight="700" fill="#a01818" text-anchor="middle"><tspan font-family="Consolas, monospace">auto.offset.reset = latest</tspan> &#160;(the default)</text>
+  <rect x="44" y="216" width="352" height="70" rx="9" fill="#1b2a3a"/>
+  <text x="60" y="238" font-size="10" fill="#8ea3bb" font-family="Consolas, monospace">group.id = play-group-123&#160;&#160;(brand new)</text>
+  <text x="60" y="264" font-size="12" fill="#c96a6a" font-family="Consolas, monospace">&#8230; nothing. seven records ignored.</text>
+  <text x="220" y="308" font-size="11" fill="#a01818" text-anchor="middle">A new group has no committed offset, so Kafka has to</text>
+  <text x="220" y="326" font-size="11" fill="#a01818" text-anchor="middle">pick a starting point &#8212; and it picks the <tspan font-weight="700">end of the log</tspan>.</text>
+  <text x="220" y="348" font-size="11" font-weight="700" fill="#a01818" text-anchor="middle">Publish order-8 and it arrives instantly.</text>
+
+  <!-- earliest -->
+  <rect x="460" y="180" width="400" height="182" rx="12" fill="#f7fbf8" stroke="#b6ddc4" stroke-width="1.6"/>
+  <text x="660" y="204" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle"><tspan font-family="Consolas, monospace">auto.offset.reset = earliest</tspan></text>
+  <rect x="484" y="216" width="352" height="70" rx="9" fill="#1b2a3a"/>
+  <text x="500" y="238" font-size="10" fill="#8ea3bb" font-family="Consolas, monospace">group.id = play-group-123</text>
+  <g font-size="11" fill="#a8d5ba" font-family="Consolas, monospace">
+    <text x="500" y="258" opacity="0">key null value order-1<animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.54;0.58;0.94;1"/></text>
+    <text x="500" y="274" opacity="0">key null value order-2&#160;&#160;&#8230; all seven<animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.58;0.62;0.94;1"/></text>
+  </g>
+  <text x="660" y="308" font-size="11" fill="#0f4d2a" text-anchor="middle">The application equivalent of the console consumer&#8217;s</text>
+  <text x="660" y="326" font-size="11" fill="#0f4d2a" text-anchor="middle" font-family="Consolas, monospace">--from-beginning</text>
+  <text x="660" y="348" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">Reads from offset 0, as far back as retention allows.</text>
+
+  <rect x="24" y="374" width="832" height="36" rx="9" fill="#fff3cd" stroke="#b8860b" stroke-width="1.6"/>
+  <text x="440" y="391" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">It only applies when there is <tspan text-decoration="underline">no committed offset</tspan> for the group.</text>
+  <text x="440" y="405" font-size="10.5" fill="#8a6d00" text-anchor="middle">Once the group has committed once, this setting is irrelevant &#8212; that is exactly the same rule as the <tspan font-family="Consolas, monospace">--from-beginning</tspan> gotcha in part 09.</text>
+</svg>
