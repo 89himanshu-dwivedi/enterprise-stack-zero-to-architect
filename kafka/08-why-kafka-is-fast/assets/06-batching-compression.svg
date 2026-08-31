@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" width="880" height="400" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Batching on the producer and consumer side, plus compression to reduce bandwidth">
+  <defs>
+    <marker id="s6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="400" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">6 · Decision three &#8212; batching on both sides, plus compression</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">That consumer delay back in part 04 was not a bug &#8212; it was the producer holding records to build a batch.</text>
+
+  <!-- producer batching -->
+  <rect x="24" y="66" width="250" height="180" rx="11" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="149" y="90" font-size="12" font-weight="700" fill="#12305e" text-anchor="middle">producer batches</text>
+  <rect x="44" y="102" width="210" height="70" rx="9" fill="#ffffff" stroke="#2f5fa8" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <g fill="#2f5fa8">
+    <circle cx="76" cy="126" r="7"><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;1;1;0" keyTimes="0;0.1;0.7;0.75"/></circle>
+    <circle cx="108" cy="126" r="7"><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.15;0.25;0.7;0.75"/></circle>
+    <circle cx="140" cy="126" r="7"><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.3;0.4;0.7;0.75"/></circle>
+    <circle cx="172" cy="126" r="7"><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.45;0.55;0.7;0.75"/></circle>
+    <circle cx="204" cy="126" r="7"><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.55;0.65;0.7;0.75"/></circle>
+  </g>
+  <text x="149" y="158" font-size="9.5" fill="#2f5fa8" text-anchor="middle">holding records until the window closes</text>
+  <text x="149" y="192" font-size="10.5" fill="#12305e" text-anchor="middle" font-family="Consolas, monospace">default: 1 second</text>
+  <text x="149" y="212" font-size="10.5" fill="#12305e" text-anchor="middle" font-family="Consolas, monospace">--timeout 50 &#183; linger.ms</text>
+  <text x="149" y="232" font-size="9" fill="#2f5fa8" text-anchor="middle">tune it to your application load</text>
+
+  <path d="M274 156 L306 156" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#s6)"/>
+
+  <!-- compression -->
+  <rect x="312" y="66" width="250" height="180" rx="11" fill="#fff3cd" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="437" y="90" font-size="12" font-weight="700" fill="#7a5b00" text-anchor="middle">compression on the batch</text>
+  <rect x="332" y="104" width="210" height="26" rx="6" fill="#fff8e1" stroke="#b8860b" stroke-width="1.3"/>
+  <rect x="332" y="104" width="210" height="26" rx="6" fill="#b8860b" opacity="0.5">
+    <animate attributeName="width" dur="3s" repeatCount="indefinite" values="210;72;72" keyTimes="0;0.6;1"/>
+  </rect>
+  <text x="437" y="122" font-size="9.5" font-weight="700" fill="#7a5b00" text-anchor="middle">one batch on the wire</text>
+  <g font-size="10.5" font-weight="600" fill="#7a5b00" text-anchor="middle">
+    <text x="437" y="156">snappy &#160;&#183;&#160; gzip &#160;&#183;&#160; lz4 &#160;&#183;&#160; zstd</text>
+  </g>
+  <text x="437" y="182" font-size="10" fill="#8a6d00" text-anchor="middle">compressing a whole batch beats compressing</text>
+  <text x="437" y="198" font-size="10" fill="#8a6d00" text-anchor="middle">each record &#8212; more repetition to exploit</text>
+  <text x="437" y="226" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">&#8594; less bandwidth, fewer round trips</text>
+
+  <path d="M562 156 L594 156" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#s6)"/>
+
+  <!-- consumer batching -->
+  <rect x="600" y="66" width="256" height="180" rx="11" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="728" y="90" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">consumer batches too</text>
+  <rect x="620" y="102" width="216" height="70" rx="9" fill="#ffffff" stroke="#1e7a44" stroke-width="1.5"/>
+  <text x="728" y="126" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle" font-family="Consolas, monospace">max.poll.records</text>
+  <text x="728" y="146" font-size="9.5" fill="#1e7a44" text-anchor="middle">50, 500, whatever suits you</text>
+  <text x="728" y="163" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">fetched in ONE network call</text>
+  <g fill="#1e7a44">
+    <circle cx="650" cy="196" r="6"><animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.3;1"/></circle>
+    <circle cx="676" cy="196" r="6"><animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.35;1"/></circle>
+    <circle cx="702" cy="196" r="6"><animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.4;1"/></circle>
+    <circle cx="728" cy="196" r="6"><animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.45;1"/></circle>
+    <circle cx="754" cy="196" r="6"><animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.5;1"/></circle>
+    <circle cx="780" cy="196" r="6"><animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.55;1"/></circle>
+    <circle cx="806" cy="196" r="6"><animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.6;1"/></circle>
+  </g>
+  <text x="728" y="226" font-size="10" fill="#1e7a44" text-anchor="middle">one round trip instead of N &#8212; the network is the expensive part</text>
+
+  <rect x="24" y="266" width="832" height="52" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="440" y="288" font-size="12" font-weight="700" fill="#1b2a3a" text-anchor="middle">Batching trades a little latency for a lot of throughput &#8212; and you control the dial on both ends.</text>
+  <text x="440" y="308" font-size="11" fill="#5b6b7f" text-anchor="middle">Small batch window = lower latency, more round trips. Large window = fewer, fatter requests. Architects tune this per business load.</text>
+
+  <rect x="24" y="332" width="832" height="52" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="1.6"/>
+  <text x="440" y="354" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">Remember the part 04 demo: <tspan font-family="Consolas, monospace">--timeout 50</tspan> made messages appear almost instantly instead of once a second.</text>
+  <text x="440" y="373" font-size="10.5" fill="#8a6d00" text-anchor="middle">Same knob, and one of the most crucial ones you will touch in production.</text>
+</svg>

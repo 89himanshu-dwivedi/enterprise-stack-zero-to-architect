@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" width="880" height="430" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Why Kafka solved the growing log with a retention policy instead of periodic compaction">
+  <rect width="880" height="430" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">3 · So the file grows forever &#8212; why retention and not compaction?</text>
+
+  <!-- compaction -->
+  <rect x="20" y="46" width="400" height="330" rx="12" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.6"/>
+  <text x="220" y="70" font-size="12.5" font-weight="700" fill="#a01818" text-anchor="middle">The obvious idea &#8212; run compaction</text>
+  <text x="220" y="88" font-size="10" fill="#c0392b" text-anchor="middle">a background job once or twice a day that obsoletes old entries</text>
+
+  <rect x="44" y="100" width="352" height="96" rx="9" fill="#1b2a3a"/>
+  <g font-size="10.5" font-family="Consolas, monospace">
+    <text x="60" y="122" fill="#8ea3bb">1 : order-1</text>
+    <text x="200" y="122" fill="#c96a6a">&#8592; deleted</text>
+    <text x="60" y="142" fill="#8ea3bb">1 : order-1-XY</text>
+    <text x="200" y="142" fill="#c96a6a">&#8592; deleted</text>
+    <text x="60" y="162" fill="#dbe4ee">1 : order-1-ABC</text>
+    <text x="200" y="162" fill="#a8d5ba">&#8592; kept</text>
+    <text x="60" y="184" fill="#8ea3bb">only the latest value per key survives</text>
+  </g>
+  <rect x="52" y="108" width="336" height="20" rx="4" fill="#c62828" opacity="0">
+    <animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0.4;0.4;0" keyTimes="0;0.3;0.85;1"/>
+  </rect>
+  <rect x="52" y="128" width="336" height="20" rx="4" fill="#c62828" opacity="0">
+    <animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0;0.4;0.4;0" keyTimes="0;0.35;0.5;0.85;1"/>
+  </rect>
+
+  <g font-size="11" fill="#a01818">
+    <text x="44" y="226" font-weight="700">&#10007;&#160; Compaction and merging consume I/O too</text>
+    <text x="60" y="244" font-size="10.5">Your system has limited I/O, limited CPU, limited memory.</text>
+    <text x="60" y="260" font-size="10.5">Spend them on housekeeping and high throughput dies.</text>
+
+    <text x="44" y="288" font-weight="700">&#10007;&#160; You lose the trail of messages</text>
+    <text x="60" y="306" font-size="10.5">Want to see the sequence of events for one order?</text>
+    <text x="60" y="322" font-size="10.5">Gone &#8212; the old entries were deleted.</text>
+
+    <text x="44" y="350" font-weight="700">&#10007;&#160; A pile of new edge cases to handle</text>
+    <text x="60" y="366" font-size="10.5">Every one of them is more code, more failure modes.</text>
+  </g>
+
+  <!-- retention -->
+  <rect x="460" y="46" width="400" height="330" rx="12" fill="#f7fbf8" stroke="#b6ddc4" stroke-width="1.6"/>
+  <text x="660" y="70" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">What Kafka did &#8212; a retention policy &#160;&#9733;</text>
+  <text x="660" y="88" font-size="10" fill="#1e7a44" text-anchor="middle">delete by age, nothing else. The responsibility is handed to you.</text>
+
+  <g fill="#fdf1f1" stroke="#c62828" stroke-width="1.4">
+    <rect x="484" y="104" width="80" height="46" rx="7"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="1;1;0.15;0.15;1" keyTimes="0;0.4;0.5;0.95;1"/></rect>
+    <rect x="572" y="104" width="80" height="46" rx="7"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="1;1;0.15;0.15;1" keyTimes="0;0.44;0.54;0.95;1"/></rect>
+  </g>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.4">
+    <rect x="660" y="104" width="80" height="46" rx="7"/>
+    <rect x="748" y="104" width="80" height="46" rx="7"/>
+  </g>
+  <g font-size="9.5" font-weight="600" text-anchor="middle">
+    <text x="524" y="124" fill="#a01818">9 days</text><text x="524" y="140" fill="#c0392b">old</text>
+    <text x="612" y="124" fill="#a01818">8 days</text><text x="612" y="140" fill="#c0392b">old</text>
+    <text x="700" y="124" fill="#0f4d2a">3 days</text><text x="700" y="140" fill="#1e7a44">kept</text>
+    <text x="788" y="124" fill="#0f4d2a">today</text><text x="788" y="140" fill="#1e7a44">kept</text>
+  </g>
+  <rect x="654" y="98" width="180" height="58" rx="9" fill="none" stroke="#1e7a44" stroke-width="2.2" stroke-dasharray="7 4"/>
+  <text x="744" y="172" font-size="10" font-weight="700" fill="#0f4d2a" text-anchor="middle">the 7-day window</text>
+
+  <rect x="484" y="188" width="352" height="44" rx="8" fill="#1b2a3a"/>
+  <text x="500" y="206" font-size="10.5" fill="#f4b400" font-family="Consolas, monospace">log.retention.hours=168&#160;&#160;&#160;# 168 h = 7 days, the default</text>
+  <text x="500" y="223" font-size="10.5" fill="#f4b400" font-family="Consolas, monospace">log.retention.bytes=&#8230;&#160;&#160;&#160;&#160;&#160;&#160;# or cap by size</text>
+
+  <g font-size="11" fill="#0f4d2a">
+    <text x="484" y="258" font-weight="700">&#10003;&#160; Costs almost nothing &#8212; drop whole segments</text>
+    <text x="484" y="286" font-weight="700">&#10003;&#160; The full message trail survives inside the window</text>
+    <text x="484" y="314" font-weight="700">&#10003;&#160; Tune it per business load, per criticality</text>
+    <text x="500" y="330" font-size="10.5">7 days by default; change it to whatever your data is worth.</text>
+    <text x="484" y="358" font-weight="700">&#10003;&#160; Simple systems always scale</text>
+  </g>
+
+  <rect x="24" y="388" width="832" height="34" rx="9" fill="#fff3cd" stroke="#b8860b" stroke-width="1.6"/>
+  <text x="440" y="410" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">They deliberately offloaded the cleanup decision to the user rather than spending scarce I/O on it. That is the whole design philosophy in one line.</text>
+</svg>

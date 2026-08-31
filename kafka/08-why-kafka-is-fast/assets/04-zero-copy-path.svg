@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500" width="880" height="500" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Traditional IO copies bytes through user space, zero-copy transfers straight between the socket channel and the log file channel">
+  <defs>
+    <marker id="s4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="500" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">4 · Decision two &#8212; zero-copy architecture</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Every socket has a read buffer, a write buffer and a file descriptor at the OS level. The question is only whether the bytes detour through your process.</text>
+
+  <!-- traditional -->
+  <rect x="20" y="64" width="836" height="146" rx="12" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.6"/>
+  <text x="40" y="88" font-size="12.5" font-weight="700" fill="#a01818">Traditional I/O &#8212; <tspan font-family="Consolas, monospace">java.io</tspan>: read the socket into memory, then write it to the file</text>
+
+  <rect x="44" y="100" width="150" height="82" rx="9" fill="#fdf1f1" stroke="#c62828" stroke-width="1.6"/>
+  <text x="119" y="122" font-size="11" font-weight="700" fill="#a01818" text-anchor="middle">producer socket</text>
+  <text x="119" y="140" font-size="8.5" fill="#c0392b" text-anchor="middle">read buffer / write buffer</text>
+  <text x="119" y="154" font-size="8.5" fill="#c0392b" text-anchor="middle">fd = 42</text>
+  <text x="119" y="172" font-size="8.5" fill="#c0392b" text-anchor="middle">kernel space</text>
+
+  <rect x="230" y="100" width="150" height="82" rx="9" fill="#fdf1f1" stroke="#c62828" stroke-width="1.6"/>
+  <text x="305" y="128" font-size="11" font-weight="700" fill="#a01818" text-anchor="middle">kernel buffer</text>
+  <text x="305" y="148" font-size="8.5" fill="#c0392b" text-anchor="middle">copy 1</text>
+
+  <rect x="416" y="100" width="170" height="82" rx="9" fill="#ffebee" stroke="#c62828" stroke-width="2.4"/>
+  <text x="501" y="124" font-size="11" font-weight="700" fill="#a01818" text-anchor="middle">JVM heap &#8212; user space</text>
+  <text x="501" y="142" font-size="8.5" fill="#c0392b" text-anchor="middle">the broker actually reads the bytes</text>
+  <text x="501" y="158" font-size="8.5" fill="#c0392b" text-anchor="middle">copy 2 &#183; GC pressure</text>
+  <text x="501" y="174" font-size="8.5" font-weight="700" fill="#a01818" text-anchor="middle">this detour is the whole problem</text>
+
+  <rect x="622" y="100" width="150" height="82" rx="9" fill="#fdf1f1" stroke="#c62828" stroke-width="1.6"/>
+  <text x="697" y="128" font-size="11" font-weight="700" fill="#a01818" text-anchor="middle">kernel buffer</text>
+  <text x="697" y="148" font-size="8.5" fill="#c0392b" text-anchor="middle">copy 3</text>
+
+  <rect x="800" y="100" width="40" height="82" rx="9" fill="#fdf1f1" stroke="#c62828" stroke-width="1.6"/>
+  <text x="820" y="146" font-size="9.5" font-weight="700" fill="#a01818" text-anchor="middle">log</text>
+
+  <g stroke="#c62828" stroke-width="1.6" fill="none" marker-end="url(#s4)">
+    <path d="M194 141 L224 141"/><path d="M380 141 L410 141"/><path d="M586 141 L616 141"/><path d="M772 141 L794 141"/>
+  </g>
+  <circle cy="141" r="7" fill="#c62828">
+    <animate attributeName="cx" dur="6s" repeatCount="indefinite" values="119;119;305;305;501;501;697;697;820" keyTimes="0;0.05;0.18;0.28;0.42;0.58;0.72;0.85;1"/>
+  </circle>
+
+  <!-- zero copy -->
+  <rect x="20" y="224" width="836" height="176" rx="12" fill="#f7fbf8" stroke="#b6ddc4" stroke-width="1.6"/>
+  <text x="40" y="248" font-size="12.5" font-weight="700" fill="#0f4d2a">Zero-copy &#8212; <tspan font-family="Consolas, monospace">java.nio</tspan>: channel to channel, the bytes never enter your process</text>
+
+  <rect x="44" y="262" width="180" height="86" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="134" y="286" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">producer socket channel</text>
+  <text x="134" y="304" font-size="8.5" fill="#1e7a44" text-anchor="middle">read buffer / write buffer</text>
+  <text x="134" y="318" font-size="8.5" fill="#1e7a44" text-anchor="middle">fd = 42</text>
+  <text x="134" y="336" font-size="8.5" fill="#1e7a44" text-anchor="middle">bytes arriving from the producer</text>
+
+  <rect x="350" y="262" width="180" height="86" rx="9" fill="#1b2a3a"/>
+  <text x="440" y="288" font-size="11" font-weight="700" fill="#a8d5ba" text-anchor="middle">log file channel</text>
+  <text x="440" y="308" font-size="8.5" fill="#8ea3bb" text-anchor="middle">append-only segment on disk</text>
+  <text x="440" y="326" font-size="8.5" fill="#f4b400" text-anchor="middle">Kafka never loads this into memory</text>
+
+  <rect x="656" y="262" width="180" height="86" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="746" y="286" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">consumer socket channel</text>
+  <text x="746" y="304" font-size="8.5" fill="#1e7a44" text-anchor="middle">read buffer / write buffer</text>
+  <text x="746" y="318" font-size="8.5" fill="#1e7a44" text-anchor="middle">fd = 77</text>
+  <text x="746" y="336" font-size="8.5" fill="#1e7a44" text-anchor="middle">bytes leaving to the consumer</text>
+
+  <path d="M224 300 L344 300" fill="none" stroke="#1e7a44" stroke-width="2.2" marker-end="url(#s4)"/>
+  <path d="M530 310 L650 310" fill="none" stroke="#1e7a44" stroke-width="2.2" marker-end="url(#s4)"/>
+  <circle cy="300" r="7" fill="#1e7a44"><animate attributeName="cx" dur="2.4s" repeatCount="indefinite" values="134;440"/><animate attributeName="opacity" dur="2.4s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.85;1"/></circle>
+  <circle cy="310" r="7" fill="#1e7a44"><animate attributeName="cx" dur="2.4s" begin="1.2s" repeatCount="indefinite" values="440;746"/><animate attributeName="opacity" dur="2.4s" begin="1.2s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.85;1"/></circle>
+
+  <rect x="44" y="358" width="384" height="30" rx="7" fill="#22354a"/>
+  <text x="58" y="378" font-size="10" fill="#a8d5ba" font-family="Consolas, monospace">logChannel.transferFrom(producerSocket, position, count)</text>
+  <rect x="452" y="358" width="384" height="30" rx="7" fill="#22354a"/>
+  <text x="466" y="378" font-size="10" fill="#a8d5ba" font-family="Consolas, monospace">logChannel.transferTo(position, count, consumerSocket)</text>
+
+  <rect x="24" y="414" width="410" height="72" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="1.6"/>
+  <text x="229" y="436" font-size="11.5" font-weight="700" fill="#a01818" text-anchor="middle">What most engineers write</text>
+  <text x="229" y="456" font-size="10.5" fill="#a01818" text-anchor="middle">Read the socket into the process, open the log file,</text>
+  <text x="229" y="472" font-size="10.5" fill="#a01818" text-anchor="middle">write the bytes out. Correct, and slow.</text>
+
+  <rect x="446" y="414" width="410" height="72" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.6"/>
+  <text x="651" y="436" font-size="11.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">What Kafka writes</text>
+  <text x="651" y="456" font-size="10.5" fill="#1e7a44" text-anchor="middle">One <tspan font-family="Consolas, monospace">FileChannel</tspan> call. The kernel moves the bytes;</text>
+  <text x="651" y="472" font-size="10.5" fill="#1e7a44" text-anchor="middle">the JVM never sees them. That is all zero-copy is.</text>
+</svg>

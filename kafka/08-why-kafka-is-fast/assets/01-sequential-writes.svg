@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" width="880" height="420" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The write path from application code down to the disk, and why sequential writes beat random writes">
+  <defs>
+    <marker id="s1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="420" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">1 · Decision one &#8212; sequential disk writes</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Kafka <tspan font-weight="700">appends</tspan> messages to disk instead of modifying them in place. Modern SSDs &#8212; and even HDDs &#8212; are optimised for exactly that.</text>
+
+  <!-- call stack -->
+  <rect x="24" y="66" width="376" height="330" rx="12" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="212" y="90" font-size="12" font-weight="700" fill="#1b2a3a" text-anchor="middle">what a write really goes through</text>
+
+  <g fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.5">
+    <rect x="48" y="104" width="328" height="46" rx="8"/>
+    <rect x="48" y="162" width="328" height="46" rx="8"/>
+    <rect x="48" y="220" width="328" height="46" rx="8"/>
+    <rect x="48" y="278" width="328" height="46" rx="8"/>
+    <rect x="48" y="336" width="328" height="46" rx="8"/>
+  </g>
+  <g font-size="11.5" font-weight="600" fill="#1b2a3a">
+    <text x="64" y="124" font-family="Consolas, monospace">file.write(bytes)</text>
+    <text x="64" y="182">language / JVM API</text>
+    <text x="64" y="240">system call</text>
+    <text x="64" y="298">disk driver</text>
+    <text x="64" y="356">kernel &#8594; physical disk</text>
+  </g>
+  <g font-size="9" fill="#5b6b7f">
+    <text x="64" y="140">your code &#8212; this is all you ever see</text>
+    <text x="64" y="198">abstracted for you by Java, Go, Python &#8230;</text>
+    <text x="64" y="256">where the abstraction ends</text>
+    <text x="64" y="314">you never call this directly</text>
+    <text x="64" y="372">the bytes actually land</text>
+  </g>
+  <circle cx="360" r="7" fill="#f4b400" stroke="#8a6d00" stroke-width="1.3">
+    <animate attributeName="cy" dur="4s" repeatCount="indefinite" values="127;127;185;243;301;359;359" keyTimes="0;0.08;0.24;0.4;0.56;0.72;1"/>
+  </circle>
+
+  <!-- disk behaviour -->
+  <rect x="412" y="66" width="444" height="330" rx="12" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="634" y="90" font-size="12" font-weight="700" fill="#1b2a3a" text-anchor="middle">why the <tspan font-style="italic">pattern</tspan> matters more than the device</text>
+
+  <text x="436" y="120" font-size="11.5" font-weight="700" fill="#0f4d2a">Sequential &#8212; what Kafka does</text>
+  <rect x="436" y="130" width="396" height="52" rx="8" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6"/>
+  <g fill="#1e7a44" opacity="0.25">
+    <rect x="444" y="138" width="34" height="36" rx="4"><animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0.25;0.25" keyTimes="0;0.08;1"/></rect>
+    <rect x="484" y="138" width="34" height="36" rx="4"><animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0.25;0.25" keyTimes="0;0.16;1"/></rect>
+    <rect x="524" y="138" width="34" height="36" rx="4"><animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0.25;0.25" keyTimes="0;0.24;1"/></rect>
+    <rect x="564" y="138" width="34" height="36" rx="4"><animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0.25;0.25" keyTimes="0;0.32;1"/></rect>
+    <rect x="604" y="138" width="34" height="36" rx="4"><animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0.25;0.25" keyTimes="0;0.40;1"/></rect>
+    <rect x="644" y="138" width="34" height="36" rx="4"><animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0.25;0.25" keyTimes="0;0.48;1"/></rect>
+    <rect x="684" y="138" width="34" height="36" rx="4"><animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0.25;0.25" keyTimes="0;0.56;1"/></rect>
+    <rect x="724" y="138" width="34" height="36" rx="4"><animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0.25;0.25" keyTimes="0;0.64;1"/></rect>
+    <rect x="764" y="138" width="34" height="36" rx="4"><animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0.25;0.25" keyTimes="0;0.72;1"/></rect>
+  </g>
+  <polygon points="-7,190 7,190 0,178" fill="#0f4d2a">
+    <animateTransform attributeName="transform" type="translate" dur="4s" repeatCount="indefinite" values="461 0;801 0" keyTimes="0;1"/>
+  </polygon>
+  <text x="634" y="208" font-size="10" fill="#0f4d2a" text-anchor="middle">the head never leaves the track &#8212; one smooth run</text>
+
+  <text x="436" y="248" font-size="11.5" font-weight="700" fill="#a01818">Random &#8212; what in-place updates force</text>
+  <rect x="436" y="258" width="396" height="52" rx="8" fill="#fdf1f1" stroke="#c62828" stroke-width="1.6"/>
+  <g fill="#c62828" opacity="0.25">
+    <rect x="604" y="266" width="34" height="36" rx="4"/>
+    <rect x="444" y="266" width="34" height="36" rx="4"/>
+    <rect x="724" y="266" width="34" height="36" rx="4"/>
+    <rect x="524" y="266" width="34" height="36" rx="4"/>
+  </g>
+  <polygon points="-7,318 7,318 0,306" fill="#a01818">
+    <animateTransform attributeName="transform" type="translate" dur="4s" repeatCount="indefinite"
+      values="621 0;461 0;741 0;541 0;621 0" keyTimes="0;0.25;0.5;0.75;1"/>
+  </polygon>
+  <text x="634" y="336" font-size="10" fill="#a01818" text-anchor="middle">seek, seek, seek &#8212; the head is doing more travelling than writing</text>
+
+  <rect x="436" y="352" width="396" height="34" rx="8" fill="#fff3cd" stroke="#b8860b" stroke-width="1.4"/>
+  <text x="634" y="373" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">Append-only means no read, no seek, no rewrite. Just add bytes to the end.</text>
+</svg>

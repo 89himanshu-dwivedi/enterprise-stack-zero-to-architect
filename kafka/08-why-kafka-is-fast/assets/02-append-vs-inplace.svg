@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" width="880" height="440" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Updating a record in place rewrites the whole log file, while appending simply adds a line at the end">
+  <rect width="880" height="440" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">2 · An order gets updated. Two ways to handle it.</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Order <tspan font-family="Consolas, monospace">1</tspan> was written earlier, and more records have piled up on top of it. Now <tspan font-family="Consolas, monospace">1:order-1-ABC</tspan> arrives.</text>
+
+  <!-- in place -->
+  <rect x="20" y="66" width="400" height="304" rx="12" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.6"/>
+  <text x="220" y="90" font-size="12.5" font-weight="700" fill="#a01818" text-anchor="middle">Approach 1 &#8212; in-place update</text>
+  <text x="220" y="108" font-size="10" fill="#c0392b" text-anchor="middle">read the file &#183; delete the old entry &#183; write the new one</text>
+
+  <rect x="48" y="120" width="344" height="180" rx="9" fill="#1b2a3a"/>
+  <g font-size="11" font-family="Consolas, monospace" fill="#dbe4ee">
+    <text x="64" y="146">1 : order-1</text>
+    <text x="64" y="170">2 : order-2</text>
+    <text x="64" y="194">3 : order-3</text>
+    <text x="64" y="218">4 : order-4</text>
+    <text x="64" y="242">2 : order-2-XY</text>
+    <text x="64" y="266">5 : order-5</text>
+    <text x="64" y="290">&#8230;</text>
+  </g>
+  <rect x="56" y="132" width="328" height="20" rx="4" fill="#c62828" opacity="0.45">
+    <animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0.45;0.45;0;0" keyTimes="0;0.25;0.4;0.45;1"/>
+  </rect>
+  <rect x="56" y="128" width="328" height="168" rx="6" fill="#c62828" opacity="0">
+    <animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;0.28;0.28;0" keyTimes="0;0.45;0.6;0.9;1"/>
+  </rect>
+  <text x="220" y="216" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" opacity="0">
+    rewriting the entire file
+    <animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.48;0.6;0.9;1"/>
+  </text>
+
+  <g font-size="11" fill="#a01818">
+    <text x="44" y="326">&#10007;&#160; Read the whole file first</text>
+    <text x="44" y="346">&#10007;&#160; Random seeks, then a full rewrite</text>
+    <text x="44" y="366">&#10007;&#160; Throughput collapses as the file grows</text>
+  </g>
+
+  <!-- append -->
+  <rect x="460" y="66" width="400" height="304" rx="12" fill="#f7fbf8" stroke="#b6ddc4" stroke-width="1.6"/>
+  <text x="660" y="90" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Approach 2 &#8212; append &#160;&#9733; what Kafka chose</text>
+  <text x="660" y="108" font-size="10" fill="#1e7a44" text-anchor="middle">don&#8217;t touch anything &#183; just add the new entry at the end</text>
+
+  <rect x="488" y="120" width="344" height="180" rx="9" fill="#1b2a3a"/>
+  <g font-size="11" font-family="Consolas, monospace" fill="#dbe4ee">
+    <text x="504" y="146">1 : order-1</text>
+    <text x="504" y="170">2 : order-2</text>
+    <text x="504" y="194">3 : order-3</text>
+    <text x="504" y="218">4 : order-4</text>
+    <text x="504" y="242">2 : order-2-XY</text>
+    <text x="504" y="266">5 : order-5</text>
+  </g>
+  <text x="504" y="290" font-size="11" font-family="Consolas, monospace" fill="#a8d5ba" opacity="0">
+    1 : order-1-ABC&#160;&#160;&#160;&#8592; appended
+    <animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.30;0.38;0.92;1"/>
+  </text>
+  <circle r="6" fill="#a8d5ba">
+    <animate attributeName="cx" dur="6s" repeatCount="indefinite" values="660;660;496;496" keyTimes="0;0.18;0.32;1"/>
+    <animate attributeName="cy" dur="6s" repeatCount="indefinite" values="110;110;286;286" keyTimes="0;0.18;0.32;1"/>
+    <animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;0;0" keyTimes="0;0.17;0.24;0.34;1"/>
+  </circle>
+
+  <g font-size="11" fill="#0f4d2a">
+    <text x="484" y="326">&#10003;&#160; No read, no seek, no rewrite</text>
+    <text x="484" y="346">&#10003;&#160; Pure sequential write &#8212; constant cost</text>
+    <text x="484" y="366">&#10003;&#160; The full history of the order is preserved</text>
+  </g>
+
+  <rect x="24" y="386" width="832" height="46" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="1.6"/>
+  <text x="440" y="406" font-size="12" font-weight="700" fill="#7a5b00" text-anchor="middle">The trade-off they knowingly accepted: the log file just keeps growing.</text>
+  <text x="440" y="424" font-size="10.5" fill="#8a6d00" text-anchor="middle">They were least bothered &#8212; they optimised for <tspan font-weight="700">throughput</tspan>, because rewriting files again and again is what actually kills you.</text>
+</svg>
