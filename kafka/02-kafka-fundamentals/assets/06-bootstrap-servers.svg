@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" width="880" height="470" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Stateless apps use a load balancer, but Kafka clients use bootstrap servers to fetch metadata and then talk directly to the right broker">
+  <defs>
+    <marker id="a6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+    <marker id="a6g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#0f4d2a"/>
+    </marker>
+  </defs>
+  <rect width="880" height="470" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">6 · How a client connects &#8212; bootstrap.servers</text>
+
+  <!-- Row 1: stateless -->
+  <rect x="20" y="46" width="840" height="140" rx="12" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.4"/>
+  <text x="36" y="68" font-size="12.5" font-weight="600" fill="#5b6b7f">Stateless app &#8212; a load balancer is enough, the client only knows one IP</text>
+
+  <rect x="40" y="88" width="110" height="52" rx="9" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.7"/>
+  <text x="95" y="119" font-size="12" font-weight="600" fill="#1b2a3a" text-anchor="middle">Client</text>
+  <rect x="215" y="88" width="140" height="52" rx="9" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.7"/>
+  <text x="285" y="112" font-size="12" font-weight="600" fill="#1b2a3a" text-anchor="middle">Load Balancer</text>
+  <text x="285" y="128" font-size="9" fill="#5b6b7f" text-anchor="middle">one IP to remember</text>
+  <g fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.7">
+    <rect x="420" y="88" width="130" height="52" rx="9"/>
+    <rect x="570" y="88" width="130" height="52" rx="9"/>
+    <rect x="720" y="88" width="130" height="52" rx="9"/>
+  </g>
+  <g font-size="10.5" font-weight="600" fill="#1b2a3a" text-anchor="middle">
+    <text x="485" y="112">order-svc 1</text>
+    <text x="635" y="112">order-svc 2</text>
+    <text x="785" y="112">order-svc 1000</text>
+  </g>
+  <g font-size="9" fill="#5b6b7f" text-anchor="middle">
+    <text x="485" y="128">any one will do</text>
+    <text x="635" y="128">any one will do</text>
+    <text x="785" y="128">any one will do</text>
+  </g>
+  <line x1="150" y1="114" x2="209" y2="114" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#a6)"/>
+  <line x1="355" y1="114" x2="414" y2="114" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#a6)"/>
+  <line x1="355" y1="114" x2="564" y2="114" stroke="#c9d3e0" stroke-width="1.2"/>
+  <line x1="355" y1="114" x2="714" y2="114" stroke="#c9d3e0" stroke-width="1.2"/>
+  <circle cy="114" r="6" fill="#f4b400" stroke="#8a6d00" stroke-width="1.2">
+    <animate attributeName="cx" dur="2.6s" repeatCount="indefinite" values="95;285;635"/>
+    <animate attributeName="opacity" dur="2.6s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.82;1"/>
+  </circle>
+  <text x="160" y="164" font-size="10.5" fill="#5b6b7f">Kafka cannot do this &#8212; Kafka is <tspan font-weight="700" fill="#a01818">stateful</tspan>: a given topic lives on a specific broker, so &#8220;any server&#8221; is not good enough.</text>
+
+  <!-- Row 2: kafka -->
+  <text x="36" y="212" font-size="12.5" font-weight="600" fill="#0f4d2a">Kafka &#8212; connect to any one broker, get the full metadata, then talk to the right one</text>
+
+  <rect x="24" y="290" width="120" height="62" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="84" y="316" font-size="12" font-weight="600" fill="#12305e" text-anchor="middle">Client</text>
+  <text x="84" y="332" font-size="9" fill="#2f5fa8" text-anchor="middle">producer / consumer</text>
+
+  <rect x="180" y="252" width="200" height="118" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="2"/>
+  <text x="280" y="274" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">bootstrap.servers</text>
+  <g font-size="10.5" fill="#7a5b00" text-anchor="middle" font-family="Consolas, monospace">
+    <text x="280" y="298">10.0.0.1:9092</text>
+    <text x="280" y="318">10.0.0.2:9092</text>
+    <text x="280" y="338">10.0.0.3:9092</text>
+  </g>
+  <text x="280" y="360" font-size="8.5" fill="#8a6d00" text-anchor="middle">list a few &#8212; not all 1000</text>
+  <line x1="144" y1="316" x2="174" y2="316" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#a6)"/>
+  <line x1="380" y1="316" x2="424" y2="316" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#a6)"/>
+
+  <!-- cluster -->
+  <rect x="430" y="238" width="425" height="176" rx="12" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+  <text x="642" y="258" font-size="11.5" font-weight="600" fill="#0f4d2a" text-anchor="middle">Kafka cluster &#8212; every broker holds the full metadata</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6">
+    <rect x="444" y="268" width="126" height="60" rx="8"/>
+    <rect x="580" y="268" width="126" height="60" rx="8"/>
+    <rect x="716" y="268" width="126" height="60" rx="8"/>
+    <rect x="444" y="340" width="126" height="60" rx="8"/>
+    <rect x="580" y="340" width="126" height="60" rx="8"/>
+  </g>
+  <rect x="716" y="340" width="126" height="60" rx="8" fill="#d6ecdd" stroke="#0f4d2a" stroke-width="3"/>
+  <g font-size="10.5" font-weight="600" fill="#0f4d2a" text-anchor="middle">
+    <text x="507" y="296">Broker 1</text>
+    <text x="643" y="296">Broker 2</text>
+    <text x="779" y="296">Broker 3</text>
+    <text x="507" y="368">Broker 4</text>
+    <text x="643" y="368">Broker 5</text>
+    <text x="779" y="366">Broker 6</text>
+  </g>
+  <text x="779" y="382" font-size="8.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">leader of order-event</text>
+  <g font-size="8" fill="#1e7a44" text-anchor="middle">
+    <text x="507" y="312">metadata</text>
+    <text x="643" y="312">metadata</text>
+    <text x="779" y="312">metadata</text>
+    <text x="507" y="384">metadata</text>
+    <text x="643" y="384">metadata</text>
+  </g>
+
+  <!-- step dots -->
+  <circle r="7" fill="#f4b400" stroke="#8a6d00" stroke-width="1.3">
+    <animateMotion dur="9s" repeatCount="indefinite" path="M84 316 L280 316 L507 298" keyPoints="0;0.45;1;1" keyTimes="0;0.14;0.30;1" calcMode="linear"/>
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.30;0.34;1"/>
+  </circle>
+  <circle r="7" fill="#1e7a44">
+    <animateMotion dur="9s" repeatCount="indefinite" path="M507 298 L280 316 L84 316" keyPoints="0;0;1;1" keyTimes="0;0.34;0.52;1" calcMode="linear"/>
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.33;0.36;0.51;0.55;1"/>
+  </circle>
+  <rect x="330" y="196" width="330" height="26" rx="7" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.3" opacity="0">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.36;0.40;0.94;1"/>
+  </rect>
+  <text x="495" y="214" font-size="10.5" font-weight="600" fill="#0f4d2a" text-anchor="middle" opacity="0">
+    metadata returned: order-event &#8594; Broker 6 (+ its replicas)
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.36;0.40;0.94;1"/>
+  </text>
+
+  <path d="M84 352 L84 432 L779 432 L779 404" fill="none" stroke="#0f4d2a" stroke-width="1.8" stroke-dasharray="6 4" opacity="0" marker-end="url(#a6g)">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.55;0.60;0.94;1"/>
+  </path>
+  <circle r="7" fill="#0f4d2a">
+    <animateMotion dur="9s" repeatCount="indefinite" path="M84 352 L84 432 L779 432 L779 404" keyPoints="0;0;1;1" keyTimes="0;0.60;0.88;1" calcMode="linear"/>
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.59;0.62;0.87;0.91;1"/>
+  </circle>
+  <text x="420" y="426" font-size="10" font-weight="600" fill="#0f4d2a" text-anchor="middle" opacity="0">
+    now the client writes straight to the leader &#8212; no proxy, no load balancer in the middle
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.55;0.60;0.94;1"/>
+  </text>
+
+  <rect x="24" y="440" width="832" height="24" rx="7" fill="#fff3cd" stroke="#b8860b" stroke-width="1.2"/>
+  <text x="440" y="456" font-size="10.5" font-weight="600" fill="#7a5b00" text-anchor="middle">bootstrap server is NOT a role &#8212; it is not a controller, not a special broker. It is only the client&#8217;s initial connection point.</text>
+</svg>

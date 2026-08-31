@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 450" width="880" height="450" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Topic create command goes to the controller, which assigns the topic to a broker and pushes metadata to all brokers">
+  <defs>
+    <marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="450" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">4 · Creating a topic &#8212; the controller decides everything</text>
+
+  <!-- command -->
+  <rect x="160" y="46" width="560" height="46" rx="9" fill="#1b2a3a"/>
+  <text x="440" y="68" font-size="11.5" fill="#a8d5ba" text-anchor="middle" font-family="Consolas, monospace">kafka-topics.sh --create --topic order-event \</text>
+  <text x="440" y="84" font-size="11.5" fill="#a8d5ba" text-anchor="middle" font-family="Consolas, monospace">--bootstrap-server localhost:9092 --replication-factor 2</text>
+
+  <line x1="440" y1="92" x2="440" y2="140" stroke="#5b6b7f" stroke-width="2" marker-end="url(#a4)"/>
+
+  <!-- controller -->
+  <rect x="330" y="144" width="220" height="70" rx="11" fill="#fff3cd" stroke="#b8860b" stroke-width="2.4"/>
+  <text x="440" y="172" font-size="13.5" font-weight="700" fill="#7a5b00" text-anchor="middle">CONTROLLER</text>
+  <text x="440" y="192" font-size="10" fill="#8a6d00" text-anchor="middle">a broker that also acts as manager</text>
+  <text x="440" y="206" font-size="9.5" fill="#8a6d00" text-anchor="middle">holds the metadata: topic &#8594; broker map</text>
+
+  <!-- fan out lines -->
+  <g stroke="#b8860b" stroke-width="1.4" stroke-dasharray="5 4">
+    <line x1="380" y1="214" x2="90" y2="290"/>
+    <line x1="400" y1="214" x2="230" y2="290"/>
+    <line x1="425" y1="214" x2="370" y2="290"/>
+    <line x1="455" y1="214" x2="510" y2="290"/>
+    <line x1="480" y1="214" x2="650" y2="290"/>
+    <line x1="500" y1="214" x2="790" y2="290"/>
+  </g>
+
+  <!-- brokers -->
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8">
+    <rect x="30" y="292" width="120" height="72" rx="9"/>
+    <rect x="170" y="292" width="120" height="72" rx="9"/>
+    <rect x="450" y="292" width="120" height="72" rx="9"/>
+    <rect x="590" y="292" width="120" height="72" rx="9"/>
+    <rect x="730" y="292" width="120" height="72" rx="9"/>
+  </g>
+  <!-- assigned broker -->
+  <rect x="310" y="292" width="120" height="72" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8"/>
+  <rect x="310" y="292" width="120" height="72" rx="9" fill="#d6ecdd" stroke="#0f4d2a" stroke-width="3" opacity="0">
+    <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.26;0.31;0.97;1"/>
+  </rect>
+
+  <g font-size="12" font-weight="600" fill="#0f4d2a" text-anchor="middle">
+    <text x="90" y="322">Broker 1</text>
+    <text x="230" y="322">Broker 2</text>
+    <text x="370" y="322">Broker 3</text>
+    <text x="510" y="322">Broker 4</text>
+    <text x="650" y="322">Broker 5</text>
+    <text x="790" y="322">Broker 6</text>
+  </g>
+  <text x="370" y="342" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="middle" opacity="0">
+    assigned: order-event
+    <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.26;0.31;0.97;1"/>
+  </text>
+  <g font-size="9" fill="#1e7a44" text-anchor="middle" opacity="0">
+    <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.50;0.56;0.97;1"/>
+    <text x="90" y="356">metadata &#10003;</text>
+    <text x="230" y="356">metadata &#10003;</text>
+    <text x="370" y="356">metadata &#10003;</text>
+    <text x="510" y="356">metadata &#10003;</text>
+    <text x="650" y="356">metadata &#10003;</text>
+    <text x="790" y="356">metadata &#10003;</text>
+  </g>
+
+  <!-- step 1 dot: command to controller -->
+  <circle cx="440" r="8" fill="#f4b400" stroke="#8a6d00" stroke-width="1.4">
+    <animate attributeName="cy" dur="10s" repeatCount="indefinite" values="92;144;144" keyTimes="0;0.16;1"/>
+    <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.16;0.20;1"/>
+  </circle>
+
+  <!-- step 3 dots: metadata broadcast -->
+  <g fill="#b8860b">
+    <circle r="6"><animateMotion dur="10s" repeatCount="indefinite" path="M380 214 L90 290" keyPoints="0;0;1;1" keyTimes="0;0.38;0.50;1" calcMode="linear"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.37;0.39;0.49;0.52;1"/></circle>
+    <circle r="6"><animateMotion dur="10s" repeatCount="indefinite" path="M400 214 L230 290" keyPoints="0;0;1;1" keyTimes="0;0.38;0.50;1" calcMode="linear"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.37;0.39;0.49;0.52;1"/></circle>
+    <circle r="6"><animateMotion dur="10s" repeatCount="indefinite" path="M425 214 L370 290" keyPoints="0;0;1;1" keyTimes="0;0.38;0.50;1" calcMode="linear"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.37;0.39;0.49;0.52;1"/></circle>
+    <circle r="6"><animateMotion dur="10s" repeatCount="indefinite" path="M455 214 L510 290" keyPoints="0;0;1;1" keyTimes="0;0.38;0.50;1" calcMode="linear"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.37;0.39;0.49;0.52;1"/></circle>
+    <circle r="6"><animateMotion dur="10s" repeatCount="indefinite" path="M480 214 L650 290" keyPoints="0;0;1;1" keyTimes="0;0.38;0.50;1" calcMode="linear"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.37;0.39;0.49;0.52;1"/></circle>
+    <circle r="6"><animateMotion dur="10s" repeatCount="indefinite" path="M500 214 L790 290" keyPoints="0;0;1;1" keyTimes="0;0.38;0.50;1" calcMode="linear"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.37;0.39;0.49;0.52;1"/></circle>
+  </g>
+
+  <!-- step 4: producer event lands on assigned broker -->
+  <rect x="30" y="152" width="150" height="54" rx="9" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="105" y="176" font-size="12" font-weight="600" fill="#12305e" text-anchor="middle">Order Service</text>
+  <text x="105" y="193" font-size="9.5" fill="#2f5fa8" text-anchor="middle">publishes order-event</text>
+  <path d="M105 206 L105 250 L370 250 L370 288" fill="none" stroke="#2f5fa8" stroke-width="1.6" stroke-dasharray="6 4" opacity="0">
+    <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.58;0.62;0.95;1"/>
+  </path>
+  <circle r="7" fill="#2f5fa8">
+    <animateMotion dur="10s" repeatCount="indefinite" path="M105 206 L105 250 L370 250 L370 288" keyPoints="0;0;1;1" keyTimes="0;0.62;0.86;1" calcMode="linear"/>
+    <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.61;0.64;0.85;0.89;1"/>
+  </circle>
+
+  <!-- captions -->
+  <rect x="24" y="392" width="826" height="40" rx="9" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.3"/>
+  <g font-size="12" font-weight="600" text-anchor="middle" fill="#1b2a3a">
+    <text x="437" y="417" opacity="0"><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.22;0.25;1"/>Step 1 &#8212; the topic-create command always lands on the CONTROLLER</text>
+    <text x="437" y="417" opacity="0"><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.25;0.28;0.35;0.37;1"/>Step 2 &#8212; controller picks Broker 3 and records it in the metadata</text>
+    <text x="437" y="417" opacity="0"><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.37;0.40;0.56;0.58;1"/>Step 3 &#8212; controller pushes that metadata to every broker</text>
+    <text x="437" y="417" opacity="0"><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.58;0.62;0.95;1"/>Step 4 &#8212; events for order-event now go straight to the assigned broker</text>
+  </g>
+</svg>

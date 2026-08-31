@@ -335,6 +335,8 @@ Try answering these without scrolling up.
 
 ## 10. What comes next
 
+Next part: [02 — Kafka Fundamentals](../02-kafka-fundamentals/README.md) — cluster, ZooKeeper vs KRaft, controller, topic, broker, replication factor, leader/follower and `bootstrap.servers`.
+
 From the series, the topics deliberately deferred out of this first video:
 
 - **How Kafka is highly available** — replication, leader/follower, ISR *(next videos)*

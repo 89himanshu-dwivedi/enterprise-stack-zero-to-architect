@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" width="880" height="420" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Leader broker replicates the event to two followers, and when the leader dies a follower is promoted to leader">
+  <defs>
+    <marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="420" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">5 · Replication factor &#8212; leader and followers</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Primary broker = <tspan font-weight="700" fill="#0f4d2a">leader</tspan>. Replicas = <tspan font-weight="700" fill="#2f5fa8">followers</tspan>. The controller chooses all of them at topic-create time.</text>
+
+  <!-- producer -->
+  <rect x="24" y="180" width="150" height="60" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="99" y="204" font-size="12.5" font-weight="600" fill="#12305e" text-anchor="middle">Order Service</text>
+  <text x="99" y="222" font-size="9.5" fill="#2f5fa8" text-anchor="middle">produces order-event</text>
+
+  <line x1="174" y1="210" x2="244" y2="210" stroke="#5b6b7f" stroke-width="2" marker-end="url(#a5)"/>
+
+  <!-- leader (healthy) -->
+  <g>
+    <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0;1" keyTimes="0;0.50;0.56;0.97;1"/>
+    <rect x="250" y="170" width="200" height="82" rx="11" fill="#e6f4ea" stroke="#0f4d2a" stroke-width="3"/>
+    <text x="350" y="198" font-size="13" font-weight="700" fill="#0f4d2a" text-anchor="middle">Broker 3 &#8212; LEADER</text>
+    <text x="350" y="217" font-size="10" fill="#1e7a44" text-anchor="middle">primary copy of order-event</text>
+    <text x="350" y="234" font-size="9.5" fill="#1e7a44" text-anchor="middle">all reads &amp; writes land here</text>
+  </g>
+  <!-- leader (dead) -->
+  <g opacity="0">
+    <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.51;0.57;0.97;1"/>
+    <rect x="250" y="170" width="200" height="82" rx="11" fill="#ffebee" stroke="#c62828" stroke-width="3" stroke-dasharray="7 4"/>
+    <text x="350" y="200" font-size="13" font-weight="700" fill="#a01818" text-anchor="middle">Broker 3 &#8212; DOWN</text>
+    <text x="350" y="222" font-size="10" fill="#a01818" text-anchor="middle">leader lost</text>
+    <line x1="266" y1="186" x2="434" y2="236" stroke="#c62828" stroke-width="2"/>
+    <line x1="434" y1="186" x2="266" y2="236" stroke="#c62828" stroke-width="2"/>
+  </g>
+
+  <!-- replication arrows -->
+  <path d="M450 190 L540 140" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#a5)"/>
+  <path d="M450 232 L540 292" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#a5)"/>
+  <text x="497" y="150" font-size="9" fill="#5b6b7f" transform="rotate(-29 497 150)">replicate</text>
+  <text x="497" y="278" font-size="9" fill="#5b6b7f" transform="rotate(33 497 278)">replicate</text>
+
+  <!-- follower 1 : becomes leader -->
+  <g>
+    <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0;1" keyTimes="0;0.58;0.63;0.97;1"/>
+    <rect x="550" y="100" width="230" height="76" rx="11" fill="#eef4fd" stroke="#2f5fa8" stroke-width="2"/>
+    <text x="665" y="128" font-size="12.5" font-weight="700" fill="#12305e" text-anchor="middle">Broker 1 &#8212; FOLLOWER</text>
+    <text x="665" y="147" font-size="10" fill="#2f5fa8" text-anchor="middle">replica 1 of order-event</text>
+    <text x="665" y="164" font-size="9.5" fill="#2f5fa8" text-anchor="middle">stays in sync with the leader</text>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.59;0.65;0.97;1"/>
+    <rect x="550" y="100" width="230" height="76" rx="11" fill="#e6f4ea" stroke="#0f4d2a" stroke-width="3">
+      <animate attributeName="stroke-width" dur="1.4s" repeatCount="indefinite" values="3;5;3"/>
+    </rect>
+    <text x="665" y="128" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Broker 1 &#8212; NEW LEADER</text>
+    <text x="665" y="147" font-size="10" fill="#1e7a44" text-anchor="middle">promoted automatically</text>
+    <text x="665" y="164" font-size="9.5" fill="#1e7a44" text-anchor="middle">no data lost, no manual step</text>
+  </g>
+
+  <!-- follower 2 -->
+  <rect x="550" y="250" width="230" height="76" rx="11" fill="#eef4fd" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="665" y="278" font-size="12.5" font-weight="700" fill="#12305e" text-anchor="middle">Broker 5 &#8212; FOLLOWER</text>
+  <text x="665" y="297" font-size="10" fill="#2f5fa8" text-anchor="middle">replica 2 of order-event</text>
+  <text x="665" y="314" font-size="9.5" fill="#2f5fa8" text-anchor="middle">ready to be promoted too</text>
+
+  <!-- flowing events -->
+  <circle r="7" fill="#f4b400" stroke="#8a6d00" stroke-width="1.3">
+    <animate attributeName="cx" dur="3s" repeatCount="indefinite" values="99;350"/>
+    <animate attributeName="cy" dur="3s" repeatCount="indefinite" values="210;210"/>
+    <animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.8;1"/>
+  </circle>
+  <circle r="6" fill="#2f5fa8">
+    <animateMotion dur="3s" begin="1s" repeatCount="indefinite" path="M450 190 L640 140"/>
+    <animate attributeName="opacity" dur="3s" begin="1s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.8;1"/>
+  </circle>
+  <circle r="6" fill="#2f5fa8">
+    <animateMotion dur="3s" begin="1s" repeatCount="indefinite" path="M450 232 L640 292"/>
+    <animate attributeName="opacity" dur="3s" begin="1s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.8;1"/>
+  </circle>
+
+  <!-- reroute after failover -->
+  <path d="M99 240 L99 380 L665 380 L665 330" fill="none" stroke="#0f4d2a" stroke-width="1.8" stroke-dasharray="6 4" opacity="0" marker-end="url(#a5)">
+    <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.64;0.68;0.96;1"/>
+  </path>
+  <text x="382" y="372" font-size="10" font-weight="600" fill="#0f4d2a" text-anchor="middle" opacity="0">
+    producer is redirected to the new leader &#8212; it only had to reload metadata
+    <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.64;0.68;0.96;1"/>
+  </text>
+
+  <rect x="24" y="392" width="826" height="22" rx="6" fill="#fff3cd" stroke="#b8860b" stroke-width="1.2"/>
+  <text x="437" y="407" font-size="10.5" font-weight="600" fill="#7a5b00" text-anchor="middle">--replication-factor 2 &#160;&#8594;&#160; controller picks 1 leader + 2 copies. One broker can hold many topics, so data spreads across the whole cluster.</text>
+</svg>
