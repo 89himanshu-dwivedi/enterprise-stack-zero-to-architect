@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" width="880" height="440" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Three partitions being redistributed as consumers join the group one at a time">
+  <defs>
+    <marker id="w1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="440" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">1 · The prerequisite &#8212; more than one partition</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Rebalancing has nothing to redistribute unless the topic is partitioned. Here: <tspan font-family="Consolas, monospace">order-events</tspan> with three, and a publisher that never stops.</text>
+
+  <rect x="24" y="70" width="150" height="60" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="99" y="94" font-size="11.5" font-weight="700" fill="#12305e" text-anchor="middle">Publisher</text>
+  <text x="99" y="112" font-size="9" fill="#2f5fa8" text-anchor="middle">10,000 records, continuously</text>
+  <path d="M174 100 L212 100" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#w1)"/>
+
+  <rect x="218" y="70" width="200" height="130" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="318" y="90" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">topic: order-events</text>
+  <rect x="234" y="100" width="168" height="28" rx="6" fill="#fff3cd" stroke="#b8860b" stroke-width="1.4"/>
+  <text x="318" y="119" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">partition 0</text>
+  <rect x="234" y="132" width="168" height="28" rx="6" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.4"/>
+  <text x="318" y="151" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">partition 1</text>
+  <rect x="234" y="164" width="168" height="28" rx="6" fill="#f8dede" stroke="#c62828" stroke-width="1.4"/>
+  <text x="318" y="183" font-size="10.5" font-weight="700" fill="#a01818" text-anchor="middle">partition 2</text>
+
+  <!-- stages -->
+  <text x="24" y="238" font-size="14" font-weight="700" fill="#1b2a3a">and then consumers arrive, one at a time</text>
+
+  <rect x="24" y="252" width="266" height="170" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <rect x="24" y="252" width="266" height="170" rx="11" fill="none" stroke="#2f5fa8" stroke-width="3" opacity="0">
+    <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.31;0.34;1"/>
+  </rect>
+  <text x="157" y="274" font-size="12" font-weight="700" fill="#1b2a3a" text-anchor="middle">one consumer</text>
+  <rect x="48" y="286" width="218" height="60" rx="9" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="157" y="308" font-size="11" font-weight="700" fill="#12305e" text-anchor="middle">consumer 1</text>
+  <g font-size="9.5" font-weight="700" text-anchor="middle">
+    <text x="90" y="330" fill="#7a5b00">p0</text><text x="157" y="330" fill="#0f4d2a">p1</text><text x="224" y="330" fill="#a01818">p2</text>
+  </g>
+  <text x="157" y="368" font-size="10.5" fill="#5b6b7f" text-anchor="middle">Nobody else to share with, so it</text>
+  <text x="157" y="384" font-size="10.5" fill="#5b6b7f" text-anchor="middle">takes <tspan font-weight="700">all three</tspan> partitions.</text>
+  <text x="157" y="406" font-size="10" fill="#5b6b7f" text-anchor="middle">One consumer can own many partitions.</text>
+
+  <rect x="306" y="252" width="266" height="170" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <rect x="306" y="252" width="266" height="170" rx="11" fill="none" stroke="#2f5fa8" stroke-width="3" opacity="0">
+    <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.34;0.37;0.64;0.67;1"/>
+  </rect>
+  <text x="439" y="274" font-size="12" font-weight="700" fill="#1b2a3a" text-anchor="middle">a second joins</text>
+  <rect x="330" y="286" width="100" height="60" rx="9" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="380" y="308" font-size="10.5" font-weight="700" fill="#12305e" text-anchor="middle">consumer 1</text>
+  <g font-size="9.5" font-weight="700" text-anchor="middle">
+    <text x="360" y="330" fill="#7a5b00">p0</text><text x="400" y="330" fill="#0f4d2a">p1</text>
+  </g>
+  <rect x="446" y="286" width="102" height="60" rx="9" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="497" y="308" font-size="10.5" font-weight="700" fill="#12305e" text-anchor="middle">consumer 2</text>
+  <text x="497" y="330" font-size="9.5" font-weight="700" fill="#a01818" text-anchor="middle">p2</text>
+  <text x="439" y="368" font-size="10.5" fill="#5b6b7f" text-anchor="middle">Kafka <tspan font-weight="700">removes</tspan> one partition from</text>
+  <text x="439" y="384" font-size="10.5" fill="#5b6b7f" text-anchor="middle">consumer 1 and hands it over.</text>
+  <text x="439" y="406" font-size="10" font-weight="700" fill="#1b2a3a" text-anchor="middle">that is a rebalance</text>
+
+  <rect x="588" y="252" width="268" height="170" rx="11" fill="#f7fbf8" stroke="#b6ddc4" stroke-width="1.6"/>
+  <rect x="588" y="252" width="268" height="170" rx="11" fill="none" stroke="#0f4d2a" stroke-width="3" opacity="0">
+    <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.67;0.70;0.97;1"/>
+  </rect>
+  <text x="722" y="274" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">a third joins &#8212; the happy case</text>
+  <rect x="606" y="286" width="76" height="60" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="644" y="308" font-size="10" font-weight="700" fill="#0f4d2a" text-anchor="middle">consumer 1</text>
+  <text x="644" y="330" font-size="9.5" font-weight="700" fill="#7a5b00" text-anchor="middle">p0</text>
+  <rect x="692" y="286" width="76" height="60" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="730" y="308" font-size="10" font-weight="700" fill="#0f4d2a" text-anchor="middle">consumer 2</text>
+  <text x="730" y="330" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">p1</text>
+  <rect x="778" y="286" width="62" height="60" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="809" y="308" font-size="10" font-weight="700" fill="#0f4d2a" text-anchor="middle">consumer 3</text>
+  <text x="809" y="330" font-size="9.5" font-weight="700" fill="#a01818" text-anchor="middle">p2</text>
+  <text x="722" y="368" font-size="10.5" fill="#0f4d2a" text-anchor="middle">One partition each &#8212; perfectly balanced.</text>
+  <text x="722" y="390" font-size="10.5" fill="#1e7a44" text-anchor="middle">The interesting question is not the final state.</text>
+  <text x="722" y="406" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">It is <tspan font-style="italic">how much churn</tspan> it took to get there.</text>
+</svg>

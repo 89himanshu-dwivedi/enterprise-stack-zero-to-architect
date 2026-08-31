@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" width="880" height="400" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Rebalancing is not pushed by the broker, it materialises when the consumer calls poll">
+  <defs>
+    <marker id="w5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="400" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">5 · When does a rebalance actually happen? Inside <tspan font-family="Consolas, monospace">poll()</tspan>.</text>
+
+  <!-- wrong -->
+  <rect x="20" y="46" width="400" height="196" rx="12" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.8"/>
+  <text x="220" y="70" font-size="12.5" font-weight="700" fill="#a01818" text-anchor="middle">What people assume</text>
+  <rect x="44" y="86" width="140" height="56" rx="9" fill="#fdf1f1" stroke="#c62828" stroke-width="1.5"/>
+  <text x="114" y="118" font-size="11" font-weight="700" fill="#a01818" text-anchor="middle">Kafka broker</text>
+  <g stroke="#c62828" stroke-width="1.6" fill="none" marker-end="url(#w5)">
+    <path d="M184 100 L250 92"/><path d="M184 114 L250 114"/><path d="M184 128 L250 136"/>
+  </g>
+  <g fill="#fdf1f1" stroke="#c62828" stroke-width="1.4">
+    <rect x="256" y="78" width="130" height="28" rx="6"/>
+    <rect x="256" y="100" width="130" height="28" rx="6"/>
+    <rect x="256" y="122" width="130" height="28" rx="6"/>
+  </g>
+  <g font-size="9.5" font-weight="700" fill="#a01818" text-anchor="middle">
+    <text x="321" y="96">consumer 1</text><text x="321" y="118">consumer 2</text><text x="321" y="140">consumer 3</text>
+  </g>
+  <text x="220" y="172" font-size="11" fill="#a01818" text-anchor="middle">&#8220;The broker notifies every consumer that it has</text>
+  <text x="220" y="188" font-size="11" fill="#a01818" text-anchor="middle">reassigned the partitions.&#8221;</text>
+  <text x="220" y="214" font-size="12.5" font-weight="700" fill="#a01818" text-anchor="middle">&#10007; It does not. Kafka never pushes.</text>
+
+  <!-- right -->
+  <rect x="460" y="46" width="400" height="196" rx="12" fill="#f7fbf8" stroke="#b6ddc4" stroke-width="1.8"/>
+  <text x="660" y="70" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">What really happens</text>
+
+  <rect x="484" y="86" width="150" height="56" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5"/>
+  <text x="559" y="110" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">consumer</text>
+  <text x="559" y="128" font-size="9" fill="#1e7a44" text-anchor="middle">its loop calls poll()</text>
+
+  <rect x="686" y="86" width="150" height="56" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5"/>
+  <text x="761" y="118" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka broker</text>
+
+  <path d="M634 100 L680 100" fill="none" stroke="#1e7a44" stroke-width="1.8" marker-end="url(#w5)"/>
+  <text x="657" y="92" font-size="9" fill="#1e7a44" text-anchor="middle">poll()</text>
+  <path d="M686 130 L640 130" fill="none" stroke="#1e7a44" stroke-width="1.8" marker-end="url(#w5)"/>
+  <text x="663" y="146" font-size="9" fill="#1e7a44" text-anchor="middle">records + a new assignment</text>
+
+  <circle r="6" fill="#f4b400" stroke="#8a6d00" stroke-width="1.2" cy="100">
+    <animate attributeName="cx" dur="3s" repeatCount="indefinite" values="559;761;761"/>
+    <animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.4;0.45;1"/>
+  </circle>
+  <circle r="6" fill="#1e7a44" cy="130">
+    <animate attributeName="cx" dur="3s" repeatCount="indefinite" values="761;761;559" keyTimes="0;0.5;1"/>
+    <animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.5;0.56;0.92;1"/>
+  </circle>
+
+  <text x="660" y="172" font-size="11" fill="#0f4d2a" text-anchor="middle">Kafka is pull-based. When the consumer calls <tspan font-family="Consolas, monospace">poll()</tspan>,</text>
+  <text x="660" y="188" font-size="11" fill="#0f4d2a" text-anchor="middle">the broker looks at the group &#8212; is this member new or old? &#8212;</text>
+  <text x="660" y="204" font-size="11" fill="#0f4d2a" text-anchor="middle">and rebalances there and then.</text>
+  <text x="660" y="228" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">&#10003; Reassignment materialises on poll()</text>
+
+  <!-- consequences -->
+  <text x="24" y="278" font-size="14" font-weight="700" fill="#1b2a3a">Why this one fact matters so much</text>
+
+  <rect x="24" y="290" width="266" height="96" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="157" y="312" font-size="11.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">Callbacks fire on the poll thread</text>
+  <text x="157" y="334" font-size="10" fill="#5b6b7f" text-anchor="middle"><tspan font-family="Consolas, monospace">onPartitionsRevoked</tspan> and</text>
+  <text x="157" y="350" font-size="10" fill="#5b6b7f" text-anchor="middle"><tspan font-family="Consolas, monospace">onPartitionsAssigned</tspan> run inside</text>
+  <text x="157" y="366" font-size="10" fill="#5b6b7f" text-anchor="middle">your <tspan font-family="Consolas, monospace">poll()</tspan> call &#8212; nowhere else.</text>
+
+  <rect x="306" y="290" width="266" height="96" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="439" y="312" font-size="11.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">Stop polling and you leave</text>
+  <text x="439" y="334" font-size="10" fill="#5b6b7f" text-anchor="middle">Slow processing between polls looks</text>
+  <text x="439" y="350" font-size="10" fill="#5b6b7f" text-anchor="middle">exactly like a dead consumer, and you</text>
+  <text x="439" y="366" font-size="10" fill="#5b6b7f" text-anchor="middle">get kicked out of the group.</text>
+
+  <rect x="588" y="290" width="268" height="96" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="722" y="312" font-size="11.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">Expect exceptions mid-rebalance</text>
+  <text x="722" y="334" font-size="10" fill="#5b6b7f" text-anchor="middle">A commit for a partition you no longer</text>
+  <text x="722" y="350" font-size="10" fill="#5b6b7f" text-anchor="middle">own will throw. Catch it, log it &#8212; or your</text>
+  <text x="722" y="366" font-size="10" fill="#5b6b7f" text-anchor="middle">whole <tspan font-family="Consolas, monospace">while</tspan> loop dies with it.</text>
+</svg>

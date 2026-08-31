@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" width="880" height="420" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="How the default assignor sorts partitions and consumers before assigning them">
+  <defs>
+    <marker id="w4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="420" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">4 · How the default assignor decides &#8212; it sorts, then deals</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">No magic. Sort both lists, then hand them out in order. Which is exactly why a new member reshuffles everything.</text>
+
+  <!-- sort partitions -->
+  <rect x="24" y="70" width="410" height="140" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="229" y="94" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">step 1 &#8212; sort the partitions</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.4">
+    <rect x="52" y="110" width="110" height="42" rx="7"/>
+    <rect x="174" y="110" width="110" height="42" rx="7"/>
+    <rect x="296" y="110" width="110" height="42" rx="7"/>
+  </g>
+  <g font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">
+    <text x="107" y="136">partition 0</text><text x="229" y="136">partition 1</text><text x="351" y="136">partition 2</text>
+  </g>
+  <text x="229" y="178" font-size="10.5" fill="#1e7a44" text-anchor="middle">ordered by topic name, then partition number</text>
+  <text x="229" y="196" font-size="10" fill="#1e7a44" text-anchor="middle">stable and deterministic &#8212; every member computes the same list</text>
+
+  <!-- sort consumers -->
+  <rect x="446" y="70" width="410" height="140" rx="11" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="651" y="94" font-size="12" font-weight="700" fill="#12305e" text-anchor="middle">step 2 &#8212; sort the consumers</text>
+  <g fill="#ffffff" stroke="#2f5fa8" stroke-width="1.4">
+    <rect x="474" y="110" width="110" height="42" rx="7"/>
+    <rect x="596" y="110" width="110" height="42" rx="7"/>
+    <rect x="718" y="110" width="110" height="42" rx="7"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="529" y="130" font-size="10.5" font-weight="700" fill="#12305e">consumer 1</text>
+    <text x="529" y="145" font-size="9" fill="#2f5fa8" font-family="Consolas, monospace">instance id = 1</text>
+    <text x="651" y="130" font-size="10.5" font-weight="700" fill="#12305e">consumer 2</text>
+    <text x="651" y="145" font-size="9" fill="#2f5fa8" font-family="Consolas, monospace">instance id = 2</text>
+    <text x="773" y="130" font-size="10.5" font-weight="700" fill="#12305e">consumer 3</text>
+    <text x="773" y="145" font-size="9" fill="#2f5fa8" font-family="Consolas, monospace">instance id = 3</text>
+  </g>
+  <g font-size="9" fill="#5b6b7f" text-anchor="middle">
+    <text x="529" y="172">index 0</text><text x="651" y="172">index 1</text><text x="773" y="172">index 2</text>
+  </g>
+  <text x="651" y="196" font-size="10.5" fill="#2f5fa8" text-anchor="middle">sorted by member / instance id &#8212; the one we set with <tspan font-family="Consolas, monospace">group.instance.id</tspan></text>
+
+  <!-- deal -->
+  <text x="24" y="240" font-size="14" font-weight="700" fill="#1b2a3a">step 3 &#8212; deal them out by position</text>
+
+  <rect x="24" y="252" width="832" height="98" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.4">
+    <rect x="70" y="270" width="110" height="34" rx="6"/>
+    <rect x="352" y="270" width="110" height="34" rx="6"/>
+    <rect x="634" y="270" width="110" height="34" rx="6"/>
+  </g>
+  <g font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">
+    <text x="125" y="292">partition 0</text><text x="407" y="292">partition 1</text><text x="689" y="292">partition 2</text>
+  </g>
+  <g stroke="#5b6b7f" stroke-width="1.6" fill="none" marker-end="url(#w4)">
+    <path d="M180 287 L228 287"/><path d="M462 287 L510 287"/><path d="M744 287 L792 287"/>
+  </g>
+  <g fill="#ffffff" stroke="#2f5fa8" stroke-width="1.4">
+    <rect x="234" y="270" width="110" height="34" rx="6"/>
+    <rect x="516" y="270" width="110" height="34" rx="6"/>
+    <rect x="798" y="270" width="58" height="34" rx="6"/>
+  </g>
+  <g font-size="10.5" font-weight="700" fill="#12305e" text-anchor="middle">
+    <text x="289" y="292">consumer 1</text><text x="571" y="292">consumer 2</text><text x="827" y="292">c 3</text>
+  </g>
+  <g fill="#1e7a44">
+    <circle r="5" cy="287"><animate attributeName="cx" dur="3s" repeatCount="indefinite" values="125;289"/><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.85;1"/></circle>
+    <circle r="5" cy="287"><animate attributeName="cx" dur="3s" begin="0.6s" repeatCount="indefinite" values="407;571"/><animate attributeName="opacity" dur="3s" begin="0.6s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.85;1"/></circle>
+    <circle r="5" cy="287"><animate attributeName="cx" dur="3s" begin="1.2s" repeatCount="indefinite" values="689;827"/><animate attributeName="opacity" dur="3s" begin="1.2s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.85;1"/></circle>
+  </g>
+  <text x="440" y="330" font-size="10.5" fill="#5b6b7f" text-anchor="middle">With fewer consumers than partitions, the extras simply pile onto the earlier consumers in the same sorted order.</text>
+
+  <rect x="24" y="362" width="832" height="46" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+  <text x="440" y="382" font-size="12" font-weight="700" fill="#a01818" text-anchor="middle">And now the problem is obvious</text>
+  <text x="440" y="399" font-size="10.5" fill="#a01818" text-anchor="middle">Insert one new member into the sorted consumer list and every index after it shifts &#8212; so almost every partition ends up somewhere new.</text>
+</svg>
