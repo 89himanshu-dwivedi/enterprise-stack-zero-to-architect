@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 380" width="880" height="380" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Normal read and send copies data four times, zero-copy sends it straight from kernel to network card">
+  <defs>
+    <marker id="ar5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+
+  <rect width="880" height="380" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">5 · Why Kafka is fast — zero-copy</text>
+
+  <!-- Row 1 -->
+  <text x="24" y="60" font-size="13" font-weight="600" fill="#a01818">Normal path — the same bytes get copied 4 times</text>
+
+  <line x1="170" y1="106" x2="186" y2="106" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar5)"/>
+  <line x1="340" y1="106" x2="356" y2="106" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar5)"/>
+  <line x1="510" y1="106" x2="526" y2="106" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar5)"/>
+  <line x1="680" y1="106" x2="696" y2="106" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar5)"/>
+
+  <g fill="#fdf1f1" stroke="#c62828" stroke-width="2">
+    <rect x="20" y="78" width="150" height="56" rx="10"/>
+    <rect x="190" y="78" width="150" height="56" rx="10"/>
+    <rect x="360" y="78" width="150" height="56" rx="10"/>
+    <rect x="530" y="78" width="150" height="56" rx="10"/>
+    <rect x="700" y="78" width="150" height="56" rx="10"/>
+  </g>
+  <g font-size="12" font-weight="600" fill="#a01818" text-anchor="middle">
+    <text x="95" y="102">Disk</text>
+    <text x="265" y="102">Kernel buffer</text>
+    <text x="435" y="102">App buffer</text>
+    <text x="605" y="102">Socket buffer</text>
+    <text x="775" y="102">NIC &#8594; network</text>
+  </g>
+  <g font-size="9.5" fill="#c0392b" text-anchor="middle">
+    <text x="95" y="120">log file</text>
+    <text x="265" y="120">kernel space</text>
+    <text x="435" y="120">user space (JVM)</text>
+    <text x="605" y="120">kernel space</text>
+    <text x="775" y="120">hardware</text>
+  </g>
+
+  <circle cy="106" r="8" fill="#f4b400" stroke="#8a6d00" stroke-width="1.5">
+    <animate attributeName="cx" dur="6s" repeatCount="indefinite"
+             values="95;95;265;265;435;435;605;605;775;775"
+             keyTimes="0;0.05;0.18;0.28;0.41;0.51;0.64;0.74;0.87;1"/>
+  </circle>
+  <text x="435" y="158" font-size="11" fill="#a01818" text-anchor="middle">4 copies + 4 CPU context switches (kernel &#8596; user each way) = slow, GC pressure</text>
+
+  <!-- Row 2 -->
+  <text x="24" y="212" font-size="13" font-weight="600" fill="#0f4d2a">Zero-copy path — what Kafka actually uses (sendfile)</text>
+
+  <line x1="295" y1="268" x2="333" y2="268" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar5)"/>
+  <line x1="540" y1="268" x2="578" y2="268" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar5)"/>
+
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="2">
+    <rect x="95" y="240" width="200" height="56" rx="10"/>
+    <rect x="340" y="240" width="200" height="56" rx="10"/>
+    <rect x="585" y="240" width="200" height="56" rx="10"/>
+  </g>
+  <g font-size="12" font-weight="600" fill="#0f4d2a" text-anchor="middle">
+    <text x="195" y="264">Disk (log segment)</text>
+    <text x="440" y="264">Kernel page cache</text>
+    <text x="685" y="264">NIC &#8594; network</text>
+  </g>
+  <g font-size="9.5" fill="#1e7a44" text-anchor="middle">
+    <text x="195" y="282">append-only file</text>
+    <text x="440" y="282">never enters user space</text>
+    <text x="685" y="282">straight to the consumer</text>
+  </g>
+
+  <circle cy="268" r="8" fill="#1e7a44">
+    <animate attributeName="cx" dur="2.6s" repeatCount="indefinite"
+             values="195;195;440;440;685;685"
+             keyTimes="0;0.08;0.38;0.5;0.85;1"/>
+  </circle>
+
+  <rect x="120" y="316" width="640" height="34" rx="8" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5"/>
+  <text x="440" y="338" font-size="11.5" font-weight="600" fill="#0f4d2a" text-anchor="middle">No user-space copy &#8594; far less CPU and memory work &#8594; very low latency</text>
+</svg>

@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" width="880" height="420" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Event driven architecture: order service publishes one generic event to Kafka, many services consume it">
+  <defs>
+    <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+
+  <rect width="880" height="420" fill="#ffffff"/>
+
+  <text x="24" y="30" font-size="18" font-weight="600" fill="#1b2a3a">2 · Event-driven architecture — everyone talks to the bus</text>
+  <text x="24" y="54" font-size="13" fill="#5b6b7f">Order publishes ONE generic event. Interested services pull it and extend it their own way.</text>
+
+  <!-- producer -->
+  <rect x="365" y="78" width="150" height="56" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="440" y="102" font-size="13" font-weight="600" fill="#12305e" text-anchor="middle">Order Service</text>
+  <text x="440" y="120" font-size="10" fill="#2f5fa8" text-anchor="middle">producer — fire and forget</text>
+  <line x1="440" y1="134" x2="440" y2="176" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar2)"/>
+  <text x="452" y="160" font-size="10" fill="#5b6b7f">publish</text>
+
+  <!-- bus -->
+  <rect x="40" y="180" width="800" height="66" rx="12" fill="#e6f4ea" stroke="#1e7a44" stroke-width="2">
+    <animate attributeName="stroke-width" dur="8s" repeatCount="indefinite"
+             values="2;2;4;2;2" keyTimes="0;0.15;0.22;0.30;1"/>
+  </rect>
+  <text x="440" y="209" font-size="14" font-weight="600" fill="#0f4d2a" text-anchor="middle">Kafka — the event bus</text>
+  <text x="440" y="230" font-size="11" fill="#1e7a44" text-anchor="middle">topic: order-placed &#160;·&#160; message stays here (it is not deleted after delivery)</text>
+
+  <!-- fan-out arrows -->
+  <line x1="125" y1="246" x2="125" y2="310" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar2)"/>
+  <line x1="335" y1="246" x2="335" y2="310" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar2)"/>
+  <line x1="545" y1="246" x2="545" y2="310" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar2)"/>
+  <line x1="755" y1="246" x2="755" y2="310" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar2)"/>
+
+  <!-- consumers -->
+  <rect x="40" y="312" width="170" height="60" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="125" y="337" font-size="13" font-weight="600" fill="#12305e" text-anchor="middle">Payment</text>
+  <text x="125" y="355" font-size="10" fill="#2f5fa8" text-anchor="middle">pulls · own logic</text>
+
+  <rect x="250" y="312" width="170" height="60" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="335" y="337" font-size="13" font-weight="600" fill="#12305e" text-anchor="middle">Inventory</text>
+  <text x="335" y="355" font-size="10" fill="#2f5fa8" text-anchor="middle">pulls · own logic</text>
+
+  <rect x="460" y="312" width="170" height="60" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="545" y="337" font-size="13" font-weight="600" fill="#12305e" text-anchor="middle">Notification</text>
+  <text x="545" y="355" font-size="10" fill="#2f5fa8" text-anchor="middle">pulls · own logic</text>
+
+  <rect x="670" y="312" width="170" height="60" rx="10" fill="#fff8e1" stroke="#b8860b" stroke-width="2" stroke-dasharray="7 4"/>
+  <text x="755" y="337" font-size="13" font-weight="600" fill="#7a5b00" text-anchor="middle">Recommendation</text>
+  <text x="755" y="355" font-size="10" fill="#8a6d00" text-anchor="middle">added later</text>
+  <g>
+    <rect x="700" y="386" width="180" height="24" rx="6" fill="#fff3cd" stroke="#b8860b" stroke-width="1.2">
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0.35;1;0.35" keyTimes="0;0.5;1"/>
+    </rect>
+    <text x="790" y="403" font-size="10" font-weight="600" fill="#7a5b00" text-anchor="middle">NEW — zero change in Order Service</text>
+  </g>
+
+  <!-- publish dot -->
+  <circle cx="440" r="9" cy="134" fill="#f4b400" stroke="#8a6d00" stroke-width="1.5">
+    <animate attributeName="cy" dur="8s" repeatCount="indefinite" values="134;180;180" keyTimes="0;0.14;1"/>
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.14;0.18;1"/>
+  </circle>
+
+  <!-- consume dots -->
+  <circle cx="125" r="8" cy="246" fill="#1e7a44">
+    <animate attributeName="cy" dur="8s" repeatCount="indefinite" values="246;246;312;312" keyTimes="0;0.30;0.44;1"/>
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.29;0.31;0.43;0.46;1"/>
+  </circle>
+  <circle cx="335" r="8" cy="246" fill="#1e7a44">
+    <animate attributeName="cy" dur="8s" repeatCount="indefinite" values="246;246;312;312" keyTimes="0;0.34;0.48;1"/>
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.33;0.35;0.47;0.50;1"/>
+  </circle>
+  <circle cx="545" r="8" cy="246" fill="#1e7a44">
+    <animate attributeName="cy" dur="8s" repeatCount="indefinite" values="246;246;312;312" keyTimes="0;0.38;0.52;1"/>
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.37;0.39;0.51;0.54;1"/>
+  </circle>
+  <circle cx="755" r="8" cy="246" fill="#b8860b">
+    <animate attributeName="cy" dur="8s" repeatCount="indefinite" values="246;246;312;312" keyTimes="0;0.42;0.56;1"/>
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.41;0.43;0.55;0.58;1"/>
+  </circle>
+</svg>

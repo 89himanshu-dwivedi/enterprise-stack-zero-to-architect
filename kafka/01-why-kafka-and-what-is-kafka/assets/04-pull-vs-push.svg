@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 300" width="880" height="300" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Push model versus Kafka pull model over a persistent connection">
+  <defs>
+    <marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+
+  <rect width="880" height="300" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">4 · Kafka does not push — consumers pull</text>
+
+  <!-- Panel A -->
+  <rect x="20" y="46" width="400" height="238" rx="12" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.5"/>
+  <text x="220" y="72" font-size="13" font-weight="600" fill="#a01818" text-anchor="middle">Push model — broker notifies every consumer</text>
+
+  <rect x="50" y="110" width="140" height="56" rx="10" fill="#f3e6e6" stroke="#c62828" stroke-width="2"/>
+  <text x="120" y="143" font-size="13" font-weight="600" fill="#a01818" text-anchor="middle">Broker</text>
+  <rect x="250" y="110" width="140" height="56" rx="10" fill="#f3e6e6" stroke="#c62828" stroke-width="2"/>
+  <text x="320" y="143" font-size="13" font-weight="600" fill="#a01818" text-anchor="middle">Consumer</text>
+  <line x1="190" y1="138" x2="244" y2="138" stroke="#c62828" stroke-width="2" marker-end="url(#ar4)"/>
+
+  <circle cy="138" r="6" fill="#c62828"><animate attributeName="cx" dur="1.6s" repeatCount="indefinite" values="120;320"/></circle>
+  <circle cy="138" r="6" fill="#c62828"><animate attributeName="cx" dur="1.6s" begin="0.5s" repeatCount="indefinite" values="120;320"/></circle>
+  <circle cy="138" r="6" fill="#c62828"><animate attributeName="cx" dur="1.6s" begin="1s" repeatCount="indefinite" values="120;320"/></circle>
+
+  <text x="220" y="206" font-size="11" fill="#a01818" text-anchor="middle">Broker tracks who got what and pushes at its own speed.</text>
+  <text x="220" y="224" font-size="11" fill="#a01818" text-anchor="middle">Slow consumer gets flooded. Broker does extra work.</text>
+
+  <!-- Panel B -->
+  <rect x="460" y="46" width="400" height="238" rx="12" fill="#f7fbf8" stroke="#b6ddc4" stroke-width="1.5"/>
+  <text x="660" y="72" font-size="13" font-weight="600" fill="#0f4d2a" text-anchor="middle">Pull model — Kafka (consumer sets the pace)</text>
+
+  <rect x="490" y="110" width="140" height="56" rx="10" fill="#e6f4ea" stroke="#1e7a44" stroke-width="2"/>
+  <text x="560" y="143" font-size="13" font-weight="600" fill="#0f4d2a" text-anchor="middle">Kafka</text>
+  <rect x="690" y="110" width="140" height="56" rx="10" fill="#e6f4ea" stroke="#1e7a44" stroke-width="2"/>
+  <text x="760" y="143" font-size="13" font-weight="600" fill="#0f4d2a" text-anchor="middle">Consumer</text>
+
+  <path id="pollPath" d="M760 110 L760 92 L560 92 L560 110" fill="none" stroke="#1e7a44" stroke-width="1.6" marker-end="url(#ar4)"/>
+  <text x="660" y="86" font-size="10" fill="#1e7a44" text-anchor="middle">poll()  —  &#8220;anything new for me?&#8221;</text>
+
+  <path id="batchPath" d="M560 166 L560 190 L760 190 L760 166" fill="none" stroke="#1e7a44" stroke-width="1.6" marker-end="url(#ar4)"/>
+  <text x="660" y="208" font-size="10" fill="#1e7a44" text-anchor="middle">batch of messages returned</text>
+
+  <line x1="630" y1="138" x2="690" y2="138" stroke="#1e7a44" stroke-width="1.6" stroke-dasharray="5 4"/>
+
+  <circle r="6" fill="#f4b400" stroke="#8a6d00" stroke-width="1.2">
+    <animateMotion dur="5s" repeatCount="indefinite" path="M760 110 L760 92 L560 92 L560 110"
+                   keyPoints="0;1;1" keyTimes="0;0.35;1" calcMode="linear"/>
+    <animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.35;0.4;1"/>
+  </circle>
+  <circle r="6" fill="#1e7a44">
+    <animateMotion dur="5s" repeatCount="indefinite" path="M560 166 L560 190 L760 190 L760 166"
+                   keyPoints="0;0;1;1" keyTimes="0;0.45;0.85;1" calcMode="linear"/>
+    <animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.44;0.47;0.84;0.88;1"/>
+  </circle>
+
+  <text x="660" y="240" font-size="11" fill="#0f4d2a" text-anchor="middle">One long-lived (persistent) connection — no new handshake per message.</text>
+  <text x="660" y="258" font-size="11" fill="#0f4d2a" text-anchor="middle">Consumer never gets overloaded &#8594; very high throughput.</text>
+</svg>

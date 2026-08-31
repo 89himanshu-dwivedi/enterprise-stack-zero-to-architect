@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 360" width="880" height="360" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Traditional synchronous microservice chain: order calls payment, inventory and notification one after another">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+    <marker id="arRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#c62828"/>
+    </marker>
+  </defs>
+
+  <rect width="880" height="360" fill="#ffffff"/>
+
+  <text x="24" y="30" font-size="18" font-weight="600" fill="#1b2a3a">1 · Traditional microservices — everyone calls everyone</text>
+  <text x="24" y="54" font-size="13" fill="#5b6b7f">Order Service must know every downstream service, wait for it, and handle its failures.</text>
+
+  <!-- arrows -->
+  <line x1="126" y1="162" x2="170" y2="162" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="316" y1="162" x2="350" y2="162" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="496" y1="162" x2="530" y2="162" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="676" y1="162" x2="710" y2="162" stroke="#5b6b7f" stroke-width="2" marker-end="url(#ar)"/>
+
+  <text x="148" y="122" font-size="10" fill="#5b6b7f" text-anchor="middle">HTTP</text>
+  <text x="333" y="112" font-size="10" fill="#9a4a00" text-anchor="middle">needs Payment</text>
+  <text x="333" y="124" font-size="10" fill="#9a4a00" text-anchor="middle">req/res schema</text>
+  <text x="513" y="112" font-size="10" fill="#9a4a00" text-anchor="middle">needs Inventory</text>
+  <text x="513" y="124" font-size="10" fill="#9a4a00" text-anchor="middle">req/res schema</text>
+  <text x="693" y="112" font-size="10" fill="#9a4a00" text-anchor="middle">needs Notification</text>
+  <text x="693" y="124" font-size="10" fill="#9a4a00" text-anchor="middle">req/res schema</text>
+
+  <!-- boxes -->
+  <g>
+    <rect x="16" y="130" width="110" height="64" rx="10" fill="#eef2f7" stroke="#5b6b7f" stroke-width="2"/>
+    <text x="71" y="160" font-size="13" font-weight="600" fill="#1b2a3a" text-anchor="middle">Client</text>
+    <text x="71" y="178" font-size="10" fill="#5b6b7f" text-anchor="middle">waiting…</text>
+  </g>
+  <g>
+    <rect x="176" y="130" width="140" height="64" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+    <text x="246" y="160" font-size="13" font-weight="600" fill="#12305e" text-anchor="middle">Order Service</text>
+    <text x="246" y="178" font-size="10" fill="#2f5fa8" text-anchor="middle">the orchestrator</text>
+  </g>
+  <g>
+    <rect x="356" y="130" width="140" height="64" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+    <text x="426" y="160" font-size="13" font-weight="600" fill="#12305e" text-anchor="middle">Payment</text>
+    <text x="426" y="178" font-size="10" fill="#2f5fa8" text-anchor="middle">charge card</text>
+  </g>
+  <g>
+    <rect x="536" y="130" width="140" height="64" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+    <text x="606" y="160" font-size="13" font-weight="600" fill="#12305e" text-anchor="middle">Inventory</text>
+    <text x="606" y="178" font-size="10" fill="#2f5fa8" text-anchor="middle">deduct stock</text>
+  </g>
+  <g>
+    <rect x="716" y="130" width="150" height="64" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+    <text x="791" y="160" font-size="13" font-weight="600" fill="#12305e" text-anchor="middle">Notification</text>
+    <text x="791" y="178" font-size="10" fill="#2f5fa8" text-anchor="middle">email / SMS</text>
+  </g>
+
+  <!-- travelling request -->
+  <circle r="9" cy="162" fill="#f4b400" stroke="#8a6d00" stroke-width="1.5">
+    <animate attributeName="cx" dur="9s" repeatCount="indefinite"
+             values="71;246;426;426;606;791;791"
+             keyTimes="0;0.08;0.18;0.42;0.52;0.62;1"/>
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="1;1;0;0;1" keyTimes="0;0.64;0.68;0.97;1"/>
+  </circle>
+
+  <!-- annotation A: slow downstream -->
+  <g opacity="0">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="0;0;1;1;0;0" keyTimes="0;0.18;0.22;0.40;0.44;1"/>
+    <rect x="330" y="216" width="196" height="52" rx="8" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.5"/>
+    <text x="428" y="236" font-size="11" font-weight="600" fill="#8a3d00" text-anchor="middle">Payment is slow…</text>
+    <text x="428" y="253" font-size="10" fill="#8a3d00" text-anchor="middle">Order must code timeout + retry</text>
+  </g>
+
+  <!-- annotation B: downstream down, request lost -->
+  <g opacity="0">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="0;0;1;1;0" keyTimes="0;0.66;0.72;0.94;1"/>
+    <circle cx="855" cy="136" r="11" fill="#c62828"/>
+    <text x="855" y="141" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">!</text>
+    <path d="M791 194 L791 318 L71 318 L71 200" fill="none" stroke="#c62828" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arRed)"/>
+    <rect x="286" y="292" width="290" height="26" rx="6" fill="#ffebee" stroke="#c62828" stroke-width="1.5"/>
+    <text x="431" y="310" font-size="11" font-weight="600" fill="#a01818" text-anchor="middle">500 Internal Server Error — request is lost</text>
+  </g>
+</svg>
