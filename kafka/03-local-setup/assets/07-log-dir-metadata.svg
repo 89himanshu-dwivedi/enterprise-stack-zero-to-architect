@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" width="880" height="420" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="What Kafka writes into the log directory after formatting, including the cluster metadata topic">
+  <defs>
+    <marker id="b7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="420" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">7 · Where the data actually lands &#8212; log.dirs</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Kafka is stateful, so at some point it must write to disk. This is that place.</text>
+
+  <!-- producer/broker -->
+  <rect x="24" y="80" width="200" height="76" rx="10" fill="#e6f4ea" stroke="#1e7a44" stroke-width="2"/>
+  <text x="124" y="106" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka broker</text>
+  <text x="124" y="126" font-size="10" fill="#1e7a44" text-anchor="middle">receives records</text>
+  <text x="124" y="142" font-size="10" fill="#1e7a44" text-anchor="middle">and must persist them</text>
+
+  <path d="M224 118 L288 118" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#b7)"/>
+  <circle cy="118" r="7" fill="#f4b400" stroke="#8a6d00" stroke-width="1.3">
+    <animate attributeName="cx" dur="2.6s" repeatCount="indefinite" values="124;330"/>
+    <animate attributeName="opacity" dur="2.6s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.82;1"/>
+  </circle>
+
+  <!-- log dir -->
+  <rect x="292" y="72" width="564" height="212" rx="12" fill="#1b2a3a"/>
+  <text x="310" y="96" font-size="11" font-weight="700" fill="#f4b400" font-family="Consolas, monospace">log.dirs = /tmp/kraft-combined-logs</text>
+  <g font-size="10.5" font-family="Consolas, monospace">
+    <text x="310" y="124" fill="#a8d5ba">&#9500;&#9472;&#9472; __cluster_metadata-0/</text>
+    <text x="600" y="124" fill="#8ea3bb">&#8592; a topic, and 0 is its partition</text>
+    <text x="310" y="146" fill="#dbe4ee">&#9474;   &#9500;&#9472;&#9472; 00000000000000000000.log</text>
+    <text x="600" y="146" fill="#8ea3bb">the append-only log segment</text>
+    <text x="310" y="168" fill="#dbe4ee">&#9474;   &#9500;&#9472;&#9472; 00000000000000000000.index</text>
+    <text x="600" y="168" fill="#8ea3bb">offset index</text>
+    <text x="310" y="190" fill="#dbe4ee">&#9474;   &#9492;&#9472;&#9472; leader-epoch-checkpoint</text>
+    <text x="600" y="190" fill="#8ea3bb">who led, and when</text>
+    <text x="310" y="212" fill="#a8d5ba">&#9500;&#9472;&#9472; meta.properties</text>
+    <text x="600" y="212" fill="#8ea3bb">cluster.id + node.id live here</text>
+    <text x="310" y="234" fill="#a8d5ba">&#9500;&#9472;&#9472; order-event-0/</text>
+    <text x="600" y="234" fill="#8ea3bb">your topics show up like this</text>
+    <text x="310" y="256" fill="#a8d5ba">&#9492;&#9472;&#9472; __consumer_offsets-0/ &#8230;</text>
+    <text x="600" y="256" fill="#8ea3bb">how far each consumer has read</text>
+  </g>
+  <rect x="300" y="110" width="546" height="18" rx="4" fill="#f4b400" opacity="0.2">
+    <animate attributeName="y" dur="8s" repeatCount="indefinite" values="110;198;220;242;110" keyTimes="0;0.3;0.55;0.8;1" calcMode="discrete"/>
+  </rect>
+
+  <text x="574" y="304" font-size="11" font-weight="600" fill="#a01818" text-anchor="middle">Do not panic at <tspan font-family="Consolas, monospace">__cluster_metadata-0</tspan> &#8212; the cluster metadata is itself just another topic, and the <tspan font-family="Consolas, monospace">-0</tspan> is a partition (covered later).</text>
+
+  <!-- what it tracks -->
+  <text x="440" y="336" font-size="12" font-weight="700" fill="#1b2a3a" text-anchor="middle">Based on what lives here, Kafka manages:</text>
+  <g fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4">
+    <rect x="24" y="348" width="200" height="52" rx="9"/>
+    <rect x="236" y="348" width="200" height="52" rx="9"/>
+    <rect x="448" y="348" width="200" height="52" rx="9"/>
+    <rect x="660" y="348" width="196" height="52" rx="9"/>
+  </g>
+  <g font-size="11" font-weight="600" fill="#1b2a3a" text-anchor="middle">
+    <text x="124" y="370">which topics exist</text>
+    <text x="336" y="370">consumer progress</text>
+    <text x="548" y="370">replication state</text>
+    <text x="758" y="370">checkpoints</text>
+  </g>
+  <g font-size="9" fill="#5b6b7f" text-anchor="middle">
+    <text x="124" y="388">and which broker owns them</text>
+    <text x="336" y="388">which consumer read up to where</text>
+    <text x="548" y="388">leaders, followers, offsets</text>
+    <text x="758" y="388">so a restart resumes cleanly</text>
+  </g>
+</svg>

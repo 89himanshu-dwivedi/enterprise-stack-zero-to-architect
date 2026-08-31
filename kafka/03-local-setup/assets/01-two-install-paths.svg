@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 380" width="880" height="380" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Java prerequisite and the two ways to install Kafka: raw binary or Docker">
+  <defs>
+    <marker id="b1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="380" fill="#ffffff"/>
+  <text x="24" y="30" font-size="18" font-weight="600" fill="#1b2a3a">1 · Two ways to get Kafka running locally</text>
+
+  <!-- prerequisite -->
+  <rect x="270" y="52" width="340" height="62" rx="11" fill="#fff3cd" stroke="#b8860b" stroke-width="2"/>
+  <text x="440" y="76" font-size="13" font-weight="700" fill="#7a5b00" text-anchor="middle">Prerequisite: Java must be installed</text>
+  <text x="440" y="96" font-size="10.5" fill="#8a6d00" text-anchor="middle">Kafka is built on top of Java and Scala &#8212; it needs a JVM</text>
+
+  <path d="M380 114 L220 168" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#b1)"/>
+  <path d="M500 114 L660 168" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#b1)"/>
+
+  <!-- Option 1 -->
+  <rect x="24" y="172" width="396" height="188" rx="12" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="222" y="196" font-size="13" font-weight="700" fill="#1b2a3a" text-anchor="middle">Option 1 &#8212; download the Kafka binary</text>
+  <g fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4">
+    <rect x="44" y="210" width="356" height="40" rx="8"/>
+    <rect x="44" y="258" width="356" height="40" rx="8"/>
+    <rect x="44" y="306" width="356" height="40" rx="8"/>
+  </g>
+  <g font-size="11.5" fill="#1b2a3a">
+    <text x="58" y="228">1. Download the binary from the Apache Kafka site</text>
+    <text x="58" y="244" font-size="9.5" fill="#5b6b7f">kafka_2.13-3.8.1.tgz &#8212; this series uses 3.8.1</text>
+    <text x="58" y="276">2. Unzip / extract it on your machine</text>
+    <text x="58" y="292" font-size="9.5" fill="#5b6b7f">you get bin/ config/ libs/ and a few more folders</text>
+    <text x="58" y="324">3. Add the bin directory to the PATH variable</text>
+    <text x="58" y="340" font-size="9.5" fill="#5b6b7f">exactly the same thing you do for the Java JDK bin</text>
+  </g>
+
+  <!-- Option 2 -->
+  <rect x="460" y="172" width="396" height="188" rx="12" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <rect x="700" y="162" width="140" height="24" rx="12" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5">
+    <animate attributeName="stroke-width" dur="2.2s" repeatCount="indefinite" values="1.5;3;1.5"/>
+  </rect>
+  <text x="770" y="179" font-size="10" font-weight="700" fill="#0f4d2a" text-anchor="middle">preferred here</text>
+  <text x="658" y="200" font-size="13" font-weight="700" fill="#0f4d2a" text-anchor="middle">Option 2 &#8212; run a Kafka Docker container</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.4">
+    <rect x="480" y="212" width="356" height="40" rx="8"/>
+    <rect x="480" y="260" width="356" height="40" rx="8"/>
+    <rect x="480" y="308" width="356" height="40" rx="8"/>
+  </g>
+  <g font-size="11.5" fill="#0f4d2a">
+    <text x="494" y="230">1. Use the Kafka image built from a Dockerfile</text>
+    <text x="494" y="246" font-size="9.5" fill="#1e7a44">JDK 17 base + the same 3.8.1 binary inside</text>
+    <text x="494" y="278">2. Drive it with a docker-compose.yml</text>
+    <text x="494" y="294" font-size="9.5" fill="#1e7a44">mount server.properties, no rebuild on every change</text>
+    <text x="494" y="326">3. docker compose up &#8212; nothing else to worry about</text>
+    <text x="494" y="342" font-size="9.5" fill="#1e7a44">and later the same file spins up a whole cluster</text>
+  </g>
+
+  <!-- alternating highlight -->
+  <rect x="24" y="172" width="396" height="188" rx="12" fill="none" stroke="#5b6b7f" stroke-width="3" opacity="0">
+    <animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;1;1;0;0" keyTimes="0;0.05;0.45;0.5;1"/>
+  </rect>
+  <rect x="460" y="172" width="396" height="188" rx="12" fill="none" stroke="#0f4d2a" stroke-width="3" opacity="0">
+    <animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.5;0.55;0.95;1"/>
+  </rect>
+</svg>

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 490" width="880" height="490" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Downloading the Kafka binary and what is inside the extracted folder, plus adding bin to PATH">
+  <defs>
+    <marker id="b2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="490" fill="#ffffff"/>
+  <text x="24" y="30" font-size="18" font-weight="600" fill="#1b2a3a">2 · The binary route &#8212; what you download and what is inside</text>
+
+  <!-- left steps -->
+  <g fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.6">
+    <rect x="24" y="70" width="256" height="60" rx="9"/>
+    <rect x="24" y="150" width="256" height="60" rx="9"/>
+    <rect x="24" y="230" width="256" height="60" rx="9"/>
+  </g>
+  <g font-size="11.5" font-weight="600" fill="#1b2a3a">
+    <text x="40" y="94">Search: &#8220;Apache Kafka download&#8221;</text>
+    <text x="40" y="174">Downloads page</text>
+    <text x="40" y="254">Grab the binary</text>
+  </g>
+  <g font-size="9.5" fill="#5b6b7f">
+    <text x="40" y="112">the first result is the downloads page</text>
+    <text x="40" y="192">3.9.0, 3.8.1, &#8230; pick a version</text>
+    <text x="40" y="208">this series uses 3.8.1</text>
+    <text x="40" y="272" font-family="Consolas, monospace">kafka_2.13-3.8.1.tgz</text>
+  </g>
+  <line x1="152" y1="130" x2="152" y2="146" stroke="#5b6b7f" stroke-width="1.6" marker-end="url(#b2)"/>
+  <line x1="152" y1="210" x2="152" y2="226" stroke="#5b6b7f" stroke-width="1.6" marker-end="url(#b2)"/>
+  <path d="M280 260 L300 260" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#b2)"/>
+  <text x="152" y="312" font-size="10" fill="#5b6b7f" text-anchor="middle">extract it &#8595;</text>
+  <text x="152" y="330" font-size="9.5" fill="#5b6b7f" text-anchor="middle">(copy the link address instead,</text>
+  <text x="152" y="344" font-size="9.5" fill="#5b6b7f" text-anchor="middle">if you want it inside a Dockerfile)</text>
+
+  <!-- tree -->
+  <rect x="308" y="62" width="548" height="332" rx="12" fill="#1b2a3a"/>
+  <text x="326" y="86" font-size="11.5" font-weight="700" fill="#a8d5ba" font-family="Consolas, monospace">kafka_2.13-3.8.1/</text>
+  <g font-size="10.5" font-family="Consolas, monospace">
+    <text x="326" y="108" fill="#f4b400">&#9500;&#9472;&#9472; bin/</text><text x="530" y="108" fill="#f4b400">&#8592; add THIS to your PATH</text>
+    <text x="326" y="126" fill="#dbe4ee">&#9474;   &#9500;&#9472;&#9472; kafka-server-start.sh</text><text x="600" y="126" fill="#8ea3bb">start the broker</text>
+    <text x="326" y="144" fill="#dbe4ee">&#9474;   &#9500;&#9472;&#9472; kafka-server-stop.sh</text><text x="600" y="144" fill="#8ea3bb">stop the broker</text>
+    <text x="326" y="162" fill="#dbe4ee">&#9474;   &#9500;&#9472;&#9472; kafka-topics.sh</text><text x="600" y="162" fill="#8ea3bb">create / list topics</text>
+    <text x="326" y="180" fill="#dbe4ee">&#9474;   &#9500;&#9472;&#9472; kafka-console-producer.sh</text><text x="600" y="180" fill="#8ea3bb">type messages in</text>
+    <text x="326" y="198" fill="#dbe4ee">&#9474;   &#9500;&#9472;&#9472; kafka-console-consumer.sh</text><text x="600" y="198" fill="#8ea3bb">read messages out</text>
+    <text x="326" y="216" fill="#dbe4ee">&#9474;   &#9492;&#9472;&#9472; kafka-storage.sh</text><text x="600" y="216" fill="#8ea3bb">format KRaft storage</text>
+    <text x="326" y="240" fill="#f4b400">&#9500;&#9472;&#9472; config/</text>
+    <text x="326" y="258" fill="#dbe4ee">&#9474;   &#9500;&#9472;&#9472; server.properties</text><text x="600" y="258" fill="#8ea3bb">ZooKeeper-era config</text>
+    <text x="326" y="276" fill="#dbe4ee">&#9474;   &#9500;&#9472;&#9472; zookeeper.properties</text><text x="600" y="276" fill="#8ea3bb">only if your org still runs ZK</text>
+    <text x="326" y="294" fill="#f4b400">&#9474;   &#9492;&#9472;&#9472; kraft/</text>
+    <text x="326" y="312" fill="#a8d5ba">&#9474;       &#9500;&#9472;&#9472; server.properties</text><text x="600" y="312" fill="#a8d5ba">&#8592; we use this one</text>
+    <text x="326" y="330" fill="#dbe4ee">&#9474;       &#9500;&#9472;&#9472; broker.properties</text><text x="600" y="330" fill="#8ea3bb">used when the role is broker</text>
+    <text x="326" y="348" fill="#dbe4ee">&#9474;       &#9492;&#9472;&#9472; controller.properties</text><text x="600" y="348" fill="#8ea3bb">used when the role is controller</text>
+    <text x="326" y="372" fill="#f4b400">&#9492;&#9472;&#9472; libs/</text><text x="600" y="372" fill="#8ea3bb">the jars</text>
+  </g>
+
+  <!-- moving highlight over the bin line -->
+  <rect x="318" y="96" width="528" height="18" rx="4" fill="#f4b400" opacity="0.18">
+    <animate attributeName="y" dur="8s" repeatCount="indefinite" values="96;96;300;300;96" keyTimes="0;0.35;0.5;0.9;1"/>
+  </rect>
+
+  <!-- PATH strip -->
+  <rect x="24" y="410" width="832" height="66" rx="11" fill="#fff3cd" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="44" y="434" font-size="12" font-weight="700" fill="#7a5b00">Why add bin/ to the PATH variable?</text>
+  <text x="44" y="454" font-size="11" fill="#8a6d00">So you can run Kafka commands from anywhere on your machine. Without it you have to cd into that directory every single time.</text>
+  <text x="44" y="470" font-size="10.5" fill="#7a5b00" font-family="Consolas, monospace">export PATH=/opt/kafka/bin:$PATH &#160;&#160;&#160;(Windows: add the bin folder to the Path environment variable)</text>
+  <circle r="6" fill="#b8860b">
+    <animateMotion dur="4s" repeatCount="indefinite" path="M400 116 L400 400 L200 400 L200 428"/>
+    <animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;1;1;0" keyTimes="0;0.1;0.85;1"/>
+  </circle>
+</svg>

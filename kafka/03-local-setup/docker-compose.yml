@@ -1,0 +1,17 @@
+services:
+  broker:
+    build: ./docker
+    image: kafka-kraft:3.8.1
+    container_name: broker
+    environment:
+      # In real deployments this is injected at deploy time, so we mimic that here.
+      KAFKA_CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
+    ports:
+      - "9092:9092"
+    volumes:
+      # Mounted, so a config change only needs a restart - never a rebuild.
+      - ./properties/server.properties:/opt/kafka/config/kraft/server.properties:ro
+      - kafka-logs:/tmp/kraft-combined-logs
+
+volumes:
+  kafka-logs:

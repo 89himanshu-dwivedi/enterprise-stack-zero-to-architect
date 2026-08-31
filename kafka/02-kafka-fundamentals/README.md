@@ -5,7 +5,7 @@
 >
 > **All diagrams animate.** Give them a second, they loop.
 >
-> Previous part: [01 — Why Kafka, and what is Kafka](../01-why-kafka-and-what-is-kafka/README.md)
+> Previous: [01 — Why Kafka, and what is Kafka](../01-why-kafka-and-what-is-kafka/README.md) · Next: [03 — Setting Kafka up locally](../03-local-setup/README.md)
 
 ---
 
