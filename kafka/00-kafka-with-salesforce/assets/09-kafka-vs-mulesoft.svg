@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480" width="880" height="480" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="MuleSoft point to point integration compared with a Platform Event to Kafka backbone">
+  <defs>
+    <marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="480" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">9 · &#8220;Can Kafka replace MuleSoft?&#8221;</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">For <tspan font-weight="700">fire-and-forget fan-out</tspan>, yes. For everything else Mule does, you are moving the work, not removing it.</text>
+
+  <!-- MuleSoft today -->
+  <rect x="20" y="66" width="400" height="230" rx="12" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+  <text x="220" y="88" font-size="12.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">Today &#8212; MuleSoft in the middle</text>
+
+  <rect x="40" y="150" width="96" height="64" rx="9" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.6"/>
+  <text x="88" y="178" font-size="10" font-weight="700" fill="#12305e" text-anchor="middle">Salesforce</text>
+  <text x="88" y="194" font-size="8" fill="#2f5fa8" text-anchor="middle">order created</text>
+
+  <rect x="164" y="140" width="104" height="84" rx="9" fill="#fff3cd" stroke="#b8860b" stroke-width="2"/>
+  <text x="216" y="164" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">MuleSoft</text>
+  <text x="216" y="182" font-size="8" fill="#8a6d00" text-anchor="middle">one flow per</text>
+  <text x="216" y="194" font-size="8" fill="#8a6d00" text-anchor="middle">destination</text>
+  <text x="216" y="212" font-size="8" fill="#8a6d00" text-anchor="middle">DataWeave maps each</text>
+
+  <path d="M136 182 L158 182" fill="none" stroke="#5b6b7f" stroke-width="1.6" marker-end="url(#m1)"/>
+
+  <g fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4">
+    <rect x="300" y="102" width="100" height="36" rx="7"/>
+    <rect x="300" y="146" width="100" height="36" rx="7"/>
+    <rect x="300" y="190" width="100" height="36" rx="7"/>
+    <rect x="300" y="234" width="100" height="36" rx="7"/>
+  </g>
+  <g font-size="9" font-weight="600" fill="#1b2a3a" text-anchor="middle">
+    <text x="350" y="124">Payment</text><text x="350" y="168">Inventory</text>
+    <text x="350" y="212">Shipping</text><text x="350" y="256">Analytics</text>
+  </g>
+  <g stroke="#b8860b" stroke-width="1.5" fill="none" marker-end="url(#m1)">
+    <path d="M268 158 L294 120"/><path d="M268 172 L294 164"/><path d="M268 192 L294 208"/><path d="M268 206 L294 252"/>
+  </g>
+  <g fill="#b8860b">
+    <circle r="4"><animateMotion dur="2.6s" repeatCount="indefinite" path="M268 158 L294 120"/></circle>
+    <circle r="4"><animateMotion dur="2.6s" begin="0.3s" repeatCount="indefinite" path="M268 172 L294 164"/></circle>
+    <circle r="4"><animateMotion dur="2.6s" begin="0.6s" repeatCount="indefinite" path="M268 192 L294 208"/></circle>
+    <circle r="4"><animateMotion dur="2.6s" begin="0.9s" repeatCount="indefinite" path="M268 206 L294 252"/></circle>
+  </g>
+  <text x="220" y="284" font-size="9.5" fill="#5b6b7f" text-anchor="middle">A fifth consumer means a fifth Mule flow. No replay, no buffer.</text>
+
+  <!-- Kafka proposed -->
+  <rect x="460" y="66" width="400" height="230" rx="12" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="660" y="88" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Proposed &#8212; event, external app, Kafka</text>
+
+  <rect x="476" y="150" width="80" height="64" rx="9" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.6"/>
+  <text x="516" y="176" font-size="9.5" font-weight="700" fill="#12305e" text-anchor="middle">Salesforce</text>
+  <text x="516" y="192" font-size="7.5" fill="#2f5fa8" text-anchor="middle">Order_Event__e</text>
+
+  <path d="M556 182 L574 182" fill="none" stroke="#5b6b7f" stroke-width="1.6" marker-end="url(#m1)"/>
+
+  <rect x="580" y="150" width="86" height="64" rx="9" fill="#fff3cd" stroke="#b8860b" stroke-width="2"/>
+  <text x="623" y="172" font-size="9.5" font-weight="700" fill="#7a5b00" text-anchor="middle">external app</text>
+  <text x="623" y="188" font-size="7.5" fill="#8a6d00" text-anchor="middle">Pub/Sub API</text>
+  <text x="623" y="200" font-size="7.5" fill="#8a6d00" text-anchor="middle">+ Kafka producer</text>
+
+  <path d="M666 182 L684 182" fill="none" stroke="#5b6b7f" stroke-width="1.6" marker-end="url(#m1)"/>
+
+  <rect x="690" y="140" width="70" height="84" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="2"/>
+  <text x="725" y="170" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka</text>
+  <text x="725" y="186" font-size="7.5" fill="#1e7a44" text-anchor="middle">one topic</text>
+  <text x="725" y="200" font-size="7.5" fill="#1e7a44" text-anchor="middle">written once</text>
+
+  <g fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4">
+    <rect x="784" y="102" width="72" height="34" rx="7"/>
+    <rect x="784" y="144" width="72" height="34" rx="7"/>
+    <rect x="784" y="186" width="72" height="34" rx="7"/>
+    <rect x="784" y="228" width="72" height="34" rx="7"/>
+  </g>
+  <g font-size="8.5" font-weight="600" fill="#1b2a3a" text-anchor="middle">
+    <text x="820" y="123">Payment</text><text x="820" y="165">Inventory</text>
+    <text x="820" y="207">Shipping</text><text x="820" y="249">Analytics</text>
+  </g>
+  <g stroke="#1e7a44" stroke-width="1.5" fill="none" marker-end="url(#m1)">
+    <path d="M760 158 L778 119"/><path d="M760 172 L778 161"/><path d="M760 192 L778 203"/><path d="M760 206 L778 245"/>
+  </g>
+  <g fill="#1e7a44">
+    <circle r="4"><animateMotion dur="2.2s" repeatCount="indefinite" path="M760 158 L778 119"/></circle>
+    <circle r="4"><animateMotion dur="2.2s" begin="0.2s" repeatCount="indefinite" path="M760 172 L778 161"/></circle>
+    <circle r="4"><animateMotion dur="2.2s" begin="0.4s" repeatCount="indefinite" path="M760 192 L778 203"/></circle>
+    <circle r="4"><animateMotion dur="2.2s" begin="0.6s" repeatCount="indefinite" path="M760 206 L778 245"/></circle>
+  </g>
+  <circle r="5" cy="182" fill="#f4b400" stroke="#8a6d00" stroke-width="1">
+    <animate attributeName="cx" dur="2.6s" repeatCount="indefinite" values="516;623;725"/>
+    <animate attributeName="opacity" dur="2.6s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.88;1"/>
+  </circle>
+  <text x="660" y="284" font-size="9.5" fill="#0f4d2a" text-anchor="middle">A fifth consumer subscribes itself. Replay and buffering come free.</text>
+
+  <!-- what moves -->
+  <text x="24" y="326" font-size="14" font-weight="700" fill="#1b2a3a">But look at what Mule was <tspan font-style="italic">also</tspan> doing</text>
+
+  <rect x="24" y="338" width="410" height="128" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="229" y="360" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka genuinely replaces this</text>
+  <g font-size="10.5" fill="#0f4d2a">
+    <text x="44" y="382">&#10003;&#160; fire-and-forget fan-out to many consumers</text>
+    <text x="44" y="402">&#10003;&#160; buffering and back-pressure during a spike</text>
+    <text x="44" y="422">&#10003;&#160; replay and long retention</text>
+    <text x="44" y="442">&#10003;&#160; nightly file drops turned into a live stream</text>
+    <text x="44" y="460">&#10003;&#160; strict per-key ordering across systems</text>
+  </g>
+
+  <rect x="446" y="338" width="410" height="128" rx="11" fill="#fff8f8" stroke="#c62828" stroke-width="1.8"/>
+  <text x="651" y="360" font-size="12" font-weight="700" fill="#a01818" text-anchor="middle">Kafka does none of this &#8212; somebody must</text>
+  <g font-size="10.5" fill="#a01818">
+    <text x="466" y="382">&#10007;&#160; transformation &#8212; DataWeave has no Kafka equivalent</text>
+    <text x="466" y="402">&#10007;&#160; orchestration &#8212; call A, then B, compensate on failure</text>
+    <text x="466" y="422">&#10007;&#160; synchronous request/reply &#8212; Kafka simply cannot</text>
+    <text x="466" y="442">&#10007;&#160; SAP, SOAP, AS400, SFTP adapters</text>
+    <text x="466" y="460">&#10007;&#160; API gateway, policies, throttling, developer portal</text>
+  </g>
+</svg>

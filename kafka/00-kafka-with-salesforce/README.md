@@ -26,6 +26,7 @@
 14. [The full round trip](#14-the-full-round-trip)
 15. [Anti-patterns](#15-anti-patterns)
 16. [Interview answers](#16-interview-answers)
+17. [Can Kafka replace MuleSoft?](#17-can-kafka-replace-mulesoft)
 
 ---
 
@@ -449,6 +450,122 @@ That last line is the exact "process first, then acknowledge" rule from [part 11
 8. **When would you NOT use Kafka here?** Salesforce-to-Salesforce, low volume, a couple of point-to-point calls, or nobody in the company runs Kafka today.
 9. **Platform Events vs Kafka?** 72-hour retention and org-limited throughput vs unlimited retention, replay and millions per second — at the price of running a platform.
 10. **How does the UI update in real time?** LWC + `lightning/empApi` subscribed to the Platform Event channel. The bridge publishes the event; the component re-renders.
+
+---
+
+## 17. Can Kafka replace MuleSoft?
+
+> **The plan:** *"I publish a Platform Event, my external app listens, pushes it to Kafka, and Kafka moves it downstream. So I don't need MuleSoft."*
+
+That is a **valid architecture** — it's option 3 from [section 6](#6-choosing-the-bridge). One correction to the wording first, because it changes how you design it:
+
+> **Kafka never listens to anything.** Kafka is a log — it has no subscriber, no poller, no scheduler. **Your external app does the listening**, and then produces into Kafka. Kafka's job starts only after the record is written.
+
+Get that right and the rest follows: **you are not removing middleware, you are replacing MuleSoft with an app you own.**
+
+### The two pictures side by side
+
+![Kafka vs MuleSoft](assets/09-kafka-vs-mulesoft.svg)
+
+| | MuleSoft today | Event → external app → Kafka |
+|---|---|---|
+| Adding a 5th consumer | a 5th Mule flow | the consumer subscribes itself — **zero change upstream** |
+| Consumer is down | flow fails or queues | Kafka buffers; the consumer catches up on its own lag |
+| Replay last Tuesday | ✗ | ✓ reset the offset ([part 09](../09-offset-reset-and-replay/README.md)) |
+| Throughput ceiling | worker sizing | partitions ([part 06](../06-rebalancing-and-scaling-scenarios/README.md)) |
+| Ordering per order | not guaranteed | guaranteed by partition key ([part 05](../05-consumer-groups-and-partitions/README.md)) |
+| Licence cost | per core / per flow | infrastructure + your team's time |
+
+### Your design, drawn properly
+
+![External app bridge](assets/10-external-app-bridge.svg)
+
+```
+Salesforce           external app                    Kafka              consumers
+─────────            ─────────────                   ─────              ─────────
+EventBus.publish()   Pub/Sub API subscriber (gRPC)   sfdc.order-events  payment
+Order_Event__e   →   + Kafka producer            →   key = Order Id  →  inventory
+no callout           replay-id checkpointing                            data lake
+no limits burned     retries + DLQ
+```
+
+The two lines in that app that matter most:
+
+```javascript
+await producer.send({ topic, messages: [{ key: payload.Order_Id__c, ... }] });
+saveReplayId(response.latestReplayId);   // AFTER the produce succeeds, never before
+```
+
+That's the *process first, then acknowledge* rule from [part 11](../11-java-producer-and-idempotency/README.md), applied on the Salesforce side. Get the order wrong and you either lose events or emit them twice.
+
+### What that app now owns — all of it came free with MuleSoft
+
+| # | Responsibility | Why it bites |
+|---|---|---|
+| 1 | **Replay-id checkpointing** | store it after a successful produce; lose it and you skip or duplicate events |
+| 2 | **Retries and a dead-letter path** | Kafka down, Salesforce 503, a poison payload — your exception handler now |
+| 3 | **Auth and secrets** | JWT bearer flow, token refresh, key rotation, a vault |
+| 4 | **Schema and versioning** | someone adds a field in Apex → use a Schema Registry or a consumer breaks silently |
+| 5 | **Transformation** | there is no DataWeave. Map in the app, in each consumer, or learn Kafka Streams / ksqlDB |
+| 6 | **Deploy, scale, monitor, page** | HA so one pod isn't the whole pipeline; alerts on lag and on a stalled subscriber |
+
+None of these are hard individually. Together they are **a service with an on-call rotation** — that is the real trade, not "Kafka vs MuleSoft".
+
+### What Kafka + your app genuinely cannot absorb
+
+- **Synchronous request/reply** — a screen waiting for an answer. Kafka structurally cannot do this.
+- **Legacy adapters** — SAP, SOAP, AS400, SFTP, mainframe. Kafka Connect coverage here is thin and you'll rebuild it worse.
+- **API gateway** — policies, throttling, OAuth enforcement, a developer portal. No Kafka equivalent exists.
+- **Multi-step orchestration with compensation** — "call A, then B, roll back A if B fails". Kafka gives you a log, not a saga engine.
+
+> **If MuleSoft is doing any of those today, keep it for those.** Let Kafka take the event fan-out and let the Mule footprint shrink.
+
+### So: replace, or keep both?
+
+**Replace it** when all of these are true:
+
+- Mule is mostly **fire-and-forget JSON fan-out**
+- Downstream systems are **modern** (HTTP/JSON, or can run a Kafka consumer)
+- You need **replay, retention or real volume**
+- **Someone already runs Kafka** in your company
+- There are **few or no synchronous** integrations going through Mule
+
+**Keep both** — the outcome most enterprises land on:
+
+```
+events, streaming, fan-out, replay        →  Kafka + your app
+sync APIs, orchestration, legacy adapters →  MuleSoft (or a light API layer)
+```
+
+Kafka becomes the **backbone**; Mule shrinks to the **edges** where the protocols are ugly and the calls are synchronous. That usually cuts the licence a lot without a big-bang risk.
+
+### If you migrate: strangler, never big bang
+
+1. Pick **one** high-volume, fire-and-forget flow.
+2. Publish the Platform Event, stand up the external app, **dual-run** both paths.
+3. Reconcile counts for **2–4 weeks**. Watch consumer lag, not just success logs.
+4. Turn off the Mule flow.
+5. Repeat — and **stop** when what's left is sync APIs and legacy adapters. That remainder is Mule's real job.
+
+### Build checklist for the external app
+
+- [ ] Pub/Sub API subscriber with **persistent replay-id storage** (not in memory)
+- [ ] Kafka producer with **`idempotent: true`** and the record **keyed** by business id
+- [ ] Checkpoint **after** the produce, never before
+- [ ] **Dead-letter topic** and a documented replay procedure
+- [ ] **JWT bearer** auth — no stored passwords
+- [ ] **Schema Registry** with a compatibility policy agreed with downstream teams
+- [ ] At least **2 instances**, and a plan for what happens when both restart
+- [ ] Alerts on **consumer lag**, produce failures, and a subscriber that has gone quiet
+- [ ] Runbook: *"an event is missing — where do I look?"* (Salesforce → app → topic → consumer group)
+
+### The one question that decides it
+
+> **"If I remove MuleSoft, who subscribes to my Platform Event, and who transforms the payload for each downstream system?"**
+
+If the answer is *"my external app, and the consumers themselves"* — go ahead, you've thought it through.
+If the answer is *"…I'm not sure"* — you're about to rebuild MuleSoft, with fewer features and no support contract.
+
 
 ---
 

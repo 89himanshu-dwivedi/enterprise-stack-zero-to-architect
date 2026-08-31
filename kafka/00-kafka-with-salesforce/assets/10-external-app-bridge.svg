@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 490" width="880" height="490" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The external app design: it subscribes to Platform Events, produces to Kafka, and inherits everything MuleSoft used to do for free">
+  <defs>
+    <marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="490" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">10 · Your design &#8212; the external app <tspan font-style="italic">is</tspan> the middleware now</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">&#8220;I publish the event, Kafka listens and moves it downstream.&#8221; Almost &#8212; <tspan font-weight="700">the app listens</tspan>. Kafka never subscribes to anything.</text>
+
+  <!-- flow -->
+  <rect x="24" y="68" width="160" height="92" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="104" y="92" font-size="11" font-weight="700" fill="#12305e" text-anchor="middle">Salesforce</text>
+  <text x="104" y="112" font-size="9" fill="#2f5fa8" text-anchor="middle" font-family="Consolas, monospace">EventBus.publish()</text>
+  <text x="104" y="130" font-size="9" fill="#2f5fa8" text-anchor="middle">Order_Event__e</text>
+  <text x="104" y="148" font-size="8.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">no callout &#183; no limits burned</text>
+
+  <path d="M184 114 L226 114" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#m2)"/>
+  <text x="205" y="106" font-size="8" fill="#5b6b7f" text-anchor="middle">gRPC</text>
+
+  <rect x="232" y="68" width="230" height="92" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="2.6"/>
+  <text x="347" y="92" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">YOUR EXTERNAL APP</text>
+  <text x="347" y="110" font-size="9" fill="#8a6d00" text-anchor="middle">Pub/Sub API subscriber (it does the listening)</text>
+  <text x="347" y="126" font-size="9" fill="#8a6d00" text-anchor="middle">+ Kafka producer</text>
+  <text x="347" y="146" font-size="8.5" font-weight="700" fill="#7a5b00" text-anchor="middle">Spring Boot &#183; Node &#183; Python &#8212; a few hundred lines</text>
+
+  <path d="M462 114 L504 114" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#m2)"/>
+
+  <rect x="510" y="68" width="150" height="92" rx="10" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="585" y="92" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka</text>
+  <text x="585" y="112" font-size="9" fill="#1e7a44" text-anchor="middle" font-family="Consolas, monospace">sfdc.order-events</text>
+  <text x="585" y="130" font-size="8.5" fill="#1e7a44" text-anchor="middle">key = Order Id</text>
+  <text x="585" y="148" font-size="8.5" fill="#1e7a44" text-anchor="middle">written once, read many</text>
+
+  <g stroke="#1e7a44" stroke-width="1.6" fill="none" marker-end="url(#m2)">
+    <path d="M660 92 L700 84"/><path d="M660 114 L700 114"/><path d="M660 136 L700 144"/>
+  </g>
+  <g fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4">
+    <rect x="706" y="68" width="150" height="34" rx="7"/>
+    <rect x="706" y="106" width="150" height="34" rx="7"/>
+    <rect x="706" y="144" width="150" height="34" rx="7"/>
+  </g>
+  <g font-size="9.5" font-weight="600" fill="#1b2a3a" text-anchor="middle">
+    <text x="781" y="89">Payment service</text><text x="781" y="127">Inventory service</text><text x="781" y="165">Data lake</text>
+  </g>
+  <circle r="6" cy="114" fill="#f4b400" stroke="#8a6d00" stroke-width="1.2">
+    <animate attributeName="cx" dur="3s" repeatCount="indefinite" values="104;347;585;781"/>
+    <animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.9;1"/>
+  </circle>
+
+  <rect x="24" y="172" width="832" height="26" rx="7" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.5"/>
+  <text x="440" y="190" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">This is a completely valid architecture. It is option 3 from section 6 &#8212; and it is what most teams who drop MuleSoft actually build.</text>
+
+  <!-- responsibilities -->
+  <text x="24" y="228" font-size="14" font-weight="700" fill="#1b2a3a">What your app now owns &#8212; every one of these came free with MuleSoft</text>
+
+  <g>
+    <rect x="24" y="240" width="266" height="72" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+    <rect x="24" y="240" width="266" height="72" rx="10" fill="none" stroke="#b8860b" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.11;0.13;1"/>
+    </rect>
+    <text x="44" y="262" font-size="11" font-weight="700" fill="#1b2a3a">1 &#183; replay-id checkpointing</text>
+    <text x="44" y="280" font-size="9.5" fill="#5b6b7f">Store it after the produce succeeds, never before.</text>
+    <text x="44" y="296" font-size="9.5" fill="#5b6b7f">Lose it and you re-emit or silently skip events.</text>
+  </g>
+
+  <g>
+    <rect x="306" y="240" width="266" height="72" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+    <rect x="306" y="240" width="266" height="72" rx="10" fill="none" stroke="#b8860b" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.13;0.15;0.24;0.26;1"/>
+    </rect>
+    <text x="326" y="262" font-size="11" font-weight="700" fill="#1b2a3a">2 &#183; retries and dead letters</text>
+    <text x="326" y="280" font-size="9.5" fill="#5b6b7f">Kafka down, Salesforce 503, a poison payload &#8212;</text>
+    <text x="326" y="296" font-size="9.5" fill="#5b6b7f">all of it is your exception handler now.</text>
+  </g>
+
+  <g>
+    <rect x="588" y="240" width="268" height="72" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+    <rect x="588" y="240" width="268" height="72" rx="10" fill="none" stroke="#b8860b" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.26;0.28;0.37;0.39;1"/>
+    </rect>
+    <text x="608" y="262" font-size="11" font-weight="700" fill="#1b2a3a">3 &#183; auth and secrets</text>
+    <text x="608" y="280" font-size="9.5" fill="#5b6b7f">JWT bearer flow, token refresh, key rotation,</text>
+    <text x="608" y="296" font-size="9.5" fill="#5b6b7f">and a vault to keep them in.</text>
+  </g>
+
+  <g>
+    <rect x="24" y="322" width="266" height="72" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+    <rect x="24" y="322" width="266" height="72" rx="10" fill="none" stroke="#b8860b" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.39;0.41;0.50;0.52;1"/>
+    </rect>
+    <text x="44" y="344" font-size="11" font-weight="700" fill="#1b2a3a">4 &#183; schema and versioning</text>
+    <text x="44" y="362" font-size="9.5" fill="#5b6b7f">Someone adds a field in Apex. Use a Schema</text>
+    <text x="44" y="378" font-size="9.5" fill="#5b6b7f">Registry or a consumer breaks silently.</text>
+  </g>
+
+  <g>
+    <rect x="306" y="322" width="266" height="72" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+    <rect x="306" y="322" width="266" height="72" rx="10" fill="none" stroke="#b8860b" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.52;0.54;0.63;0.65;1"/>
+    </rect>
+    <text x="326" y="344" font-size="11" font-weight="700" fill="#1b2a3a">5 &#183; transformation</text>
+    <text x="326" y="362" font-size="9.5" fill="#5b6b7f">No DataWeave. Map in the app, in each consumer,</text>
+    <text x="326" y="378" font-size="9.5" fill="#5b6b7f">or learn Kafka Streams / ksqlDB.</text>
+  </g>
+
+  <g>
+    <rect x="588" y="322" width="268" height="72" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+    <rect x="588" y="322" width="268" height="72" rx="10" fill="none" stroke="#b8860b" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.65;0.67;0.76;0.78;1"/>
+    </rect>
+    <text x="608" y="344" font-size="11" font-weight="700" fill="#1b2a3a">6 &#183; deploy, scale, monitor</text>
+    <text x="608" y="362" font-size="9.5" fill="#5b6b7f">HA so a single pod is not your whole pipeline.</text>
+    <text x="608" y="378" font-size="9.5" fill="#5b6b7f">Alerts on lag, on errors, on a stalled subscriber.</text>
+  </g>
+
+  <g>
+    <rect x="24" y="404" width="832" height="72" rx="10" fill="#fff8f8" stroke="#c62828" stroke-width="1.8"/>
+    <rect x="24" y="404" width="832" height="72" rx="10" fill="none" stroke="#c62828" stroke-width="3.4" opacity="0">
+      <animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.78;0.80;0.98;1"/>
+    </rect>
+    <text x="440" y="426" font-size="12" font-weight="700" fill="#a01818" text-anchor="middle">7 &#183; and the ones the app cannot absorb at all</text>
+    <text x="440" y="446" font-size="10.5" fill="#a01818" text-anchor="middle">Synchronous request/reply &#183; SAP, SOAP, AS400 and SFTP adapters &#183; API gateway, policies and throttling &#183; multi-step orchestration with compensation</text>
+    <text x="440" y="466" font-size="10.5" font-weight="700" fill="#a01818" text-anchor="middle">If MuleSoft is doing any of those today, keep it for those &#8212; and let Kafka take only the event fan-out.</text>
+  </g>
+</svg>
