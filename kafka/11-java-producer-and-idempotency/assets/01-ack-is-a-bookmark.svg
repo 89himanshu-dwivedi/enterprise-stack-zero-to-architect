@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" width="880" height="440" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Acknowledging only the last record of a batch implicitly acknowledges everything before it">
+  <defs>
+    <marker id="v1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="440" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">1 · An acknowledgement is a bookmark, not a receipt</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Millions of messages on the topic. The broker never sends them all &#8212; it delivers in batches. Say the first four.</text>
+
+  <!-- batch -->
+  <rect x="24" y="70" width="832" height="126" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="44" y="92" font-size="11" font-weight="700" fill="#0f4d2a">batch delivered to the consumer</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5">
+    <rect x="60" y="104" width="176" height="72" rx="9"/>
+    <rect x="252" y="104" width="176" height="72" rx="9"/>
+    <rect x="444" y="104" width="176" height="72" rx="9"/>
+  </g>
+  <rect x="636" y="104" width="176" height="72" rx="9" fill="#e6f4ea" stroke="#0f4d2a" stroke-width="3"/>
+  <g font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">
+    <text x="148" y="132">message 1</text><text x="340" y="132">message 2</text>
+    <text x="532" y="132">message 3</text><text x="724" y="132">message 4</text>
+  </g>
+  <g font-size="9.5" text-anchor="middle">
+    <text x="148" y="152" fill="#1e7a44">processed</text><text x="148" y="166" fill="#a01818">NOT acknowledged</text>
+    <text x="340" y="152" fill="#1e7a44">processed</text><text x="340" y="166" fill="#a01818">NOT acknowledged</text>
+    <text x="532" y="152" fill="#1e7a44">processed</text><text x="532" y="166" fill="#a01818">NOT acknowledged</text>
+    <text x="724" y="152" fill="#1e7a44">processed</text>
+    <text x="724" y="166" font-weight="700" fill="#0f4d2a">ACKNOWLEDGED &#10003;</text>
+  </g>
+  <circle cx="724" cy="140" r="34" fill="none" stroke="#0f4d2a" stroke-width="2.4" opacity="0">
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;0;0" keyTimes="0;0.28;0.34;0.42;1"/>
+    <animate attributeName="r" dur="8s" repeatCount="indefinite" values="34;34;54;54;34" keyTimes="0;0.28;0.40;0.42;1"/>
+  </circle>
+
+  <!-- restart -->
+  <rect x="24" y="212" width="250" height="80" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+  <text x="149" y="238" font-size="12" font-weight="700" fill="#a01818" text-anchor="middle">the server stops</text>
+  <text x="149" y="258" font-size="10.5" fill="#a01818" text-anchor="middle">crash, deploy, restart &#8212; whatever</text>
+  <text x="149" y="278" font-size="10.5" fill="#a01818" text-anchor="middle">then it comes back and polls again</text>
+
+  <path d="M274 252 L316 252" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#v1)"/>
+
+  <rect x="322" y="212" width="250" height="80" rx="10" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.8"/>
+  <text x="447" y="236" font-size="12" font-weight="700" fill="#a01818" text-anchor="middle">what most people expect</text>
+  <text x="447" y="258" font-size="12" fill="#a01818" text-anchor="middle" font-family="Consolas, monospace">1, 2, 3, 5, 6, 7 &#8230;</text>
+  <text x="447" y="278" font-size="10.5" font-weight="700" fill="#a01818" text-anchor="middle">&#10007; wrong</text>
+
+  <rect x="606" y="212" width="250" height="80" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="731" y="236" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">what actually arrives</text>
+  <text x="731" y="258" font-size="12" fill="#0f4d2a" text-anchor="middle" font-family="Consolas, monospace" opacity="0">
+    5, 6, 7 &#8230;
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.5;0.58;1"/>
+  </text>
+  <text x="731" y="278" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">&#10003; correct</text>
+
+  <!-- explanation -->
+  <rect x="24" y="310" width="832" height="72" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="440" y="334" font-size="12.5" font-weight="700" fill="#7a5b00" text-anchor="middle">Saying &#8220;I acknowledge 4&#8221; implicitly says &#8220;I have already seen 1, 2 and 3, and I am fine with them&#8221;</text>
+  <text x="440" y="356" font-size="11.5" fill="#8a6d00" text-anchor="middle">The offset is a single position, not a checklist. The broker only remembers the <tspan font-weight="700">last</tspan> acknowledged offset for the group.</text>
+  <text x="440" y="374" font-size="11.5" fill="#8a6d00" text-anchor="middle">So delivery resumes from the next one after it &#8212; message 5.</text>
+
+  <rect x="24" y="394" width="832" height="30" rx="8" fill="#1b2a3a"/>
+  <text x="440" y="414" font-size="10.5" fill="#a8d5ba" text-anchor="middle" font-family="Consolas, monospace">consumer.commitSync();&#160;&#160;&#160;// no arguments &#8594; acknowledge the LAST record of the batch</text>
+</svg>

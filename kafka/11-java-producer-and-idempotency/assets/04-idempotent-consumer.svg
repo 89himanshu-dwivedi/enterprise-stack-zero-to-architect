@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 490" width="880" height="490" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="An idempotent consumer checks a unique event id against a database before processing">
+  <defs>
+    <marker id="v4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="490" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">4 · The fix &#8212; an idempotent consumer</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">The producer stamps every event with a <tspan font-weight="700">unique event ID</tspan> &#8212; a UUID. This is <tspan font-style="italic">not</tspan> the partition key; that is a different thing entirely.</text>
+
+  <!-- producer -->
+  <rect x="24" y="70" width="190" height="88" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="119" y="94" font-size="11.5" font-weight="700" fill="#12305e" text-anchor="middle">Producer</text>
+  <rect x="40" y="104" width="158" height="42" rx="7" fill="#ffffff" stroke="#2f5fa8" stroke-width="1.3"/>
+  <text x="119" y="120" font-size="9" fill="#2f5fa8" text-anchor="middle" font-family="Consolas, monospace">eventId: 7c04-91af-&#8230;</text>
+  <text x="119" y="136" font-size="8.5" fill="#2f5fa8" text-anchor="middle">in the payload, or in a header &#8212; your call</text>
+
+  <path d="M214 114 L252 114" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#v4)"/>
+
+  <rect x="258" y="70" width="150" height="88" rx="10" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="333" y="106" font-size="11.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka broker</text>
+  <text x="333" y="126" font-size="9" fill="#1e7a44" text-anchor="middle">may redeliver, and that is fine</text>
+
+  <path d="M408 114 L446 114" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#v4)"/>
+
+  <rect x="452" y="70" width="404" height="88" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="2"/>
+  <text x="654" y="94" font-size="12" font-weight="700" fill="#7a5b00" text-anchor="middle">Consumer &#8212; do NOT process immediately</text>
+  <text x="654" y="118" font-size="11" fill="#8a6d00" text-anchor="middle">First ask the database: have we already seen this event ID?</text>
+  <text x="654" y="140" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">everything downstream depends on that one lookup</text>
+
+  <path d="M654 158 L654 186" fill="none" stroke="#b8860b" stroke-width="2" marker-end="url(#v4)"/>
+
+  <!-- db -->
+  <rect x="330" y="190" width="220" height="62" rx="10" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.8"/>
+  <text x="440" y="214" font-size="11.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">processed_events</text>
+  <text x="440" y="234" font-size="9.5" fill="#5b6b7f" text-anchor="middle" font-family="Consolas, monospace">event_id (unique index)</text>
+  <path d="M636 176 L556 200" fill="none" stroke="#5b6b7f" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#v4)"/>
+
+  <!-- branches -->
+  <rect x="24" y="272" width="410" height="164" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+  <text x="229" y="296" font-size="12.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">ID already present &#8594; it is a duplicate</text>
+  <g fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.5">
+    <rect x="48" y="310" width="170" height="42" rx="8"/>
+    <rect x="242" y="310" width="170" height="42" rx="8"/>
+  </g>
+  <text x="133" y="330" font-size="10.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">do nothing</text>
+  <text x="133" y="345" font-size="8.5" fill="#5b6b7f" text-anchor="middle">no charge, no write, no side effect</text>
+  <text x="327" y="330" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">acknowledge</text>
+  <text x="327" y="345" font-size="8.5" fill="#1e7a44" text-anchor="middle">so it stops coming back</text>
+  <path d="M218 331 L236 331" fill="none" stroke="#5b6b7f" stroke-width="1.6" marker-end="url(#v4)"/>
+  <text x="229" y="380" font-size="11" font-weight="700" fill="#1b2a3a" text-anchor="middle">Acknowledge <tspan font-style="italic">without</tspan> processing.</text>
+  <text x="229" y="402" font-size="10.5" fill="#5b6b7f" text-anchor="middle">The customer is not charged a second time, and the</text>
+  <text x="229" y="418" font-size="10.5" fill="#5b6b7f" text-anchor="middle">broker finally moves past this record.</text>
+
+  <rect x="446" y="272" width="410" height="164" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="651" y="296" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">ID not present &#8594; a genuinely new message</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5">
+    <rect x="466" y="310" width="118" height="42" rx="8"/>
+    <rect x="592" y="310" width="118" height="42" rx="8"/>
+    <rect x="718" y="310" width="118" height="42" rx="8"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="525" y="328" font-size="10.5" font-weight="700" fill="#0f4d2a">1 &#183; process</text>
+    <text x="525" y="343" font-size="8.5" fill="#1e7a44">do the real work</text>
+    <text x="651" y="328" font-size="10.5" font-weight="700" fill="#0f4d2a">2 &#183; insert ID</text>
+    <text x="651" y="343" font-size="8.5" fill="#1e7a44">into the database</text>
+    <text x="777" y="328" font-size="10.5" font-weight="700" fill="#0f4d2a">3 &#183; acknowledge</text>
+    <text x="777" y="343" font-size="8.5" fill="#1e7a44">only now</text>
+  </g>
+  <g stroke="#1e7a44" stroke-width="1.6" fill="none" marker-end="url(#v4)">
+    <path d="M584 331 L586 331"/><path d="M710 331 L712 331"/>
+  </g>
+  <circle r="6" fill="#1e7a44" cy="331">
+    <animate attributeName="cx" dur="3s" repeatCount="indefinite" values="525;651;777"/>
+    <animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.88;1"/>
+  </circle>
+  <text x="651" y="380" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">The order matters: insert the ID <tspan font-style="italic">before</tspan> acknowledging.</text>
+  <text x="651" y="402" font-size="10.5" fill="#1e7a44" text-anchor="middle">If it crashes after processing but before the insert,</text>
+  <text x="651" y="418" font-size="10.5" fill="#1e7a44" text-anchor="middle">the redelivery is your safety net &#8212; not a disaster.</text>
+
+  <!-- fallback -->
+  <rect x="24" y="448" width="832" height="34" rx="9" fill="#1b2a3a"/>
+  <text x="44" y="461" font-size="10" font-weight="700" fill="#f4b400">No event ID from the producer? Build one yourself.</text>
+  <text x="44" y="476" font-size="9.5" fill="#a8d5ba" font-family="Consolas, monospace">String id = record.topic() + "-" + record.partition() + "-" + record.offset();&#160;&#160;&#160;// the consumer already has all the metadata</text>
+</svg>

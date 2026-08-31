@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" width="880" height="400" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="send is asynchronous and batched, so flush before the try-with-resources block closes the producer">
+  <defs>
+    <marker id="v7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="400" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">7 · Why <tspan font-family="Consolas, monospace">flush()</tspan> matters</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f"><tspan font-family="Consolas, monospace">send()</tspan> is asynchronous. Behind the scenes the client is batching records (part 08) &#8212; so &#8220;sent&#8221; does not mean &#8220;delivered&#8221;.</text>
+
+  <!-- without flush -->
+  <rect x="20" y="66" width="400" height="228" rx="12" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.6"/>
+  <text x="220" y="90" font-size="12.5" font-weight="700" fill="#a01818" text-anchor="middle">without flush()</text>
+
+  <rect x="44" y="102" width="120" height="52" rx="8" fill="#fdf1f1" stroke="#c62828" stroke-width="1.5"/>
+  <text x="104" y="124" font-size="10.5" font-weight="700" fill="#a01818" text-anchor="middle">your loop</text>
+  <text x="104" y="140" font-size="8.5" fill="#c0392b" text-anchor="middle">100 send() calls, done</text>
+
+  <path d="M164 128 L192 128" fill="none" stroke="#c62828" stroke-width="1.6" marker-end="url(#v7)"/>
+
+  <rect x="198" y="102" width="130" height="52" rx="8" fill="#fdf1f1" stroke="#c62828" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="263" y="122" font-size="10.5" font-weight="700" fill="#a01818" text-anchor="middle">client buffer</text>
+  <g fill="#c62828">
+    <rect x="212" y="132" width="14" height="12" rx="3"/><rect x="230" y="132" width="14" height="12" rx="3"/>
+    <rect x="248" y="132" width="14" height="12" rx="3"/><rect x="266" y="132" width="14" height="12" rx="3"/>
+    <rect x="284" y="132" width="14" height="12" rx="3"/><rect x="302" y="132" width="14" height="12" rx="3"/>
+  </g>
+
+  <path d="M328 128 L356 128" fill="none" stroke="#c62828" stroke-width="1.6" stroke-dasharray="4 4" marker-end="url(#v7)"/>
+  <rect x="362" y="102" width="40" height="52" rx="8" fill="#fdf1f1" stroke="#c62828" stroke-width="1.5"/>
+  <text x="382" y="132" font-size="9" font-weight="700" fill="#a01818" text-anchor="middle">broker</text>
+
+  <rect x="44" y="176" width="352" height="46" rx="8" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+  <text x="220" y="196" font-size="11" font-weight="700" fill="#a01818" text-anchor="middle">the try block ends &#8594; close() &#8594; producer shuts down</text>
+  <text x="220" y="213" font-size="10" fill="#a01818" text-anchor="middle">and the records still sitting in the buffer go with it</text>
+  <line x1="212" y1="132" x2="316" y2="144" stroke="#c62828" stroke-width="2" opacity="0">
+    <animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.5;0.58;0.94;1"/>
+  </line>
+  <line x1="316" y1="132" x2="212" y2="144" stroke="#c62828" stroke-width="2" opacity="0">
+    <animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.5;0.58;0.94;1"/>
+  </line>
+
+  <text x="220" y="248" font-size="11.5" font-weight="700" fill="#a01818" text-anchor="middle">Silent data loss.</text>
+  <text x="220" y="270" font-size="10.5" fill="#a01818" text-anchor="middle">No exception, no log line. The loop finished, so it</text>
+  <text x="220" y="286" font-size="10.5" fill="#a01818" text-anchor="middle">looks like everything worked.</text>
+
+  <!-- with flush -->
+  <rect x="460" y="66" width="400" height="228" rx="12" fill="#f7fbf8" stroke="#b6ddc4" stroke-width="1.6"/>
+  <text x="660" y="90" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">with <tspan font-family="Consolas, monospace">producer.flush()</tspan></text>
+
+  <rect x="484" y="102" width="120" height="52" rx="8" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5"/>
+  <text x="544" y="124" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">your loop</text>
+  <text x="544" y="140" font-size="8.5" fill="#1e7a44" text-anchor="middle">100 send() calls, done</text>
+
+  <path d="M604 128 L632 128" fill="none" stroke="#1e7a44" stroke-width="1.6" marker-end="url(#v7)"/>
+
+  <rect x="638" y="102" width="130" height="52" rx="8" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="703" y="122" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">client buffer</text>
+  <g fill="#1e7a44">
+    <rect x="652" y="132" width="14" height="12" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.45;0.55;1"/></rect>
+    <rect x="670" y="132" width="14" height="12" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.47;0.57;1"/></rect>
+    <rect x="688" y="132" width="14" height="12" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.49;0.59;1"/></rect>
+    <rect x="706" y="132" width="14" height="12" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.51;0.61;1"/></rect>
+    <rect x="724" y="132" width="14" height="12" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.53;0.63;1"/></rect>
+    <rect x="742" y="132" width="14" height="12" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.55;0.65;1"/></rect>
+  </g>
+
+  <path d="M768 128 L796 128" fill="none" stroke="#1e7a44" stroke-width="1.8" marker-end="url(#v7)"/>
+  <rect x="802" y="102" width="40" height="52" rx="8" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5"/>
+  <text x="822" y="132" font-size="9" font-weight="700" fill="#0f4d2a" text-anchor="middle">broker</text>
+  <circle r="5" cy="128" fill="#1e7a44">
+    <animate attributeName="cx" dur="5s" repeatCount="indefinite" values="703;822;822" keyTimes="0;0.65;1"/>
+    <animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0;1;0;0" keyTimes="0;0.44;0.55;0.68;1"/>
+  </circle>
+
+  <rect x="484" y="176" width="352" height="46" rx="8" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="660" y="196" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">flush() blocks until the buffer is empty</text>
+  <text x="660" y="213" font-size="10" fill="#1e7a44" text-anchor="middle">only then does the try block end and close the producer</text>
+
+  <text x="660" y="248" font-size="11.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">All 100 records reach the broker.</text>
+  <text x="660" y="270" font-size="10.5" fill="#1e7a44" text-anchor="middle">Consumer logs show 0 through 99, and then the</text>
+  <text x="660" y="286" font-size="10.5" fill="#1e7a44" text-anchor="middle">producer shuts down cleanly.</text>
+
+  <rect x="24" y="312" width="832" height="72" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="440" y="336" font-size="12" font-weight="700" fill="#7a5b00" text-anchor="middle">The same asynchrony that makes Kafka fast is the thing that bites you here</text>
+  <text x="440" y="358" font-size="11" fill="#8a6d00" text-anchor="middle">Batching (part 08 &#183; <tspan font-family="Consolas, monospace">linger.ms</tspan>) means records deliberately wait around before being shipped. A short-lived producer must flush before it dies.</text>
+  <text x="440" y="376" font-size="11" fill="#8a6d00" text-anchor="middle">A long-running application producer does not need an explicit flush &#8212; but it does still need a clean shutdown hook.</text>
+</svg>
