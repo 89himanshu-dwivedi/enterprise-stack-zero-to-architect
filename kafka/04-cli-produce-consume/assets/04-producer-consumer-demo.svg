@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" width="880" height="470" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Console producer and console consumer side by side, showing that a new consumer only sees new messages unless from-beginning is used">
+  <rect width="880" height="470" fill="#ffffff"/>
+  <text x="24" y="30" font-size="18" font-weight="600" fill="#1b2a3a">4 · Producer and consumer, side by side</text>
+
+  <!-- caption -->
+  <rect x="24" y="42" width="832" height="34" rx="8" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4"/>
+  <g text-anchor="middle" font-size="12" font-weight="600">
+    <text x="440" y="64" fill="#a01818" opacity="0"><animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.34;0.36;1"/>Consumer started AFTER the first messages &#8212; and sees nothing. That is the default behaviour.</text>
+    <text x="440" y="64" fill="#0f4d2a" opacity="0"><animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.36;0.38;0.62;0.64;1"/>Type NEW messages &#8212; those arrive instantly. Kafka gives a fresh consumer only new records.</text>
+    <text x="440" y="64" fill="#7a5b00" opacity="0"><animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.64;0.66;0.97;1"/>Restart the consumer with --from-beginning &#8212; now the old ones show up too.</text>
+  </g>
+
+  <!-- producer terminal -->
+  <rect x="24" y="88" width="410" height="360" rx="12" fill="#1b2a3a"/>
+  <text x="40" y="110" font-size="11" font-weight="700" fill="#f4b400" font-family="Consolas, monospace">PRODUCER</text>
+  <text x="40" y="132" font-size="9.5" fill="#a8d5ba" font-family="Consolas, monospace">$ kafka-console-producer.sh \</text>
+  <text x="40" y="148" font-size="9.5" fill="#a8d5ba" font-family="Consolas, monospace">&#160;&#160;&#160;--bootstrap-server localhost:9092 \</text>
+  <text x="40" y="164" font-size="9.5" fill="#a8d5ba" font-family="Consolas, monospace">&#160;&#160;&#160;--topic hello-world</text>
+  <line x1="40" y1="176" x2="418" y2="176" stroke="#3d5570" stroke-width="1.2"/>
+  <g font-size="12" font-family="Consolas, monospace" fill="#dbe4ee">
+    <text x="40" y="204" opacity="0">&gt; 1<animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.06;0.08;1"/></text>
+    <text x="40" y="228" opacity="0">&gt; 2<animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.11;0.13;1"/></text>
+    <text x="40" y="252" opacity="0">&gt; 3<animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.16;0.18;1"/></text>
+    <text x="40" y="290" opacity="0" fill="#a8d5ba">&gt; a<animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.40;0.42;1"/></text>
+    <text x="40" y="314" opacity="0" fill="#a8d5ba">&gt; s<animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.46;0.48;1"/></text>
+    <text x="40" y="338" opacity="0" fill="#a8d5ba">&gt; d<animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.52;0.54;1"/></text>
+  </g>
+  <text x="40" y="392" font-size="9.5" fill="#8ea3bb" font-family="Consolas, monospace">the command drops you into a shell &#8212;</text>
+  <text x="40" y="408" font-size="9.5" fill="#8ea3bb" font-family="Consolas, monospace">every line you type becomes a record</text>
+
+  <!-- flying records -->
+  <g fill="#f4b400">
+    <circle r="6"><animate attributeName="cx" dur="18s" repeatCount="indefinite" values="434;434;446;446" keyTimes="0;0.4;0.44;1"/><animate attributeName="cy" dur="18s" repeatCount="indefinite" values="290;290;290;290" keyTimes="0;0.4;0.44;1"/><animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;0;0" keyTimes="0;0.40;0.42;0.45;1"/></circle>
+  </g>
+
+  <!-- consumer terminal -->
+  <rect x="446" y="88" width="410" height="360" rx="12" fill="#1b2a3a"/>
+  <text x="462" y="110" font-size="11" font-weight="700" fill="#a8d5ba" font-family="Consolas, monospace">CONSUMER</text>
+
+  <!-- consumer cmd phase 1+2 -->
+  <g opacity="1"><animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="1;1;0;0;1" keyTimes="0;0.62;0.65;0.97;1"/>
+    <text x="462" y="132" font-size="9.5" fill="#a8d5ba" font-family="Consolas, monospace">$ kafka-console-consumer.sh \</text>
+    <text x="462" y="148" font-size="9.5" fill="#a8d5ba" font-family="Consolas, monospace">&#160;&#160;&#160;--bootstrap-server localhost:9092 \</text>
+    <text x="462" y="164" font-size="9.5" fill="#a8d5ba" font-family="Consolas, monospace">&#160;&#160;&#160;--topic hello-world</text>
+  </g>
+  <!-- consumer cmd phase 3 -->
+  <g opacity="0"><animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.63;0.66;0.97;1"/>
+    <text x="462" y="132" font-size="9.5" fill="#a8d5ba" font-family="Consolas, monospace">$ kafka-console-consumer.sh \</text>
+    <text x="462" y="148" font-size="9.5" fill="#a8d5ba" font-family="Consolas, monospace">&#160;&#160;&#160;--bootstrap-server localhost:9092 \</text>
+    <text x="462" y="164" font-size="9.5" fill="#f4b400" font-family="Consolas, monospace">&#160;&#160;&#160;--topic hello-world --from-beginning</text>
+  </g>
+  <line x1="462" y1="176" x2="840" y2="176" stroke="#3d5570" stroke-width="1.2"/>
+
+  <!-- phase 1: nothing -->
+  <text x="462" y="212" font-size="11" font-family="Consolas, monospace" fill="#6f8199" opacity="0">
+    (waiting&#8230; nothing arrives)
+    <animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.24;0.26;0.36;0.38;1"/>
+  </text>
+
+  <!-- phase 2: new only -->
+  <g font-size="12" font-family="Consolas, monospace" fill="#dbe4ee">
+    <text x="462" y="212" opacity="0">a<animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.42;0.44;0.62;0.65;1"/></text>
+    <text x="462" y="236" opacity="0">s<animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.48;0.50;0.62;0.65;1"/></text>
+    <text x="462" y="260" opacity="0">d<animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.54;0.56;0.62;0.65;1"/></text>
+  </g>
+
+  <!-- phase 3: from beginning -->
+  <g font-size="12" font-family="Consolas, monospace" opacity="0">
+    <animate attributeName="opacity" dur="18s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.66;0.70;0.97;1"/>
+    <text x="462" y="212" fill="#f4b400">1</text>
+    <text x="462" y="236" fill="#f4b400">2</text>
+    <text x="462" y="260" fill="#f4b400">3</text>
+    <text x="462" y="284" fill="#dbe4ee">a</text>
+    <text x="462" y="308" fill="#dbe4ee">s</text>
+    <text x="462" y="332" fill="#dbe4ee">d</text>
+    <text x="462" y="366" font-size="9.5" fill="#8ea3bb">all of them &#8212; old records were never deleted,</text>
+    <text x="462" y="382" font-size="9.5" fill="#8ea3bb">the consumer simply was not asking for them</text>
+  </g>
+
+  <rect x="24" y="424" width="832" height="34" rx="8" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.5"/>
+  <text x="440" y="446" font-size="11.5" font-weight="600" fill="#0f4d2a" text-anchor="middle">Default = only new messages. <tspan font-family="Consolas, monospace">--from-beginning</tspan> = read the topic from offset 0. It is one of several consumer parameters.</text>
+</svg>

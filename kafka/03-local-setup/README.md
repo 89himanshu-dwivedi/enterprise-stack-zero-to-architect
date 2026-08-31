@@ -5,7 +5,7 @@
 >
 > **This folder also contains the working setup.** `docker compose up` and you have a broker.
 >
-> Previous: [02 — Kafka Fundamentals](../02-kafka-fundamentals/README.md) · [01 — Why Kafka](../01-why-kafka-and-what-is-kafka/README.md)
+> Previous: [02 — Kafka Fundamentals](../02-kafka-fundamentals/README.md) · Next: [04 — Topics, producing, consuming and offsets](../04-cli-produce-consume/README.md)
 
 ---
 

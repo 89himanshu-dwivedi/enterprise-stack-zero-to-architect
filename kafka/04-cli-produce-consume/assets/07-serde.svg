@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 330" width="880" height="330" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Serializer turns an object into bytes at the producer, deserializer turns bytes back into an object at the consumer">
+  <defs>
+    <marker id="f7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="330" fill="#ffffff"/>
+  <text x="24" y="30" font-size="18" font-weight="600" fill="#1b2a3a">7 · Serialization and deserialization</text>
+  <text x="24" y="52" font-size="12.5" fill="#5b6b7f">The broker only ever holds bytes. Turning your object into bytes and back is the client library&#8217;s job.</text>
+
+  <!-- producer side -->
+  <rect x="24" y="76" width="248" height="122" rx="11" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="148" y="100" font-size="12" font-weight="700" fill="#12305e" text-anchor="middle">Producer app</text>
+  <rect x="44" y="112" width="90" height="70" rx="8" fill="#ffffff" stroke="#2f5fa8" stroke-width="1.5"/>
+  <text x="89" y="138" font-size="10.5" font-weight="700" fill="#12305e" text-anchor="middle">Order</text>
+  <text x="89" y="154" font-size="8.5" fill="#2f5fa8" text-anchor="middle">POJO / JSON</text>
+  <text x="89" y="168" font-size="8.5" fill="#2f5fa8" text-anchor="middle">/ XML / String</text>
+  <rect x="150" y="112" width="104" height="70" rx="8" fill="#fff3cd" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="202" y="138" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">SERIALIZER</text>
+  <text x="202" y="155" font-size="8.5" fill="#8a6d00" text-anchor="middle">set in the producer</text>
+  <text x="202" y="169" font-size="8.5" fill="#8a6d00" text-anchor="middle">properties</text>
+
+  <line x1="272" y1="137" x2="316" y2="137" stroke="#5b6b7f" stroke-width="2" marker-end="url(#f7)"/>
+  <text x="294" y="126" font-size="9" fill="#5b6b7f" text-anchor="middle">bytes</text>
+
+  <!-- broker -->
+  <rect x="322" y="76" width="236" height="122" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+  <text x="440" y="100" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka broker</text>
+  <rect x="342" y="112" width="196" height="70" rx="8" fill="#1b2a3a"/>
+  <text x="440" y="136" font-size="10" fill="#8ea3bb" text-anchor="middle" font-family="Consolas, monospace">00 4a 6f 8c 1d 3b ff</text>
+  <text x="440" y="152" font-size="10" fill="#8ea3bb" text-anchor="middle" font-family="Consolas, monospace">1a 68 65 6c 6c 6f 00</text>
+  <text x="440" y="172" font-size="9.5" font-weight="700" fill="#f4b400" text-anchor="middle">stored as binary, always</text>
+
+  <line x1="558" y1="137" x2="602" y2="137" stroke="#5b6b7f" stroke-width="2" marker-end="url(#f7)"/>
+  <text x="580" y="126" font-size="9" fill="#5b6b7f" text-anchor="middle">bytes</text>
+
+  <!-- consumer side -->
+  <rect x="608" y="76" width="248" height="122" rx="11" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="732" y="100" font-size="12" font-weight="700" fill="#12305e" text-anchor="middle">Consumer app</text>
+  <rect x="626" y="112" width="104" height="70" rx="8" fill="#fff3cd" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="678" y="138" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">DESERIALIZER</text>
+  <text x="678" y="155" font-size="8.5" fill="#8a6d00" text-anchor="middle">names the class the</text>
+  <text x="678" y="169" font-size="8.5" fill="#8a6d00" text-anchor="middle">bytes map back to</text>
+  <rect x="746" y="112" width="90" height="70" rx="8" fill="#ffffff" stroke="#2f5fa8" stroke-width="1.5"/>
+  <text x="791" y="138" font-size="10.5" font-weight="700" fill="#12305e" text-anchor="middle">Order</text>
+  <text x="791" y="156" font-size="8.5" fill="#2f5fa8" text-anchor="middle">a real object</text>
+  <text x="791" y="170" font-size="8.5" fill="#2f5fa8" text-anchor="middle">again</text>
+
+  <!-- travelling payload -->
+  <g>
+    <rect x="-26" y="-11" width="52" height="22" rx="5" fill="#f4b400" stroke="#8a6d00" stroke-width="1.2">
+      <animateTransform attributeName="transform" type="translate" dur="6s" repeatCount="indefinite"
+                        values="89 226;202 226;440 226;678 226;791 226;791 226"
+                        keyTimes="0;0.18;0.45;0.72;0.9;1"/>
+    </rect>
+    <text y="231" font-size="9" font-weight="700" fill="#7a5b00" text-anchor="middle">
+      <animateTransform attributeName="transform" type="translate" dur="6s" repeatCount="indefinite"
+                        values="89 0;202 0;440 0;678 0;791 0;791 0"
+                        keyTimes="0;0.18;0.45;0.72;0.9;1"/>
+      <animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="1;1;0;0;1;1" keyTimes="0;0.2;0.24;0.68;0.74;1"/>
+      Order
+    </text>
+    <text y="231" font-size="9" font-weight="700" fill="#7a5b00" text-anchor="middle" opacity="0">
+      <animateTransform attributeName="transform" type="translate" dur="6s" repeatCount="indefinite"
+                        values="89 0;202 0;440 0;678 0;791 0;791 0"
+                        keyTimes="0;0.18;0.45;0.72;0.9;1"/>
+      <animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.24;0.28;0.66;0.72;1"/>
+      01 1a 68
+    </text>
+  </g>
+
+  <rect x="24" y="256" width="410" height="58" rx="9" fill="#fff3cd" stroke="#b8860b" stroke-width="1.5"/>
+  <text x="229" y="277" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">Serialization happens at the producer</text>
+  <text x="229" y="297" font-size="10.5" fill="#8a6d00" text-anchor="middle">You pass a serializer in the properties; the client library turns your object into bytes.</text>
+
+  <rect x="446" y="256" width="410" height="58" rx="9" fill="#fff3cd" stroke="#b8860b" stroke-width="1.5"/>
+  <text x="651" y="277" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">Deserialization happens at the consumer</text>
+  <text x="651" y="297" font-size="10.5" fill="#8a6d00" text-anchor="middle">You name the deserializer class the bytes convert into, and you get a proper object back.</text>
+</svg>

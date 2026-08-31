@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="880" height="320" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Log retention: Kafka deletes old records after seven days or after a byte limit, whichever comes first">
+  <rect width="880" height="320" fill="#ffffff"/>
+  <text x="24" y="30" font-size="18" font-weight="600" fill="#1b2a3a">9 · Log retention &#8212; Kafka does not keep data forever</text>
+  <text x="24" y="52" font-size="12.5" fill="#5b6b7f">Two settings in <tspan font-family="Consolas, monospace">server.properties</tspan> decide when the broker deletes older messages.</text>
+
+  <!-- segments -->
+  <g>
+    <rect x="24" y="76" width="76" height="58" rx="8" fill="#fdf1f1" stroke="#c62828" stroke-width="1.6">
+      <animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="1;1;0.15;0.15;1" keyTimes="0;0.45;0.55;0.95;1"/>
+    </rect>
+    <rect x="108" y="76" width="76" height="58" rx="8" fill="#fdf1f1" stroke="#c62828" stroke-width="1.6">
+      <animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="1;1;0.15;0.15;1" keyTimes="0;0.48;0.58;0.95;1"/>
+    </rect>
+    <rect x="192" y="76" width="76" height="58" rx="8" fill="#fdf1f1" stroke="#c62828" stroke-width="1.6">
+      <animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="1;1;0.15;0.15;1" keyTimes="0;0.51;0.61;0.95;1"/>
+    </rect>
+  </g>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6">
+    <rect x="276" y="76" width="76" height="58" rx="8"/>
+    <rect x="360" y="76" width="76" height="58" rx="8"/>
+    <rect x="444" y="76" width="76" height="58" rx="8"/>
+    <rect x="528" y="76" width="76" height="58" rx="8"/>
+    <rect x="612" y="76" width="76" height="58" rx="8"/>
+    <rect x="696" y="76" width="76" height="58" rx="8"/>
+    <rect x="780" y="76" width="76" height="58" rx="8"/>
+  </g>
+  <g font-size="10" font-weight="600" text-anchor="middle">
+    <text x="62" y="102" fill="#a01818">segment</text><text x="62" y="118" fill="#c0392b">10 days old</text>
+    <text x="146" y="102" fill="#a01818">segment</text><text x="146" y="118" fill="#c0392b">9 days old</text>
+    <text x="230" y="102" fill="#a01818">segment</text><text x="230" y="118" fill="#c0392b">8 days old</text>
+    <text x="314" y="102" fill="#0f4d2a">segment</text><text x="314" y="118" fill="#1e7a44">6 days old</text>
+    <text x="398" y="102" fill="#0f4d2a">segment</text><text x="398" y="118" fill="#1e7a44">5 days old</text>
+    <text x="482" y="102" fill="#0f4d2a">segment</text><text x="482" y="118" fill="#1e7a44">4 days old</text>
+    <text x="566" y="102" fill="#0f4d2a">segment</text><text x="566" y="118" fill="#1e7a44">3 days old</text>
+    <text x="650" y="102" fill="#0f4d2a">segment</text><text x="650" y="118" fill="#1e7a44">2 days old</text>
+    <text x="734" y="102" fill="#0f4d2a">segment</text><text x="734" y="118" fill="#1e7a44">1 day old</text>
+    <text x="818" y="102" fill="#0f4d2a">segment</text><text x="818" y="118" fill="#1e7a44">today</text>
+  </g>
+
+  <rect x="270" y="68" width="590" height="74" rx="10" fill="none" stroke="#1e7a44" stroke-width="2.4" stroke-dasharray="8 5"/>
+  <text x="565" y="160" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">kept &#8212; inside the retention window</text>
+  <text x="146" y="160" font-size="11" font-weight="700" fill="#a01818" text-anchor="middle">deleted by the broker</text>
+
+  <!-- settings -->
+  <rect x="24" y="178" width="410" height="86" rx="10" fill="#1b2a3a"/>
+  <text x="42" y="202" font-size="11" fill="#f4b400" font-family="Consolas, monospace">log.retention.hours=168</text>
+  <text x="42" y="220" font-size="10" fill="#8ea3bb" font-family="Consolas, monospace">168 hours = 7 days &#8212; the default</text>
+  <text x="42" y="244" font-size="11" fill="#f4b400" font-family="Consolas, monospace">log.retention.bytes=&#8230;</text>
+  <text x="42" y="258" font-size="10" fill="#8ea3bb" font-family="Consolas, monospace">a size cap per partition</text>
+
+  <!-- byte gauge -->
+  <rect x="452" y="178" width="404" height="86" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.6"/>
+  <text x="654" y="200" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">size cap filling up</text>
+  <rect x="472" y="212" width="364" height="22" rx="6" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.2"/>
+  <rect x="472" y="212" width="10" height="22" rx="6" fill="#1e7a44">
+    <animate attributeName="width" dur="7s" repeatCount="indefinite" values="10;364;10;10" keyTimes="0;0.5;0.55;1"/>
+    <animate attributeName="fill" dur="7s" repeatCount="indefinite" values="#1e7a44;#c62828;#1e7a44;#1e7a44" keyTimes="0;0.5;0.55;1"/>
+  </rect>
+  <text x="654" y="254" font-size="10.5" fill="#1e7a44" text-anchor="middle">when the cap is hit, the oldest segment goes &#8212; even if it is only 2 days old</text>
+
+  <rect x="24" y="278" width="832" height="30" rx="8" fill="#fff3cd" stroke="#b8860b" stroke-width="1.5"/>
+  <text x="440" y="298" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">Whichever criteria is met first wins &#8212; time or size. That is the Kafka retention policy.</text>
+</svg>
