@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 460" width="880" height="460" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Designing the offset store yourself: a map keyed by group, topic and partition holding offset and timestamp">
+  <defs>
+    <marker id="r3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="460" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">3 · Design it yourself first &#8212; then compare with Kafka</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">You are given a topic, a partition and an offset. Track which consumer group has consumed how much, so next time you serve only new records.</text>
+
+  <!-- what we have -->
+  <rect x="24" y="70" width="220" height="150" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="134" y="94" font-size="11.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">what we actually have</text>
+  <g fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4">
+    <rect x="44" y="106" width="180" height="30" rx="6"/>
+    <rect x="44" y="142" width="180" height="30" rx="6"/>
+    <rect x="44" y="178" width="180" height="30" rx="6"/>
+  </g>
+  <g font-size="11" font-weight="600" fill="#1b2a3a" text-anchor="middle" font-family="Consolas, monospace">
+    <text x="134" y="126">consumer group</text>
+    <text x="134" y="162">topic</text>
+    <text x="134" y="198">partition</text>
+  </g>
+
+  <path d="M244 145 L286 145" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#r3)"/>
+
+  <!-- the map -->
+  <rect x="292" y="70" width="564" height="150" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+  <text x="574" y="94" font-size="11.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">a plain dictionary / map &#8212; that is the whole idea</text>
+
+  <rect x="312" y="106" width="250" height="94" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6"/>
+  <text x="437" y="128" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">KEY &#8212; offsetKey</text>
+  <text x="437" y="150" font-size="10.5" fill="#1e7a44" text-anchor="middle" font-family="Consolas, monospace">groupName</text>
+  <text x="437" y="168" font-size="10.5" fill="#1e7a44" text-anchor="middle" font-family="Consolas, monospace">topic</text>
+  <text x="437" y="186" font-size="10.5" fill="#1e7a44" text-anchor="middle" font-family="Consolas, monospace">partition</text>
+
+  <line x1="566" y1="153" x2="600" y2="153" stroke="#1e7a44" stroke-width="1.8" marker-end="url(#r3)"/>
+
+  <rect x="606" y="106" width="230" height="94" rx="9" fill="#fff3cd" stroke="#b8860b" stroke-width="1.6"/>
+  <text x="721" y="128" font-size="11" font-weight="700" fill="#7a5b00" text-anchor="middle">VALUE &#8212; offsetValue</text>
+  <text x="721" y="152" font-size="10.5" fill="#8a6d00" text-anchor="middle" font-family="Consolas, monospace">offset</text>
+  <text x="721" y="174" font-size="10.5" fill="#8a6d00" text-anchor="middle" font-family="Consolas, monospace">lastTimestamp</text>
+
+  <!-- flow -->
+  <text x="24" y="252" font-size="14" font-weight="700" fill="#1b2a3a">The flow, with <tspan font-family="Consolas, monospace">enable.auto.commit = true</tspan></text>
+
+  <g>
+    <rect x="24" y="266" width="196" height="96" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+    <text x="122" y="290" font-size="11.5" font-weight="700" fill="#12305e" text-anchor="middle">1 &#183; consumer asks</text>
+    <text x="122" y="312" font-size="10" fill="#2f5fa8" text-anchor="middle">&#8220;give me 10 records&#8221;</text>
+    <text x="122" y="330" font-size="9.5" fill="#2f5fa8" text-anchor="middle">it sends: <tspan font-family="Consolas, monospace">group</tspan> + <tspan font-family="Consolas, monospace">topic</tspan></text>
+    <text x="122" y="348" font-size="9" fill="#2f5fa8" text-anchor="middle">(that is all the command carries)</text>
+    <rect x="24" y="266" width="196" height="96" rx="10" fill="none" stroke="#12305e" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.22;0.25;1"/>
+    </rect>
+  </g>
+  <path d="M220 314 L242 314" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#r3)"/>
+
+  <g>
+    <rect x="248" y="266" width="196" height="96" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="1.8"/>
+    <text x="346" y="290" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">2 &#183; broker builds the key</text>
+    <text x="346" y="312" font-size="9.5" fill="#8a6d00" text-anchor="middle">group + topic from the request,</text>
+    <text x="346" y="330" font-size="9.5" fill="#8a6d00" text-anchor="middle"><tspan font-weight="700">partition from its in-memory metadata</tspan></text>
+    <text x="346" y="348" font-size="9" fill="#8a6d00" text-anchor="middle">(the controller put it there &#8212; part 02)</text>
+    <rect x="248" y="266" width="196" height="96" rx="10" fill="none" stroke="#7a5b00" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.25;0.28;0.47;0.50;1"/>
+    </rect>
+  </g>
+  <path d="M444 314 L466 314" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#r3)"/>
+
+  <g>
+    <rect x="472" y="266" width="176" height="96" rx="10" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8"/>
+    <text x="560" y="290" font-size="11.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">3 &#183; 10 records go out</text>
+    <text x="560" y="316" font-size="10" fill="#1e7a44" text-anchor="middle">starting at the stored offset</text>
+    <text x="560" y="338" font-size="9.5" fill="#1e7a44" text-anchor="middle">so only NEW records are served</text>
+    <rect x="472" y="266" width="176" height="96" rx="10" fill="none" stroke="#0f4d2a" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.50;0.53;0.72;0.75;1"/>
+    </rect>
+  </g>
+  <path d="M648 314 L670 314" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#r3)"/>
+
+  <g>
+    <rect x="676" y="266" width="180" height="96" rx="10" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8"/>
+    <text x="766" y="290" font-size="11.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">4 &#183; update the map</text>
+    <text x="766" y="316" font-size="10.5" fill="#1e7a44" text-anchor="middle" font-family="Consolas, monospace">offset += 10</text>
+    <text x="766" y="338" font-size="10.5" fill="#1e7a44" text-anchor="middle" font-family="Consolas, monospace">lastTimestamp = now</text>
+    <rect x="676" y="266" width="180" height="96" rx="10" fill="none" stroke="#0f4d2a" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.75;0.78;0.97;1"/>
+    </rect>
+  </g>
+
+  <rect x="24" y="384" width="832" height="60" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="440" y="406" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">And this is genuinely what Kafka does &#8212; it just persists that map as a topic called <tspan font-family="Consolas, monospace">__consumer_offsets</tspan></text>
+  <text x="440" y="430" font-size="11.5" fill="#1e7a44" text-anchor="middle">Same key, same value, written to disk so it survives restarts, rebalances and consumers joining or leaving. Nothing exotic.</text>
+</svg>

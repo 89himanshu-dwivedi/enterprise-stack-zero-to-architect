@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" width="880" height="400" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="enable.auto.commit true lets the broker commit on delivery, false makes the consumer commit after processing">
+  <defs>
+    <marker id="r2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="400" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">2 · Two ways to move the offset &#8212; <tspan font-family="Consolas, monospace">enable.auto.commit</tspan></text>
+
+  <!-- true -->
+  <rect x="20" y="46" width="400" height="300" rx="12" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="220" y="70" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle"><tspan font-family="Consolas, monospace">enable.auto.commit = true</tspan> &#160;(the default)</text>
+  <text x="220" y="88" font-size="10" fill="#1e7a44" text-anchor="middle">the broker already knows how many records it handed over</text>
+
+  <rect x="44" y="104" width="150" height="52" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6"/>
+  <text x="119" y="126" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">broker</text>
+  <text x="119" y="142" font-size="9" fill="#1e7a44" text-anchor="middle">&#8220;I sent 10&#8221;</text>
+
+  <rect x="246" y="104" width="150" height="52" rx="9" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.6"/>
+  <text x="321" y="126" font-size="11" font-weight="700" fill="#12305e" text-anchor="middle">consumer</text>
+  <text x="321" y="142" font-size="9" fill="#2f5fa8" text-anchor="middle">receives 10</text>
+
+  <line x1="194" y1="130" x2="240" y2="130" stroke="#1e7a44" stroke-width="1.8" marker-end="url(#r2)"/>
+  <circle r="5" cy="130" fill="#1e7a44"><animate attributeName="cx" dur="3s" repeatCount="indefinite" values="119;321"/><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.8;1"/></circle>
+
+  <rect x="90" y="180" width="260" height="46" rx="8" fill="#e6f4ea" stroke="#1e7a44" stroke-width="2">
+    <animate attributeName="stroke-width" dur="3s" repeatCount="indefinite" values="2;3.6;2" keyTimes="0;0.4;1"/>
+  </rect>
+  <text x="220" y="200" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka commits automatically</text>
+  <text x="220" y="216" font-size="9.5" fill="#1e7a44" text-anchor="middle">offset += 10, based on what it sent</text>
+
+  <g font-size="11" fill="#0f4d2a">
+    <text x="44" y="256">&#10003;&#160; Nothing to write &#8212; it just works</text>
+    <text x="44" y="278">&#10003;&#160; Fine for logging, metrics, notifications</text>
+  </g>
+  <g font-size="11" fill="#a01818">
+    <text x="44" y="304">&#10007;&#160; Records count as consumed on <tspan font-style="italic">delivery</tspan>,</text>
+    <text x="44" y="322">&#160;&#160;&#160;&#160;not on successful <tspan font-style="italic">processing</tspan></text>
+  </g>
+
+  <!-- false -->
+  <rect x="460" y="46" width="400" height="300" rx="12" fill="#f4f7fb" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="660" y="70" font-size="12.5" font-weight="700" fill="#12305e" text-anchor="middle"><tspan font-family="Consolas, monospace">enable.auto.commit = false</tspan></text>
+  <text x="660" y="88" font-size="10" fill="#2f5fa8" text-anchor="middle">now it is the consumer&#8217;s responsibility to commit manually</text>
+
+  <rect x="484" y="104" width="130" height="52" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6"/>
+  <text x="549" y="134" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">broker</text>
+
+  <rect x="666" y="104" width="170" height="52" rx="9" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.6"/>
+  <text x="751" y="126" font-size="11" font-weight="700" fill="#12305e" text-anchor="middle">consumer</text>
+  <text x="751" y="142" font-size="9" fill="#2f5fa8" text-anchor="middle">process, THEN commit</text>
+
+  <line x1="614" y1="130" x2="660" y2="130" stroke="#1e7a44" stroke-width="1.8" marker-end="url(#r2)"/>
+
+  <rect x="666" y="176" width="170" height="42" rx="8" fill="#fff3cd" stroke="#b8860b" stroke-width="1.6"/>
+  <text x="751" y="194" font-size="10" font-weight="700" fill="#7a5b00" text-anchor="middle">business logic runs</text>
+  <text x="751" y="210" font-size="9" fill="#8a6d00" text-anchor="middle">DB write, API call, &#8230;</text>
+
+  <path d="M666 197 L560 197 L560 160" fill="none" stroke="#b8860b" stroke-width="1.8" marker-end="url(#r2)"/>
+  <text x="600" y="222" font-size="9.5" font-weight="700" fill="#7a5b00" text-anchor="middle">commitSync() / commitAsync()</text>
+  <circle r="5" fill="#b8860b">
+    <animateMotion dur="3s" repeatCount="indefinite" path="M666 197 L560 197 L560 160"/>
+    <animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.4;0.5;0.9;1"/>
+  </circle>
+
+  <g font-size="11" fill="#12305e">
+    <text x="484" y="256">&#10003;&#160; The offset moves only after the work actually succeeded</text>
+    <text x="484" y="278">&#10003;&#160; What you want for payments, ledgers, inventory</text>
+  </g>
+  <g font-size="11" fill="#a01818">
+    <text x="484" y="304">&#10007;&#160; You have to write it, and get the failure paths right</text>
+    <text x="484" y="322">&#10007;&#160; Forget to commit and the records get replayed</text>
+  </g>
+
+  <rect x="24" y="356" width="832" height="34" rx="9" fill="#fff3cd" stroke="#b8860b" stroke-width="1.5"/>
+  <text x="440" y="378" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">Whichever you pick, Kafka must persist that offset <tspan text-decoration="underline">on disk</tspan> &#8212; so a restart, a join or a leave still knows where to resume.</text>
+</svg>
