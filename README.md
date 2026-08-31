@@ -1,6 +1,12 @@
 # Enterprise Stack: Zero to Architect
 
+<<<<<<< HEAD
 Hi, I'm **Himanshu Kumar/ Dwivedi** — Technical Lead & Solution Architect with **8 years** of experience building enterprise systems.
+=======
+Hi, I'm **Himanshu Kumar** — Technical Lead & Solution Architect with **8 years** of experience building enterprise systems.
+
+I work at **CRISIL Ltd, an S&P Global company**, on S&P Global projects.
+>>>>>>> a7373ba (docs: update name and current role)
 
 This is my catch-all repo for everything that sits *around* the application: message brokers, caches, databases, integration platforms and the infrastructure that runs them. The tools that never fit neatly into one course but decide whether a system holds up in production.
 
@@ -40,6 +46,7 @@ I add one folder per tool as I work through it. Each folder holds my notes plus 
 
 ## About me
 
+- Technical Lead & Solution Architect at **CRISIL Ltd, an S&P Global company** — currently on S&P Global projects
 - 8 years across Salesforce architecture, integrations, and enterprise GenAI
 - Domains: Public Sector, Financial Services, Healthcare, Supply Chain
 - B.Tech in Computer Science, AKTU Lucknow
