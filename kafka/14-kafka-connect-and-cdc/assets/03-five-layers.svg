@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" width="880" height="440" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The five layers of Kafka Connect architecture: external systems, connectors, tasks, workers, internal topics">
+  <defs>
+    <marker id="c3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="440" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">3 · The five layers</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Each layer creates the one to its right. Learn them in this order and nothing about Connect is confusing afterwards.</text>
+
+  <!-- layer 1 -->
+  <g>
+    <rect x="20" y="72" width="152" height="200" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+    <rect x="20" y="72" width="152" height="200" rx="11" fill="none" stroke="#2f5fa8" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.16;0.19;1"/>
+    </rect>
+    <circle cx="42" cy="94" r="12" fill="#2f5fa8"/><text x="42" y="98" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+    <text x="96" y="122" font-size="11.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">external systems</text>
+    <g font-size="9.5" fill="#5b6b7f" text-anchor="middle">
+      <text x="96" y="146">MySQL, PostgreSQL</text>
+      <text x="96" y="164">MongoDB, Cassandra</text>
+      <text x="96" y="182">Elasticsearch</text>
+      <text x="96" y="200">S3, data lakes</text>
+      <text x="96" y="218">Redis</text>
+    </g>
+    <text x="96" y="248" font-size="9" font-style="italic" fill="#5b6b7f" text-anchor="middle">standard systems</text>
+    <text x="96" y="262" font-size="9" font-style="italic" fill="#5b6b7f" text-anchor="middle">already in your stack</text>
+  </g>
+  <path d="M172 172 L192 172" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#c3)"/>
+
+  <!-- layer 2 -->
+  <g>
+    <rect x="198" y="72" width="152" height="200" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+    <rect x="198" y="72" width="152" height="200" rx="11" fill="none" stroke="#2f5fa8" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.19;0.22;0.36;0.39;1"/>
+    </rect>
+    <circle cx="220" cy="94" r="12" fill="#2f5fa8"/><text x="220" y="98" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+    <text x="274" y="122" font-size="11.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">connectors</text>
+    <text x="274" y="140" font-size="9" fill="#5b6b7f" text-anchor="middle">a high-level job definition</text>
+    <rect x="212" y="150" width="124" height="42" rx="7" fill="#fff8e1" stroke="#b8860b" stroke-width="1.4"/>
+    <text x="274" y="167" font-size="10" font-weight="700" fill="#7a5b00" text-anchor="middle">SOURCE</text>
+    <text x="274" y="183" font-size="8.5" fill="#8a6d00" text-anchor="middle">external &#8594; Kafka</text>
+    <rect x="212" y="198" width="124" height="42" rx="7" fill="#fff8e1" stroke="#b8860b" stroke-width="1.4"/>
+    <text x="274" y="215" font-size="10" font-weight="700" fill="#7a5b00" text-anchor="middle">SINK</text>
+    <text x="274" y="231" font-size="8.5" fill="#8a6d00" text-anchor="middle">Kafka &#8594; external</text>
+    <text x="274" y="258" font-size="9" font-weight="700" font-style="italic" fill="#a01818" text-anchor="middle">a connector moves no data itself</text>
+  </g>
+  <path d="M350 172 L370 172" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#c3)"/>
+
+  <!-- layer 3 -->
+  <g>
+    <rect x="376" y="72" width="152" height="200" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+    <rect x="376" y="72" width="152" height="200" rx="11" fill="none" stroke="#2f5fa8" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.39;0.42;0.56;0.59;1"/>
+    </rect>
+    <circle cx="398" cy="94" r="12" fill="#2f5fa8"/><text x="398" y="98" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+    <text x="452" y="122" font-size="11.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">tasks</text>
+    <text x="452" y="140" font-size="9" fill="#5b6b7f" text-anchor="middle">created by the connector</text>
+    <g fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.4">
+      <rect x="392" y="150" width="120" height="26" rx="6"/>
+      <rect x="392" y="182" width="120" height="26" rx="6"/>
+      <rect x="392" y="214" width="120" height="26" rx="6"/>
+    </g>
+    <g font-size="9.5" font-weight="600" fill="#12305e" text-anchor="middle">
+      <text x="452" y="167">task 0</text><text x="452" y="199">task 1</text><text x="452" y="231">task 2</text>
+    </g>
+    <text x="452" y="258" font-size="9" font-style="italic" fill="#5b6b7f" text-anchor="middle">the unit that does the real work</text>
+  </g>
+  <path d="M528 172 L548 172" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#c3)"/>
+
+  <!-- layer 4 -->
+  <g>
+    <rect x="554" y="72" width="152" height="200" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+    <rect x="554" y="72" width="152" height="200" rx="11" fill="none" stroke="#2f5fa8" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.59;0.62;0.76;0.79;1"/>
+    </rect>
+    <circle cx="576" cy="94" r="12" fill="#2f5fa8"/><text x="576" y="98" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+    <text x="630" y="122" font-size="11.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">workers</text>
+    <text x="630" y="140" font-size="9" fill="#5b6b7f" text-anchor="middle">plain JVM processes</text>
+    <g fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4">
+      <rect x="570" y="150" width="120" height="30" rx="6"/>
+      <rect x="570" y="186" width="120" height="30" rx="6"/>
+      <rect x="570" y="222" width="120" height="30" rx="6"/>
+    </g>
+    <g font-size="9.5" font-weight="600" fill="#1b2a3a" text-anchor="middle">
+      <text x="630" y="169">worker 1 (JVM)</text><text x="630" y="205">worker 2 (JVM)</text><text x="630" y="241">worker 3 (JVM)</text>
+    </g>
+    <text x="630" y="264" font-size="9" font-style="italic" fill="#5b6b7f" text-anchor="middle">they run connectors and tasks</text>
+  </g>
+  <path d="M706 172 L726 172" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#c3)"/>
+
+  <!-- layer 5 -->
+  <g>
+    <rect x="732" y="72" width="128" height="200" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+    <rect x="732" y="72" width="128" height="200" rx="11" fill="none" stroke="#1e7a44" stroke-width="3" opacity="0">
+      <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.79;0.82;0.98;1"/>
+    </rect>
+    <circle cx="754" cy="94" r="12" fill="#1e7a44"/><text x="754" y="98" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">5</text>
+    <text x="796" y="122" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">internal topics</text>
+    <text x="796" y="138" font-size="8.5" fill="#1e7a44" text-anchor="middle">inside the Kafka cluster</text>
+    <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.3" >
+      <rect x="742" y="148" width="108" height="26" rx="6"/>
+      <rect x="742" y="180" width="108" height="26" rx="6"/>
+      <rect x="742" y="212" width="108" height="26" rx="6"/>
+    </g>
+    <g font-size="8.5" font-weight="600" fill="#0f4d2a" text-anchor="middle" font-family="Consolas, monospace">
+      <text x="796" y="165">connect-configs</text><text x="796" y="197">connect-offsets</text><text x="796" y="229">connect-status</text>
+    </g>
+    <text x="796" y="258" font-size="9" font-style="italic" fill="#1e7a44" text-anchor="middle">coordination lives here</text>
+  </g>
+
+  <circle r="6" cy="172" fill="#f4b400" stroke="#8a6d00" stroke-width="1.2">
+    <animate attributeName="cx" dur="5s" repeatCount="indefinite" values="96;274;452;630;796"/>
+    <animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.92;1"/>
+  </circle>
+
+  <rect x="24" y="292" width="832" height="130" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="440" y="316" font-size="12.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">Read it as one sentence</text>
+  <text x="440" y="342" font-size="11.5" fill="#1b2a3a" text-anchor="middle">A <tspan font-weight="700">connector</tspan> is a job definition against an <tspan font-weight="700">external system</tspan>. It creates <tspan font-weight="700">tasks</tspan>.</text>
+  <text x="440" y="364" font-size="11.5" fill="#1b2a3a" text-anchor="middle"><tspan font-weight="700">Workers</tspan> run those tasks, and coordinate with each other only through <tspan font-weight="700">internal topics</tspan>.</text>
+  <text x="440" y="392" font-size="11" fill="#5b6b7f" text-anchor="middle">More tasks means more parallelism &#8212; the same idea as partitions in part 05. One task is the minimum.</text>
+  <text x="440" y="412" font-size="11" fill="#5b6b7f" text-anchor="middle">Workers never talk to each other directly. Every decision goes through Kafka.</text>
+</svg>

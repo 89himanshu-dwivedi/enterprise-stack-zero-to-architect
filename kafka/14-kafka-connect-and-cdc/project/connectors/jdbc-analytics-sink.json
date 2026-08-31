@@ -1,0 +1,33 @@
+{
+  "name": "orders-to-analytics-jdbc-sink",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+
+    "topics": "order_service.public.orders",
+
+    "connection.url": "jdbc:postgresql://analytics-db:5432/analytics",
+    "connection.user": "analytics_user",
+    "connection.password": "analytics_password",
+
+    "table.name.format": "order_events",
+    "insert.mode": "upsert",
+    "pk.mode": "record_value",
+    "pk.fields": "id",
+    "fields.whitelist": "id,order_number,customer_id,product,quantity,amount,status",
+
+    "auto.create": "false",
+    "auto.evolve": "false",
+    "delete.enabled": "false",
+
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter.schemas.enable": "false",
+
+    "errors.tolerance": "all",
+    "errors.deadletterqueue.topic.name": "dlq.orders-to-analytics",
+    "errors.deadletterqueue.topic.replication.factor": "1",
+    "errors.log.enable": "true"
+  }
+}

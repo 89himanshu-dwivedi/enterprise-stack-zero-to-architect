@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" width="880" height="430" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Kafka Connect sits between external systems and Kafka as a data integration framework">
+  <defs>
+    <marker id="c1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="430" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">1 · What Kafka Connect is</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">In production nobody writes a custom producer to read MySQL, or a custom consumer to push into Elasticsearch. They use Connect.</text>
+
+  <!-- external systems -->
+  <rect x="24" y="70" width="200" height="248" rx="12" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+  <text x="124" y="92" font-size="11.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">external systems</text>
+  <g fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4">
+    <rect x="44" y="104" width="160" height="30" rx="6"/>
+    <rect x="44" y="140" width="160" height="30" rx="6"/>
+    <rect x="44" y="176" width="160" height="30" rx="6"/>
+    <rect x="44" y="212" width="160" height="30" rx="6"/>
+    <rect x="44" y="248" width="160" height="30" rx="6"/>
+    <rect x="44" y="284" width="160" height="26" rx="6"/>
+  </g>
+  <g font-size="10" font-weight="600" fill="#1b2a3a" text-anchor="middle">
+    <text x="124" y="124">MySQL &#183; PostgreSQL</text>
+    <text x="124" y="160">MongoDB &#183; Cassandra</text>
+    <text x="124" y="196">Elasticsearch</text>
+    <text x="124" y="232">S3 &#183; data lake</text>
+    <text x="124" y="268">Redis</text>
+    <text x="124" y="302">file systems</text>
+  </g>
+
+  <path d="M224 176 L282 176" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#c1)"/>
+  <path d="M282 212 L224 212" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#c1)"/>
+
+  <!-- connect -->
+  <rect x="288" y="70" width="290" height="248" rx="12" fill="#fff3cd" stroke="#b8860b" stroke-width="2.4"/>
+  <text x="433" y="96" font-size="13.5" font-weight="700" fill="#7a5b00" text-anchor="middle">Kafka Connect</text>
+  <text x="433" y="116" font-size="10.5" fill="#8a6d00" text-anchor="middle">a scalable, fault-tolerant</text>
+  <text x="433" y="132" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">data integration framework</text>
+
+  <rect x="308" y="148" width="250" height="66" rx="9" fill="#fff8e1" stroke="#b8860b" stroke-width="1.5"/>
+  <text x="433" y="168" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">SOURCE connector</text>
+  <text x="433" y="186" font-size="9.5" fill="#8a6d00" text-anchor="middle">external system &#8594; Kafka</text>
+  <text x="433" y="204" font-size="9" fill="#8a6d00" text-anchor="middle">read the database, feed the topic</text>
+
+  <rect x="308" y="224" width="250" height="66" rx="9" fill="#fff8e1" stroke="#b8860b" stroke-width="1.5"/>
+  <text x="433" y="244" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">SINK connector</text>
+  <text x="433" y="262" font-size="9.5" fill="#8a6d00" text-anchor="middle">Kafka &#8594; external system</text>
+  <text x="433" y="280" font-size="9" fill="#8a6d00" text-anchor="middle">read the topic, write to S3 or a DB</text>
+
+  <text x="433" y="308" font-size="9" fill="#8a6d00" text-anchor="middle">its only job is to move data &#8212; nothing else</text>
+
+  <path d="M578 176 L636 176" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#c1)"/>
+  <path d="M636 212 L578 212" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#c1)"/>
+
+  <!-- kafka -->
+  <rect x="642" y="70" width="214" height="248" rx="12" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+  <text x="749" y="94" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka cluster</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.4">
+    <rect x="662" y="110" width="174" height="34" rx="7"/>
+    <rect x="662" y="152" width="174" height="34" rx="7"/>
+    <rect x="662" y="194" width="174" height="34" rx="7"/>
+  </g>
+  <g font-size="10" font-weight="600" fill="#0f4d2a" text-anchor="middle">
+    <text x="749" y="132">broker 1</text><text x="749" y="174">broker 2</text><text x="749" y="216">broker 3</text>
+  </g>
+  <text x="749" y="256" font-size="10" fill="#1e7a44" text-anchor="middle">the central event streaming system</text>
+  <text x="749" y="276" font-size="10" fill="#1e7a44" text-anchor="middle">everything from parts 01 to 13</text>
+
+  <g fill="#b8860b">
+    <circle r="6" cy="176"><animate attributeName="cx" dur="3s" repeatCount="indefinite" values="124;433;749"/><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.9;1"/></circle>
+    <circle r="6" cy="212"><animate attributeName="cx" dur="3s" begin="1.5s" repeatCount="indefinite" values="749;433;124"/><animate attributeName="opacity" dur="3s" begin="1.5s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.9;1"/></circle>
+  </g>
+
+  <rect x="24" y="336" width="832" height="80" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+  <text x="440" y="358" font-size="12.5" font-weight="700" fill="#a01818" text-anchor="middle">What Kafka Connect is <tspan text-decoration="underline">not</tspan></text>
+  <g font-size="11" fill="#a01818" text-anchor="middle">
+    <text x="200" y="382">not a producer</text>
+    <text x="440" y="382">not a consumer</text>
+    <text x="690" y="382">not stream processing</text>
+  </g>
+  <text x="440" y="404" font-size="11" fill="#a01818" text-anchor="middle">It is a <tspan font-weight="700">data integration framework</tspan>. Transformation and aggregation are Kafka Streams and ksqlDB &#8212; a different tool.</text>
+</svg>

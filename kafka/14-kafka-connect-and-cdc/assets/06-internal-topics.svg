@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" width="880" height="440" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The three internal topics Kafka Connect creates in distributed mode">
+  <defs>
+    <marker id="c6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="440" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">6 · The three internal topics</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">In distributed mode Connect uses <tspan font-style="italic">Kafka itself</tspan> for coordination. It creates three topics and keeps everything in them.</text>
+
+  <!-- topic 1 -->
+  <g>
+    <rect x="24" y="70" width="270" height="180" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+    <rect x="24" y="70" width="270" height="180" rx="11" fill="none" stroke="#b8860b" stroke-width="3.2" opacity="0">
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.28;0.32;1"/>
+    </rect>
+    <text x="159" y="94" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle" font-family="Consolas, monospace">connect-configs</text>
+    <text x="159" y="114" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">stores every connector configuration</text>
+    <g font-size="10" fill="#1e7a44">
+      <text x="42" y="140">A worker boots and reads this topic first,</text>
+      <text x="42" y="158">to learn which connectors exist and how</text>
+      <text x="42" y="176">they are configured.</text>
+      <text x="42" y="200">It also holds the <tspan font-weight="700">task assignments</tspan> the</text>
+      <text x="42" y="218">leader wrote.</text>
+    </g>
+    <text x="159" y="240" font-size="9.5" font-weight="700" font-style="italic" fill="#0f4d2a" text-anchor="middle">centralized config &#183; no local dependency</text>
+  </g>
+
+  <!-- topic 2 -->
+  <g>
+    <rect x="304" y="70" width="270" height="180" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+    <rect x="304" y="70" width="270" height="180" rx="11" fill="none" stroke="#b8860b" stroke-width="3.2" opacity="0">
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.32;0.36;0.62;0.66;1"/>
+    </rect>
+    <text x="439" y="94" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle" font-family="Consolas, monospace">connect-offsets</text>
+    <text x="439" y="114" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">stores source connector offsets</text>
+    <g font-size="10" fill="#1e7a44">
+      <text x="322" y="140">&#183; the last row read from MySQL</text>
+      <text x="322" y="158">&#183; the last position read in a file</text>
+      <text x="322" y="176">&#183; the last WAL position streamed</text>
+    </g>
+    <rect x="322" y="188" width="234" height="26" rx="6" fill="#ffebee" stroke="#c62828" stroke-width="1.4"/>
+    <text x="439" y="206" font-size="9.5" font-weight="700" fill="#a01818" text-anchor="middle">sink connectors never touch this topic</text>
+    <text x="439" y="238" font-size="9.5" font-weight="700" font-style="italic" fill="#0f4d2a" text-anchor="middle">no data loss &#183; clean recovery after a crash</text>
+  </g>
+
+  <!-- topic 3 -->
+  <g>
+    <rect x="584" y="70" width="272" height="180" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+    <rect x="584" y="70" width="272" height="180" rx="11" fill="none" stroke="#b8860b" stroke-width="3.2" opacity="0">
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.66;0.70;0.97;1"/>
+    </rect>
+    <text x="720" y="94" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle" font-family="Consolas, monospace">connect-status</text>
+    <text x="720" y="114" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">stores connector and task status</text>
+    <g font-size="10" fill="#1e7a44">
+      <text x="602" y="140"><tspan font-weight="700">RUNNING</tspan> &#183; <tspan font-weight="700">FAILED</tspan> &#183; <tspan font-weight="700">PAUSED</tspan></text>
+      <text x="602" y="160">Every connector pings a <tspan font-weight="700">heartbeat</tspan> here on a</text>
+      <text x="602" y="178">configurable interval.</text>
+      <text x="602" y="200">Miss the interval and the other workers</text>
+      <text x="602" y="218">conclude you are gone.</text>
+    </g>
+    <text x="720" y="240" font-size="9.5" font-weight="700" font-style="italic" fill="#0f4d2a" text-anchor="middle">monitoring &#183; health tracking &#183; rebalance trigger</text>
+    <circle cx="836" cy="88" r="5" fill="#1e7a44">
+      <animate attributeName="opacity" dur="1.4s" repeatCount="indefinite" values="1;0.15;1"/>
+      <animate attributeName="r" dur="1.4s" repeatCount="indefinite" values="5;7;5"/>
+    </circle>
+  </g>
+
+  <rect x="24" y="266" width="832" height="72" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="440" y="290" font-size="12" font-weight="700" fill="#1b2a3a" text-anchor="middle">Each of these topics has a single partition &#8212; ordering of configuration and status changes must be total.</text>
+  <text x="440" y="314" font-size="11" fill="#5b6b7f" text-anchor="middle">Workers join them the same way a consumer group joins a topic: same group id, and one member gets elected leader.</text>
+  <text x="440" y="332" font-size="10.5" font-style="italic" fill="#5b6b7f" text-anchor="middle">Standalone mode creates none of them &#8212; it keeps config on local disk instead.</text>
+
+  <rect x="24" y="352" width="832" height="72" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="440" y="376" font-size="12.5" font-weight="700" fill="#12305e" text-anchor="middle">The design point worth stealing</text>
+  <text x="440" y="400" font-size="11.5" fill="#12305e" text-anchor="middle">Connect stores <tspan font-weight="700">no</tspan> state of its own. Config store, offset store, leader election, task assignment &#8212; all offloaded to Kafka.</text>
+  <text x="440" y="418" font-size="11" fill="#2f5fa8" text-anchor="middle">That is why a worker is disposable: kill it, start it somewhere else, it reads the topics and carries on.</text>
+</svg>

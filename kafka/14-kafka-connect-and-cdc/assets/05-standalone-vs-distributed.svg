@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" width="880" height="430" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Standalone versus distributed worker mode, and how a Connect cluster forms">
+  <rect width="880" height="430" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">5 · Worker modes &#8212; standalone vs distributed</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">A worker is just a JVM process. How many of them you run changes almost everything about the system.</text>
+
+  <!-- standalone -->
+  <rect x="24" y="68" width="404" height="232" rx="12" fill="#fff8f8" stroke="#c62828" stroke-width="2"/>
+  <text x="226" y="92" font-size="13" font-weight="700" fill="#a01818" text-anchor="middle">standalone mode</text>
+  <rect x="166" y="106" width="120" height="52" rx="8" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+  <text x="226" y="128" font-size="10.5" font-weight="700" fill="#a01818" text-anchor="middle">worker (JVM)</text>
+  <text x="226" y="146" font-size="9" fill="#a01818" text-anchor="middle">one single process</text>
+  <text x="226" y="176" font-size="26" fill="#c62828" text-anchor="middle" opacity="0">&#10007;
+    <animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.4;0.5;0.9;1"/>
+  </text>
+  <rect x="166" y="106" width="120" height="52" rx="8" fill="none" stroke="#c62828" stroke-width="3" stroke-dasharray="5 4" opacity="0">
+    <animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.4;0.5;0.9;1"/>
+  </rect>
+  <g font-size="10.5" fill="#a01818">
+    <text x="46" y="212">&#10007; no fault tolerance &#8212; it crashes, the pipeline is gone</text>
+    <text x="46" y="234">&#10007; configuration is stored <tspan font-weight="700">locally</tspan>, on that one box</text>
+    <text x="46" y="256">&#10007; <tspan font-weight="700">no internal topics are created at all</tspan></text>
+    <text x="46" y="278">&#10003; fine for development and testing</text>
+  </g>
+  <text x="226" y="296" font-size="9" font-style="italic" fill="#a01818" text-anchor="middle">it already knows only one JVM will ever run &#8212; why coordinate?</text>
+
+  <!-- distributed -->
+  <rect x="452" y="68" width="404" height="232" rx="12" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+  <text x="654" y="92" font-size="13" font-weight="700" fill="#0f4d2a" text-anchor="middle">distributed mode</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6">
+    <rect x="486" y="106" width="100" height="46" rx="8"/>
+    <rect x="604" y="106" width="100" height="46" rx="8"/>
+    <rect x="722" y="106" width="100" height="46" rx="8"/>
+  </g>
+  <g font-size="10" font-weight="700" fill="#0f4d2a" text-anchor="middle">
+    <text x="536" y="126">worker 1</text><text x="654" y="126">worker 2</text><text x="772" y="126">worker 3</text>
+  </g>
+  <g font-size="8.5" fill="#1e7a44" text-anchor="middle">
+    <text x="536" y="143">JVM</text><text x="654" y="143">JVM</text><text x="772" y="143">JVM</text>
+  </g>
+  <rect x="722" y="106" width="100" height="46" rx="8" fill="none" stroke="#c62828" stroke-width="2.6" stroke-dasharray="5 4" opacity="0">
+    <animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.4;0.46;0.7;0.76;1"/>
+  </rect>
+  <text x="772" y="170" font-size="9" font-weight="700" fill="#0f4d2a" text-anchor="middle" opacity="0">work moves to 1 and 2
+    <animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.46;0.52;0.7;0.76;1"/>
+  </text>
+  <g font-size="10.5" fill="#0f4d2a">
+    <text x="474" y="212">&#10003; multiple workers &#8594; fault tolerance for free</text>
+    <text x="474" y="234">&#10003; automatic rebalancing when a worker disappears</text>
+    <text x="474" y="256">&#10003; <tspan font-weight="700">REST API</tspan> to add or change connectors at runtime</text>
+    <text x="474" y="278">&#10003; the production setup &#8212; and the one we use today</text>
+  </g>
+  <text x="654" y="296" font-size="9" font-style="italic" fill="#1e7a44" text-anchor="middle">in production you do not restart a cluster to change a config</text>
+
+  <!-- how a cluster forms -->
+  <rect x="24" y="316" width="832" height="100" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+  <text x="440" y="340" font-size="12.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">&#8220;So where do I set the Connect cluster ID?&#8221; &#8212; you don&#8217;t. There isn&#8217;t one.</text>
+  <g font-size="10.5" fill="#1b2a3a" text-anchor="middle">
+    <text x="196" y="368" font-weight="700">same group.id</text>
+    <text x="440" y="368" font-weight="700">same internal topics</text>
+    <text x="684" y="368" font-weight="700">same bootstrap servers</text>
+  </g>
+  <g font-size="9.5" fill="#5b6b7f" text-anchor="middle" font-family="Consolas, monospace">
+    <text x="196" y="386">connect-cluster</text>
+    <text x="440" y="386">connect-configs / offsets / status</text>
+    <text x="684" y="386">kafka:29092</text>
+  </g>
+  <text x="440" y="408" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">Three workers with those three things identical <tspan font-style="italic">are</tspan> a Connect cluster. Just start the JVM on another machine.</text>
+</svg>

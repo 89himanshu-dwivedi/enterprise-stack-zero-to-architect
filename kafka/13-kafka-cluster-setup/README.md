@@ -363,4 +363,8 @@ The next videos cover a **fault tolerance demo**, the **Spring Boot application*
 
 ---
 
+**Next:** [Part 14 · Kafka Connect and CDC](../14-kafka-connect-and-cdc/README.md) — moving data in and out of Kafka without writing a single producer or consumer, and streaming Postgres changes with Debezium.
+
+---
+
 <sub>Notes written up from the *Kafka Zero to Hero* series, episode 13. Diagrams, Compose file, broker configs and wording are mine; the teaching order follows the video.</sub>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>dev.himanshu.kafka</groupId>
+  <artifactId>connect-plugins</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <!--
+    This pom builds nothing. It exists only so Maven can resolve the connector
+    jars, which the Dockerfile then copies onto the plugin path. A connector is
+    a jar - that is the entire mechanism.
+  -->
+
+  <repositories>
+    <repository>
+      <id>confluent</id>
+      <url>https://packages.confluent.io/maven/</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <!-- SOURCE: Postgres change data capture -->
+    <dependency>
+      <groupId>io.debezium</groupId>
+      <artifactId>debezium-connector-postgres</artifactId>
+      <version>2.7.3.Final</version>
+    </dependency>
+
+    <!-- SINK: any JDBC database -->
+    <dependency>
+      <groupId>io.confluent</groupId>
+      <artifactId>kafka-connect-jdbc</artifactId>
+      <version>10.7.6</version>
+    </dependency>
+
+    <!-- SINK: S3 and anything S3-compatible, MinIO included -->
+    <dependency>
+      <groupId>io.confluent</groupId>
+      <artifactId>kafka-connect-s3</artifactId>
+      <version>10.5.13</version>
+    </dependency>
+
+    <!-- the JDBC sink needs a driver for the target database -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.7.4</version>
+    </dependency>
+  </dependencies>
+</project>

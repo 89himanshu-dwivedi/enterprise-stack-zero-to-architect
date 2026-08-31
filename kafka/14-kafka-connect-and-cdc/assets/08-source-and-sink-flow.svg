@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" width="880" height="420" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The six-step source connector flow and the three-step sink connector flow">
+  <defs>
+    <marker id="c8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="420" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">8 · The end-to-end flow, both directions</text>
+
+  <text x="24" y="60" font-size="13.5" font-weight="700" fill="#7a5b00">SOURCE connector &#8212; external system into Kafka</text>
+
+  <g>
+    <rect x="24" y="72" width="128" height="76" rx="9" fill="#fff8e1" stroke="#b8860b" stroke-width="1.6"/>
+    <circle cx="44" cy="92" r="11" fill="#b8860b"/><text x="44" y="96" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+    <text x="88" y="118" font-size="9.5" font-weight="700" fill="#7a5b00" text-anchor="middle">worker reads config</text>
+    <text x="88" y="134" font-size="8.5" fill="#8a6d00" text-anchor="middle" font-family="Consolas, monospace">connect-configs</text>
+  </g>
+  <path d="M152 110 L166 110" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#c8)"/>
+  <g>
+    <rect x="172" y="72" width="128" height="76" rx="9" fill="#fff8e1" stroke="#b8860b" stroke-width="1.6"/>
+    <circle cx="192" cy="92" r="11" fill="#b8860b"/><text x="192" y="96" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+    <text x="236" y="118" font-size="9.5" font-weight="700" fill="#7a5b00" text-anchor="middle">instantiates the</text>
+    <text x="236" y="134" font-size="9.5" font-weight="700" fill="#7a5b00" text-anchor="middle">connector class</text>
+  </g>
+  <path d="M300 110 L314 110" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#c8)"/>
+  <g>
+    <rect x="320" y="72" width="128" height="76" rx="9" fill="#fff8e1" stroke="#b8860b" stroke-width="1.6"/>
+    <circle cx="340" cy="92" r="11" fill="#b8860b"/><text x="340" y="96" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+    <text x="384" y="118" font-size="9.5" font-weight="700" fill="#7a5b00" text-anchor="middle">connector creates</text>
+    <text x="384" y="134" font-size="9.5" font-weight="700" fill="#7a5b00" text-anchor="middle">its tasks</text>
+  </g>
+  <path d="M448 110 L462 110" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#c8)"/>
+  <g>
+    <rect x="468" y="72" width="128" height="76" rx="9" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+    <circle cx="488" cy="92" r="11" fill="#2f5fa8"/><text x="488" y="96" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+    <text x="532" y="118" font-size="9.5" font-weight="700" fill="#12305e" text-anchor="middle">task polls the</text>
+    <text x="532" y="134" font-size="9.5" font-weight="700" fill="#12305e" text-anchor="middle">external system</text>
+  </g>
+  <path d="M596 110 L610 110" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#c8)"/>
+  <g>
+    <rect x="616" y="72" width="112" height="76" rx="9" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.6"/>
+    <circle cx="636" cy="92" r="11" fill="#2f5fa8"/><text x="636" y="96" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">5</text>
+    <text x="672" y="118" font-size="9.5" font-weight="700" fill="#12305e" text-anchor="middle">converter turns</text>
+    <text x="672" y="134" font-size="9.5" font-weight="700" fill="#12305e" text-anchor="middle">it into bytes</text>
+  </g>
+  <path d="M728 110 L742 110" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#c8)"/>
+  <g>
+    <rect x="748" y="72" width="108" height="76" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6"/>
+    <circle cx="768" cy="92" r="11" fill="#1e7a44"/><text x="768" y="96" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">6</text>
+    <text x="802" y="116" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">write to topic,</text>
+    <text x="802" y="130" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">then commit the</text>
+    <text x="802" y="144" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">offset</text>
+  </g>
+  <circle r="6" cy="110" fill="#f4b400" stroke="#8a6d00" stroke-width="1.2">
+    <animate attributeName="cx" dur="6s" repeatCount="indefinite" values="88;236;384;532;672;802"/>
+    <animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.93;1"/>
+  </circle>
+  <text x="440" y="168" font-size="10" font-style="italic" fill="#5b6b7f" text-anchor="middle">Step 6 in that order matters: the record is <tspan font-weight="700">in</tspan> the topic before the offset moves. Same rule as part 11.</text>
+
+  <line x1="24" y1="184" x2="856" y2="184" stroke="#c9d3e0" stroke-width="1.4"/>
+
+  <text x="24" y="212" font-size="13.5" font-weight="700" fill="#0f4d2a">SINK connector &#8212; Kafka into the external system (much simpler)</text>
+
+  <g>
+    <rect x="24" y="226" width="256" height="76" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6"/>
+    <circle cx="46" cy="248" r="11" fill="#1e7a44"/><text x="46" y="252" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+    <text x="152" y="274" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">task consumes from the Kafka topic</text>
+    <text x="152" y="292" font-size="9" fill="#1e7a44" text-anchor="middle">it is a real consumer group under the hood</text>
+  </g>
+  <path d="M280 264 L300 264" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#c8)"/>
+  <g>
+    <rect x="306" y="226" width="256" height="76" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6"/>
+    <circle cx="328" cy="248" r="11" fill="#1e7a44"/><text x="328" y="252" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+    <text x="434" y="274" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">converter turns bytes into a record</text>
+    <text x="434" y="292" font-size="9" fill="#1e7a44" text-anchor="middle">the mirror image of step 5 above</text>
+  </g>
+  <path d="M562 264 L582 264" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#c8)"/>
+  <g>
+    <rect x="588" y="226" width="268" height="76" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6"/>
+    <circle cx="610" cy="248" r="11" fill="#1e7a44"/><text x="610" y="252" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+    <text x="722" y="274" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">writes to the external system</text>
+    <text x="722" y="292" font-size="9" fill="#1e7a44" text-anchor="middle">a DB insert, an S3 object, an ES document</text>
+  </g>
+  <circle r="6" cy="264" fill="#1e7a44">
+    <animate attributeName="cx" dur="3.6s" repeatCount="indefinite" values="152;434;722"/>
+    <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.9;1"/>
+  </circle>
+
+  <rect x="24" y="320" width="832" height="86" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="440" y="344" font-size="12" font-weight="700" fill="#1b2a3a" text-anchor="middle">Converters &#8212; the layer people skip and then regret</text>
+  <text x="440" y="368" font-size="11" fill="#5b6b7f" text-anchor="middle">A key converter and a value converter sit between the task and the topic, in both directions.</text>
+  <text x="440" y="388" font-size="11" fill="#5b6b7f" text-anchor="middle">JSON with <tspan font-family="Consolas, monospace">schemas.enable=false</tspan> is the easy start. Turn schemas on when you want the data contract validated, or move to Avro with a Schema Registry.</text>
+</svg>

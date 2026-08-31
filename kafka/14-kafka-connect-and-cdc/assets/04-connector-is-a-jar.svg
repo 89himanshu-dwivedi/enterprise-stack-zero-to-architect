@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 450" width="880" height="450" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A connector is nothing but a jar file on the plugin path, selected by connector.class">
+  <defs>
+    <marker id="c4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="450" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">4 · A connector is not magic &#8212; it is a jar file</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Nothing is built into Connect. You drop jars on a folder, and name the one you want in the config.</text>
+
+  <!-- plugin path -->
+  <rect x="24" y="68" width="270" height="222" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.8"/>
+  <text x="159" y="92" font-size="11.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">the plugin path on disk</text>
+  <text x="159" y="110" font-size="9" fill="#5b6b7f" text-anchor="middle" font-family="Consolas, monospace">plugin.path=/usr/share/java/libs</text>
+  <g fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4">
+    <rect x="44" y="122" width="230" height="26" rx="6"/>
+    <rect x="44" y="154" width="230" height="26" rx="6"/>
+    <rect x="44" y="186" width="230" height="26" rx="6"/>
+    <rect x="44" y="218" width="230" height="26" rx="6"/>
+    <rect x="44" y="250" width="230" height="26" rx="6"/>
+  </g>
+  <g font-size="9" fill="#1b2a3a" font-family="Consolas, monospace">
+    <text x="56" y="139">debezium-connector-postgres.jar</text>
+    <text x="56" y="171">kafka-connect-jdbc.jar</text>
+    <text x="56" y="203">kafka-connect-s3.jar</text>
+    <text x="56" y="235">kafka-connect-elasticsearch.jar</text>
+    <text x="56" y="267">kafka-connect-mongodb.jar</text>
+  </g>
+  <rect x="44" y="122" width="230" height="26" rx="6" fill="none" stroke="#b8860b" stroke-width="2.6" opacity="0">
+    <animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;1;1" keyTimes="0;0.28;0.34;0.9;0.96;1"/>
+  </rect>
+  <text x="159" y="288" font-size="9" font-style="italic" fill="#5b6b7f" text-anchor="middle">the worker loads all of them at startup</text>
+
+  <path d="M294 180 L338 180" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#c4)"/>
+  <text x="316" y="172" font-size="8" fill="#5b6b7f" text-anchor="middle">pick one</text>
+
+  <!-- config -->
+  <rect x="344" y="68" width="512" height="222" rx="11" fill="#1b2a3a"/>
+  <text x="364" y="92" font-size="11" font-weight="700" fill="#f4b400">the connector configuration selects the class</text>
+  <g font-size="11" font-family="Consolas, monospace">
+    <text x="364" y="118" fill="#8ea3bb">{</text>
+    <text x="380" y="138" fill="#a8d5ba">"name"</text><text x="440" y="138" fill="#8ea3bb">: </text><text x="456" y="138" fill="#f4b400">"orders-db-source"</text><text x="600" y="138" fill="#8ea3bb">,</text>
+    <text x="380" y="158" fill="#a8d5ba">"connector.class"</text><text x="524" y="158" fill="#8ea3bb">:</text>
+    <text x="396" y="178" fill="#f4b400">"io.debezium.connector.postgresql.PostgresConnector"</text><text x="810" y="178" fill="#8ea3bb">,</text>
+    <text x="380" y="198" fill="#a8d5ba">"tasks.max"</text><text x="470" y="198" fill="#8ea3bb">: </text><text x="486" y="198" fill="#f4b400">"1"</text><text x="510" y="198" fill="#8ea3bb">,</text>
+    <text x="380" y="218" fill="#a8d5ba">"table.include.list"</text><text x="546" y="218" fill="#8ea3bb">: </text><text x="562" y="218" fill="#f4b400">"public.orders"</text><text x="682" y="218" fill="#8ea3bb">,</text>
+    <text x="380" y="238" fill="#a8d5ba">"topic.prefix"</text><text x="494" y="238" fill="#8ea3bb">: </text><text x="510" y="238" fill="#f4b400">"order_service"</text>
+    <text x="364" y="258" fill="#8ea3bb">}</text>
+  </g>
+  <text x="364" y="280" font-size="9.5" fill="#8ea3bb">fully qualified &#8212; package name <tspan font-style="italic">and</tspan> class name. Get one character wrong and the connector will not start.</text>
+  <rect x="390" y="164" width="426" height="22" rx="4" fill="none" stroke="#f4b400" stroke-width="2" opacity="0">
+    <animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.34;0.4;0.62;0.68;1"/>
+  </rect>
+
+  <!-- what the class must do -->
+  <rect x="24" y="304" width="404" height="132" rx="11" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="226" y="328" font-size="12" font-weight="700" fill="#1b2a3a" text-anchor="middle">What the class has to implement</text>
+  <text x="44" y="352" font-size="10.5" fill="#1b2a3a">A source connector <tspan font-weight="700">extends</tspan> <tspan font-family="Consolas, monospace" fill="#2f5fa8">SourceConnector</tspan></text>
+  <text x="44" y="372" font-size="10.5" fill="#1b2a3a">A sink connector <tspan font-weight="700">extends</tspan> <tspan font-family="Consolas, monospace" fill="#2f5fa8">SinkConnector</tspan></text>
+  <text x="44" y="392" font-size="10.5" fill="#1b2a3a">Both implement the standard Connect API methods,</text>
+  <text x="44" y="410" font-size="10.5" fill="#1b2a3a">and both must <tspan font-weight="700">create the tasks</tspan> the workers will execute.</text>
+  <text x="226" y="428" font-size="9.5" font-style="italic" fill="#5b6b7f" text-anchor="middle">Which is exactly how you would write your own connector.</text>
+
+  <!-- config knobs -->
+  <rect x="440" y="304" width="416" height="132" rx="11" fill="#fff8e1" stroke="#b8860b" stroke-width="1.6"/>
+  <text x="648" y="328" font-size="12" font-weight="700" fill="#7a5b00" text-anchor="middle">What you tell the connector</text>
+  <g font-size="10.5" fill="#7a5b00">
+    <text x="460" y="352">&#183; which <tspan font-weight="700">Kafka topic</tspan> to feed, or read from</text>
+    <text x="460" y="372">&#183; which <tspan font-weight="700">table or bucket</tspan> to read, or write to</text>
+    <text x="460" y="392">&#183; <tspan font-weight="700">how many tasks</tspan> &#8212; minimum one, more for parallelism</text>
+    <text x="460" y="412">&#183; the <tspan font-weight="700">converters</tspan> for key and value</text>
+  </g>
+  <text x="648" y="430" font-size="9.5" font-style="italic" fill="#8a6d00" text-anchor="middle">tasks.max = 3 gives you three parallel tasks, like three partitions</text>
+</svg>

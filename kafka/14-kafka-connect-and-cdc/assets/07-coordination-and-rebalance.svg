@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480" width="880" height="480" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Worker coordination and rebalancing in Kafka Connect when a worker crashes">
+  <defs>
+    <marker id="c7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="480" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">7 · Coordination and rebalancing</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Four workers, three connectors. Watch what happens when worker 4 dies &#8212; and why nothing is lost.</text>
+
+  <!-- workers -->
+  <g>
+    <rect x="24" y="68" width="180" height="112" rx="10" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.6"/>
+    <text x="114" y="90" font-size="11" font-weight="700" fill="#1b2a3a" text-anchor="middle">worker 1</text>
+    <text x="114" y="105" font-size="8.5" font-weight="700" fill="#b8860b" text-anchor="middle">LEADER &#8212; assigns the tasks</text>
+    <rect x="40" y="114" width="148" height="20" rx="5" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.2"/>
+    <text x="114" y="128" font-size="8.5" fill="#12305e" text-anchor="middle">connector 1 &#183; task</text>
+    <rect x="40" y="140" width="148" height="20" rx="5" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.2"/>
+    <text x="114" y="154" font-size="8.5" fill="#12305e" text-anchor="middle">connector 2 &#183; task</text>
+  </g>
+  <g>
+    <rect x="216" y="68" width="180" height="112" rx="10" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.6"/>
+    <text x="306" y="90" font-size="11" font-weight="700" fill="#1b2a3a" text-anchor="middle">worker 2</text>
+    <rect x="232" y="114" width="148" height="20" rx="5" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.2"/>
+    <text x="306" y="128" font-size="8.5" fill="#12305e" text-anchor="middle">connector 1 &#183; task</text>
+    <rect x="232" y="140" width="148" height="20" rx="5" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.2"/>
+    <text x="306" y="154" font-size="8.5" fill="#12305e" text-anchor="middle">connector 3 &#183; task</text>
+    <rect x="232" y="166" width="148" height="20" rx="5" fill="#dff3e6" stroke="#1e7a44" stroke-width="1.6" opacity="0">
+      <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.55;0.62;0.95;1"/>
+    </rect>
+    <text x="306" y="180" font-size="8.5" font-weight="700" fill="#0f4d2a" text-anchor="middle" opacity="0">connector 2 &#183; task (moved in)
+      <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.55;0.62;0.95;1"/>
+    </text>
+  </g>
+  <g>
+    <rect x="408" y="68" width="180" height="112" rx="10" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.6"/>
+    <text x="498" y="90" font-size="11" font-weight="700" fill="#1b2a3a" text-anchor="middle">worker 3</text>
+    <rect x="424" y="114" width="148" height="20" rx="5" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.2"/>
+    <text x="498" y="128" font-size="8.5" fill="#12305e" text-anchor="middle">connector 2 &#183; task</text>
+    <rect x="424" y="140" width="148" height="20" rx="5" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.2"/>
+    <text x="498" y="154" font-size="8.5" fill="#12305e" text-anchor="middle">connector 3 &#183; task</text>
+    <rect x="424" y="166" width="148" height="20" rx="5" fill="#dff3e6" stroke="#1e7a44" stroke-width="1.6" opacity="0">
+      <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.55;0.62;0.95;1"/>
+    </rect>
+    <text x="498" y="180" font-size="8.5" font-weight="700" fill="#0f4d2a" text-anchor="middle" opacity="0">connector 1 &#183; task (moved in)
+      <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.55;0.62;0.95;1"/>
+    </text>
+  </g>
+  <g>
+    <rect x="600" y="68" width="180" height="112" rx="10" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.6"/>
+    <rect x="600" y="68" width="180" height="112" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="2.6" stroke-dasharray="6 4" opacity="0">
+      <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.28;0.36;0.95;1"/>
+    </rect>
+    <text x="690" y="90" font-size="11" font-weight="700" fill="#1b2a3a" text-anchor="middle">worker 4</text>
+    <rect x="616" y="114" width="148" height="20" rx="5" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.2"/>
+    <text x="690" y="128" font-size="8.5" fill="#12305e" text-anchor="middle">connector 1 &#183; task</text>
+    <rect x="616" y="140" width="148" height="20" rx="5" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.2"/>
+    <text x="690" y="154" font-size="8.5" fill="#12305e" text-anchor="middle">connector 2 &#183; task</text>
+    <text x="690" y="106" font-size="10" font-weight="700" fill="#a01818" text-anchor="middle" opacity="0">CRASHED &#8212; heartbeat stopped
+      <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.28;0.36;0.95;1"/>
+    </text>
+  </g>
+  <text x="810" y="128" font-size="11" font-weight="700" fill="#c62828" text-anchor="middle" opacity="0">&#8594;
+    <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;0" keyTimes="0;0.5;0.6;1"/>
+  </text>
+
+  <!-- heartbeats down to status topic -->
+  <g stroke="#1e7a44" stroke-width="1.4" fill="none" stroke-dasharray="4 3">
+    <path d="M114 180 L114 216"/><path d="M306 180 L306 216"/><path d="M498 180 L498 216"/>
+  </g>
+  <path d="M690 180 L690 216" fill="none" stroke="#c62828" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <text x="738" y="202" font-size="9" font-weight="700" fill="#a01818">no heartbeat for N seconds</text>
+
+  <rect x="24" y="222" width="756" height="46" rx="9" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="402" y="242" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle" font-family="Consolas, monospace">connect-status &#183; connect-configs &#183; connect-offsets</text>
+  <text x="402" y="260" font-size="10" fill="#1e7a44" text-anchor="middle">workers never talk to each other &#8212; every heartbeat, assignment and offset goes through these topics</text>
+  <rect x="24" y="222" width="756" height="46" rx="9" fill="none" stroke="#c62828" stroke-width="2.6" opacity="0">
+    <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.4;0.46;0.55;0.6;1"/>
+  </rect>
+  <text x="402" y="284" font-size="10.5" font-weight="700" fill="#a01818" text-anchor="middle" opacity="0">worker 4&#8217;s status entry is stale &#8594; every other worker sees it &#8594; REBALANCE
+    <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.4;0.46;0.58;0.63;1"/>
+  </text>
+
+  <rect x="24" y="298" width="404" height="80" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="226" y="320" font-size="12" font-weight="700" fill="#1b2a3a" text-anchor="middle">A rebalance is triggered when</text>
+  <g font-size="10.5" fill="#1b2a3a">
+    <text x="44" y="342">&#183; a worker <tspan font-weight="700">joins</tspan> the group</text>
+    <text x="44" y="360">&#183; a worker <tspan font-weight="700">leaves</tspan> or stops heartbeating</text>
+    <text x="228" y="342">&#183; a <tspan font-weight="700">connector config changes</tspan></text>
+    <text x="228" y="360">&#183; tasks.max is increased</text>
+  </g>
+
+  <rect x="440" y="298" width="416" height="80" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="648" y="320" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">&#8220;But surely we lose data?&#8221; &#8212; no.</text>
+  <text x="648" y="342" font-size="10.5" fill="#1e7a44" text-anchor="middle">The offsets were already committed to <tspan font-family="Consolas, monospace">connect-offsets</tspan>.</text>
+  <text x="648" y="362" font-size="10.5" fill="#1e7a44" text-anchor="middle">The new owner reads the last row that was fed, and resumes from the next one.</text>
+
+  <rect x="24" y="392" width="832" height="72" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="440" y="414" font-size="12" font-weight="700" fill="#12305e" text-anchor="middle">How the group actually forms &#8212; it is a consumer group in disguise</text>
+  <text x="440" y="436" font-size="11" fill="#12305e" text-anchor="middle">workers join with the same <tspan font-family="Consolas, monospace">group.id</tspan> &#8594; one is elected <tspan font-weight="700">leader</tspan> &#8594; the leader computes the task assignment &#8594; writes it to <tspan font-family="Consolas, monospace">connect-configs</tspan></text>
+  <text x="440" y="456" font-size="11" fill="#2f5fa8" text-anchor="middle">&#8594; every worker reads its own assignment back out of the topic and starts running those tasks. Same mechanics as part 12.</text>
+</svg>

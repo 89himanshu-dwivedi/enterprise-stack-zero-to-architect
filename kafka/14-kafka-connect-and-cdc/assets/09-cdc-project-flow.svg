@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500" width="880" height="500" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The CDC demo project: order service writes to Postgres, Debezium streams the WAL to Kafka, sink connectors fan out to the analytics database and S3">
+  <defs>
+    <marker id="c9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="500" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">9 · The project &#8212; change data capture, end to end</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">The order service never touches Kafka. It writes a row. Everything downstream happens because of that row.</text>
+
+  <!-- order service -->
+  <rect x="24" y="72" width="150" height="86" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="99" y="94" font-size="11" font-weight="700" fill="#12305e" text-anchor="middle">order-service</text>
+  <text x="99" y="112" font-size="8.5" fill="#2f5fa8" text-anchor="middle">Spring Boot &#183; port 8080</text>
+  <text x="99" y="130" font-size="8.5" fill="#2f5fa8" text-anchor="middle" font-family="Consolas, monospace">POST /api/orders</text>
+  <text x="99" y="148" font-size="8.5" font-weight="700" fill="#a01818" text-anchor="middle">no Kafka client at all</text>
+
+  <path d="M174 114 L210 114" fill="none" stroke="#5b6b7f" stroke-width="2" marker-end="url(#c9)"/>
+  <text x="192" y="106" font-size="8" fill="#5b6b7f" text-anchor="middle">save()</text>
+
+  <!-- orders db -->
+  <rect x="216" y="72" width="168" height="86" rx="10" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.8"/>
+  <text x="300" y="92" font-size="11" font-weight="700" fill="#1b2a3a" text-anchor="middle">orders-db (Postgres)</text>
+  <text x="300" y="108" font-size="8.5" fill="#5b6b7f" text-anchor="middle">table <tspan font-family="Consolas, monospace">public.orders</tspan></text>
+  <rect x="232" y="116" width="136" height="32" rx="6" fill="#fff8e1" stroke="#b8860b" stroke-width="1.5"/>
+  <text x="300" y="130" font-size="9" font-weight="700" fill="#7a5b00" text-anchor="middle">WAL &#8212; write-ahead log</text>
+  <text x="300" y="143" font-size="8" fill="#8a6d00" text-anchor="middle">wal_level = logical</text>
+
+  <path d="M384 114 L420 114" fill="none" stroke="#b8860b" stroke-width="2.2" marker-end="url(#c9)"/>
+  <text x="402" y="106" font-size="8" fill="#8a6d00" text-anchor="middle">stream</text>
+
+  <!-- debezium -->
+  <rect x="426" y="72" width="176" height="86" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="2.2"/>
+  <text x="514" y="92" font-size="11" font-weight="700" fill="#7a5b00" text-anchor="middle">Debezium SOURCE</text>
+  <text x="514" y="108" font-size="8.5" fill="#8a6d00" text-anchor="middle">running inside kafka-connect</text>
+  <text x="514" y="124" font-size="8" fill="#8a6d00" text-anchor="middle" font-family="Consolas, monospace">slot: debezium_orders</text>
+  <text x="514" y="139" font-size="8" fill="#8a6d00" text-anchor="middle" font-family="Consolas, monospace">publication: dbz_publication</text>
+  <text x="514" y="153" font-size="8" font-weight="700" fill="#7a5b00" text-anchor="middle">no SELECT * is ever issued</text>
+
+  <path d="M602 114 L638 114" fill="none" stroke="#1e7a44" stroke-width="2.2" marker-end="url(#c9)"/>
+
+  <!-- kafka topic -->
+  <rect x="644" y="72" width="212" height="86" rx="10" fill="#e6f4ea" stroke="#1e7a44" stroke-width="2"/>
+  <text x="750" y="92" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka topic</text>
+  <text x="750" y="110" font-size="9" fill="#1e7a44" text-anchor="middle" font-family="Consolas, monospace">order_service.public.orders</text>
+  <g fill="#ffffff" stroke="#1e7a44" stroke-width="1.2">
+    <rect x="664" y="120" width="42" height="24" rx="4"/><rect x="712" y="120" width="42" height="24" rx="4"/>
+    <rect x="760" y="120" width="42" height="24" rx="4"/><rect x="808" y="120" width="34" height="24" rx="4"/>
+  </g>
+  <g font-size="9" fill="#0f4d2a" text-anchor="middle"><text x="685" y="137">0</text><text x="733" y="137">1</text><text x="781" y="137">2</text><text x="825" y="137">&#8230;</text></g>
+
+  <circle r="6" cy="114" fill="#2f5fa8">
+    <animate attributeName="cx" dur="4s" repeatCount="indefinite" values="99;300;514;750"/>
+    <animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.92;1"/>
+  </circle>
+
+  <!-- fan out down -->
+  <path d="M700 158 L560 208" fill="none" stroke="#1e7a44" stroke-width="1.8" marker-end="url(#c9)"/>
+  <path d="M800 158 L800 208" fill="none" stroke="#1e7a44" stroke-width="1.8" marker-end="url(#c9)"/>
+
+  <!-- jdbc sink -->
+  <rect x="436" y="214" width="200" height="76" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="2"/>
+  <text x="536" y="234" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">JDBC SINK connector</text>
+  <text x="536" y="252" font-size="8.5" fill="#8a6d00" text-anchor="middle">orders-to-analytics</text>
+  <text x="536" y="270" font-size="8.5" fill="#8a6d00" text-anchor="middle">upsert into <tspan font-family="Consolas, monospace">order_events</tspan></text>
+  <text x="536" y="284" font-size="8" fill="#8a6d00" text-anchor="middle">fields whitelisted in the config</text>
+
+  <!-- s3 sink -->
+  <rect x="656" y="214" width="200" height="76" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="2"/>
+  <text x="756" y="234" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">S3 SINK connector</text>
+  <text x="756" y="252" font-size="8.5" fill="#8a6d00" text-anchor="middle">orders-to-s3</text>
+  <text x="756" y="270" font-size="8.5" fill="#8a6d00" text-anchor="middle">bucket <tspan font-family="Consolas, monospace">order-events</tspan></text>
+  <text x="756" y="284" font-size="8" fill="#8a6d00" text-anchor="middle">flush.size records per object</text>
+
+  <path d="M536 290 L536 322" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#c9)"/>
+  <path d="M756 290 L756 322" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#c9)"/>
+
+  <rect x="436" y="328" width="200" height="62" rx="10" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.8"/>
+  <text x="536" y="350" font-size="10.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">analytics-db (Postgres)</text>
+  <text x="536" y="368" font-size="8.5" fill="#5b6b7f" text-anchor="middle">host port 5433 &#183; table order_events</text>
+  <text x="536" y="383" font-size="8" fill="#5b6b7f" text-anchor="middle">no replication needed here</text>
+
+  <rect x="656" y="328" width="200" height="62" rx="10" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.8"/>
+  <text x="756" y="350" font-size="10.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">MinIO (S3-compatible)</text>
+  <text x="756" y="368" font-size="8.5" fill="#5b6b7f" text-anchor="middle">API 9000 &#183; console 9001</text>
+  <text x="756" y="383" font-size="8" fill="#5b6b7f" text-anchor="middle">swap the endpoint for real S3</text>
+
+  <path d="M436 359 L400 359" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#c9)"/>
+  <path d="M656 400 L300 400 L300 392" fill="none" stroke="#5b6b7f" stroke-width="1.8" marker-end="url(#c9)"/>
+
+  <rect x="216" y="328" width="168" height="62" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="300" y="350" font-size="10.5" font-weight="700" fill="#12305e" text-anchor="middle">analytics-service</text>
+  <text x="300" y="368" font-size="8.5" fill="#2f5fa8" text-anchor="middle">Spring Boot &#183; port 8081</text>
+  <text x="300" y="383" font-size="8.5" font-weight="700" fill="#a01818" text-anchor="middle">no Kafka client either</text>
+
+  <rect x="24" y="214" width="392" height="76" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="220" y="236" font-size="11.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Why this is CDC and not polling</text>
+  <text x="220" y="256" font-size="10" fill="#1e7a44" text-anchor="middle">Every change Postgres makes is written to the WAL first,</text>
+  <text x="220" y="272" font-size="10" fill="#1e7a44" text-anchor="middle">with a log sequence number. Debezium subscribes to that log.</text>
+  <text x="220" y="286" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Inserts, updates and deletes &#8212; all of them, in order, with no query load.</text>
+
+  <rect x="24" y="406" width="832" height="80" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="440" y="428" font-size="12" font-weight="700" fill="#1b2a3a" text-anchor="middle">The whole point in one line</text>
+  <text x="440" y="452" font-size="11.5" fill="#1b2a3a" text-anchor="middle">Neither service imports a Kafka library. Neither knows the other exists. Adding a third destination is <tspan font-weight="700">one more JSON file</tspan>.</text>
+  <text x="440" y="474" font-size="11" fill="#5b6b7f" text-anchor="middle">That is the difference between an integration you configure and an integration you maintain.</text>
+</svg>
