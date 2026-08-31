@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 490" width="880" height="490" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="On startup, rehydrate from a source of truth then reset the offset to latest so only new events are processed">
+  <defs>
+    <marker id="t7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#1e7a44"/>
+    </marker>
+  </defs>
+  <rect width="880" height="490" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">7 · The fix &#8212; rehydrate from the source of truth, then jump to latest</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Don&#8217;t replay two hours of deltas to reach a state you can simply <tspan font-style="italic">fetch</tspan>.</text>
+
+  <!-- step 1 -->
+  <rect x="24" y="68" width="250" height="120" rx="11" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="149" y="92" font-size="11.5" font-weight="700" fill="#12305e" text-anchor="middle">1 &#183; on startup, rehydrate</text>
+  <text x="149" y="114" font-size="10" fill="#2f5fa8" text-anchor="middle">call the source of truth &#8212;</text>
+  <text x="149" y="130" font-size="10" fill="#2f5fa8" text-anchor="middle">the product catalog API,</text>
+  <text x="149" y="146" font-size="10" fill="#2f5fa8" text-anchor="middle">a bulk export/import, a snapshot</text>
+  <text x="149" y="170" font-size="9.5" font-weight="700" fill="#12305e" text-anchor="middle">one call &#8594; the whole current state</text>
+
+  <path d="M274 128 L316 128" fill="none" stroke="#1e7a44" stroke-width="2" marker-end="url(#t7)"/>
+
+  <!-- step 2 -->
+  <rect x="322" y="68" width="250" height="120" rx="11" fill="#fff3cd" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="447" y="92" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">2 &#183; reset the offset to latest</text>
+  <text x="447" y="118" font-size="9.5" fill="#8a6d00" text-anchor="middle" font-family="Consolas, monospace">--reset-offsets --to-latest</text>
+  <text x="447" y="140" font-size="10" fill="#8a6d00" text-anchor="middle">the backlog is declared irrelevant,</text>
+  <text x="447" y="156" font-size="10" fill="#8a6d00" text-anchor="middle">because you already have that state</text>
+  <text x="447" y="176" font-size="10.5" font-weight="700" fill="#7a5b00" text-anchor="middle">LAG &#8594; 0, instantly</text>
+
+  <path d="M572 128 L614 128" fill="none" stroke="#1e7a44" stroke-width="2" marker-end="url(#t7)"/>
+
+  <!-- step 3 -->
+  <rect x="620" y="68" width="236" height="120" rx="11" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="738" y="92" font-size="11.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">3 &#183; process only what is new</text>
+  <text x="738" y="118" font-size="10" fill="#1e7a44" text-anchor="middle">nothing to reprocess, no surge,</text>
+  <text x="738" y="134" font-size="10" fill="#1e7a44" text-anchor="middle">no starved functionality</text>
+  <g fill="#1e7a44">
+    <circle cy="158" r="6"><animate attributeName="cx" dur="2s" repeatCount="indefinite" values="650;826"/><animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.85;1"/></circle>
+    <circle cy="158" r="6"><animate attributeName="cx" dur="2s" begin="0.7s" repeatCount="indefinite" values="650;826"/><animate attributeName="opacity" dur="2s" begin="0.7s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.85;1"/></circle>
+  </g>
+  <text x="738" y="180" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">only new inventory changes</text>
+
+  <!-- offset ruler -->
+  <rect x="24" y="202" width="832" height="84" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.6"/>
+  <text x="44" y="224" font-size="10.5" font-weight="700" fill="#0f4d2a">inventory-change-events &#8212; partition 0</text>
+  <rect x="120" y="234" width="620" height="34" rx="7" fill="#f8dede" stroke="#c62828" stroke-width="1.3"/>
+  <rect x="120" y="234" width="620" height="34" rx="7" fill="#c62828" opacity="0.3">
+    <animate attributeName="width" dur="5s" repeatCount="indefinite" values="620;0;0" keyTimes="0;0.55;1"/>
+  </rect>
+  <text x="430" y="256" font-size="11" font-weight="700" fill="#a01818" text-anchor="middle" opacity="1">
+    3,000,000 backlogged records
+    <animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.35;0.5;1"/>
+  </text>
+  <text x="430" y="256" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle" opacity="0">
+    LAG = 0
+    <animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.5;0.62;1"/>
+  </text>
+  <polygon points="-8,230 8,230 0,218" fill="#b8860b">
+    <animateTransform attributeName="transform" type="translate" dur="5s" repeatCount="indefinite" values="120 0;740 0;740 0" keyTimes="0;0.55;1"/>
+  </polygon>
+  <text x="770" y="256" font-size="10" font-weight="700" fill="#7a5b00">log-end</text>
+
+  <!-- real world tiles -->
+  <text x="24" y="312" font-size="14" font-weight="700" fill="#1b2a3a">Where you actually see this pattern</text>
+
+  <rect x="24" y="324" width="270" height="122" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="44" y="348" font-size="11.5" font-weight="700" fill="#1b2a3a">Inventory service</text>
+  <text x="44" y="368" font-size="10" fill="#5b6b7f">topic: <tspan font-family="Consolas, monospace">inventory-change-events</tspan></text>
+  <text x="44" y="388" font-size="10" fill="#5b6b7f">On startup, call the product catalog API</text>
+  <text x="44" y="404" font-size="10" fill="#5b6b7f">for the full picture, then skip the deltas.</text>
+  <text x="44" y="428" font-size="9.5" font-weight="700" fill="#0f4d2a">state fetched &#183; offset to latest</text>
+
+  <rect x="305" y="324" width="270" height="122" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="325" y="348" font-size="11.5" font-weight="700" fill="#1b2a3a">Live occupancy dashboard</text>
+  <text x="325" y="368" font-size="10" fill="#5b6b7f">topics: <tspan font-family="Consolas, monospace">room-booking-events</tspan>,</text>
+  <text x="325" y="384" font-size="10" fill="#5b6b7f"><tspan font-family="Consolas, monospace">check-in-events</tspan></text>
+  <text x="325" y="404" font-size="10" fill="#5b6b7f">A dashboard needs the current picture,</text>
+  <text x="325" y="420" font-size="10" fill="#5b6b7f">not every booking from two hours ago.</text>
+  <text x="325" y="440" font-size="9.5" font-weight="700" fill="#0f4d2a">bulk export/import &#183; offset to latest</text>
+
+  <rect x="586" y="324" width="270" height="122" rx="10" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="606" y="348" font-size="11.5" font-weight="700" fill="#1b2a3a">Driver state aggregator</text>
+  <text x="606" y="368" font-size="10" fill="#5b6b7f">topic: <tspan font-family="Consolas, monospace">driver-status-events</tspan></text>
+  <text x="606" y="384" font-size="10" fill="#5b6b7f">online / offline / trip started / geo pings</text>
+  <text x="606" y="404" font-size="10" fill="#5b6b7f">Only the <tspan font-style="italic">latest</tspan> position matters &#8212;</text>
+  <text x="606" y="420" font-size="10" fill="#5b6b7f">stale locations are worthless.</text>
+  <text x="606" y="440" font-size="9.5" font-weight="700" fill="#0f4d2a">rebuild state &#183; offset to latest</text>
+
+  <rect x="24" y="458" width="832" height="24" rx="7" fill="#1b2a3a"/>
+  <text x="440" y="474" font-size="10" fill="#a8d5ba" text-anchor="middle" font-family="Consolas, monospace">in code: consumer.seekToEnd(partitions)&#160;&#160;&#160;or&#160;&#160;&#160;auto.offset.reset=latest</text>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" width="880" height="420" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A consumer down for two hours accumulates millions of messages, and draining them starves the service of resources">
+  <defs>
+    <marker id="t6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#c62828"/>
+    </marker>
+  </defs>
+  <rect width="880" height="420" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">6 · Case 3 &#8212; the consumer was down for 2 hours. Now what?</text>
+
+  <!-- timeline -->
+  <rect x="24" y="46" width="832" height="126" rx="11" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.6"/>
+  <text x="44" y="70" font-size="11.5" font-weight="700" fill="#a01818">inventory-change-events &#8212; producers never stopped</text>
+
+  <line x1="60" y1="122" x2="820" y2="122" stroke="#c62828" stroke-width="2"/>
+  <g font-size="9" fill="#a01818" text-anchor="middle">
+    <text x="60" y="144">t = 0</text>
+    <text x="440" y="144">2 hours of downtime</text>
+    <text x="820" y="144">service restarts</text>
+  </g>
+  <circle cx="60" cy="122" r="7" fill="#c62828"/>
+  <circle cx="820" cy="122" r="7" fill="#c62828"/>
+
+  <g fill="#c62828">
+    <rect x="80" y="96" width="10" height="20" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.1;1"/></rect>
+    <rect x="180" y="90" width="10" height="26" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.2;1"/></rect>
+    <rect x="280" y="86" width="10" height="30" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.3;1"/></rect>
+    <rect x="380" y="82" width="10" height="34" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.4;1"/></rect>
+    <rect x="480" y="78" width="10" height="38" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.5;1"/></rect>
+    <rect x="580" y="74" width="10" height="42" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.6;1"/></rect>
+    <rect x="680" y="70" width="10" height="46" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.7;1"/></rect>
+    <rect x="780" y="66" width="10" height="50" rx="3"><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.8;1"/></rect>
+  </g>
+  <text x="700" y="60" font-size="22" font-weight="700" fill="#a01818" text-anchor="middle" opacity="0">
+    LAG 3,000,000
+    <animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.75;0.85;1"/>
+  </text>
+
+  <!-- naive path -->
+  <rect x="24" y="188" width="832" height="164" rx="11" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+  <text x="440" y="212" font-size="12.5" font-weight="700" fill="#a01818" text-anchor="middle">The naive answer: &#8220;just let it catch up&#8221;</text>
+
+  <rect x="48" y="226" width="180" height="96" rx="9" fill="#fdf1f1" stroke="#c62828" stroke-width="1.5"/>
+  <text x="138" y="250" font-size="11" font-weight="700" fill="#a01818" text-anchor="middle">Inventory Service</text>
+  <text x="138" y="268" font-size="9.5" fill="#c0392b" text-anchor="middle">back online, sees 3M records</text>
+  <text x="138" y="292" font-size="9.5" font-weight="700" fill="#a01818" text-anchor="middle">CPU</text>
+  <rect x="68" y="298" width="140" height="14" rx="7" fill="#f8dede"/>
+  <rect x="68" y="298" width="14" height="14" rx="7" fill="#c62828">
+    <animate attributeName="width" dur="3s" repeatCount="indefinite" values="14;140;140" keyTimes="0;0.7;1"/>
+  </rect>
+
+  <path d="M228 274 L272 274" fill="none" stroke="#c62828" stroke-width="2" marker-end="url(#t6)"/>
+
+  <rect x="278" y="226" width="270" height="96" rx="9" fill="#fdf1f1" stroke="#c62828" stroke-width="1.5"/>
+  <text x="413" y="250" font-size="11" font-weight="700" fill="#a01818" text-anchor="middle">every resource goes to the backlog</text>
+  <text x="413" y="272" font-size="10" fill="#c0392b" text-anchor="middle">CPU, memory, DB connections, threads &#8212;</text>
+  <text x="413" y="288" font-size="10" fill="#c0392b" text-anchor="middle">all of it burned replaying two-hour-old events</text>
+  <text x="413" y="310" font-size="10" font-weight="700" fill="#a01818" text-anchor="middle">for how long? nobody knows</text>
+
+  <path d="M548 274 L592 274" fill="none" stroke="#c62828" stroke-width="2" marker-end="url(#t6)"/>
+
+  <rect x="598" y="226" width="234" height="96" rx="9" fill="#fdf1f1" stroke="#c62828" stroke-width="1.5"/>
+  <text x="715" y="250" font-size="11" font-weight="700" fill="#a01818" text-anchor="middle">the actual job suffers</text>
+  <text x="715" y="272" font-size="10" fill="#c0392b" text-anchor="middle">the service&#8217;s real functionality is starved,</text>
+  <text x="715" y="288" font-size="10" fill="#c0392b" text-anchor="middle">and everything downstream</text>
+  <text x="715" y="308" font-size="10.5" font-weight="700" fill="#a01818" text-anchor="middle">sees the slowness too</text>
+
+  <rect x="24" y="368" width="832" height="40" rx="9" fill="#fff3cd" stroke="#b8860b" stroke-width="1.6"/>
+  <text x="440" y="386" font-size="12" font-weight="700" fill="#7a5b00" text-anchor="middle">Ask the real question: does this service actually need those 3 million events, or does it just need the current state?</text>
+  <text x="440" y="402" font-size="10.5" fill="#8a6d00" text-anchor="middle">For most stateful services the answer is the second one &#8212; and that changes everything.</text>
+</svg>

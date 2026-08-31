@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480" width="880" height="480" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Blue green deployment with Kafka: run the new version as a second consumer group on the same stream, compare, then delete the old group">
+  <defs>
+    <marker id="t5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="480" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">5 · Case 2 &#8212; zero-downtime blue/green, using consumer groups</text>
+
+  <rect x="24" y="42" width="832" height="32" rx="8" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4"/>
+  <g text-anchor="middle" font-size="12" font-weight="700">
+    <text x="440" y="63" fill="#12305e" opacity="0"><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.60;0.64;1"/>Phase 1 &#8212; both versions consume the SAME stream, into their OWN databases. Compare the results.</text>
+    <text x="440" y="63" fill="#0f4d2a" opacity="0"><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.64;0.68;0.97;1"/>Phase 2 &#8212; confident? Point traffic at the new version and delete the old consumer group.</text>
+  </g>
+
+  <!-- topic -->
+  <rect x="24" y="92" width="180" height="230" rx="12" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+  <text x="114" y="116" font-size="11" font-weight="700" fill="#0f4d2a" text-anchor="middle">topic: order-events</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.3">
+    <rect x="44" y="130" width="140" height="26" rx="5"/><rect x="44" y="162" width="140" height="26" rx="5"/>
+    <rect x="44" y="194" width="140" height="26" rx="5"/><rect x="44" y="226" width="140" height="26" rx="5"/>
+    <rect x="44" y="258" width="140" height="26" rx="5"/>
+  </g>
+  <g font-size="9.5" font-family="Consolas, monospace" fill="#0f4d2a" text-anchor="middle">
+    <text x="114" y="148">order-1</text><text x="114" y="180">order-2</text><text x="114" y="212">order-3</text>
+    <text x="114" y="244">&#8230;</text><text x="114" y="276">order-10</text>
+  </g>
+  <text x="114" y="304" font-size="9" fill="#1e7a44" text-anchor="middle">one stream, read twice</text>
+
+  <path d="M204 150 L250 150" fill="none" stroke="#2f5fa8" stroke-width="2" marker-end="url(#t5)"/>
+  <path d="M204 264 L250 264" fill="none" stroke="#1e7a44" stroke-width="2" marker-end="url(#t5)"/>
+
+  <!-- blue -->
+  <g>
+    <animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="1;1;0.2;0.2;1" keyTimes="0;0.64;0.72;0.97;1"/>
+    <rect x="256" y="92" width="400" height="110" rx="11" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+    <text x="276" y="116" font-size="11.5" font-weight="700" fill="#12305e">BLUE &#8212; group: payment-service &#160;(live today)</text>
+    <rect x="276" y="126" width="180" height="58" rx="8" fill="#ffffff" stroke="#2f5fa8" stroke-width="1.5"/>
+    <text x="366" y="148" font-size="10.5" font-weight="700" fill="#12305e" text-anchor="middle">old ML model worker</text>
+    <text x="366" y="166" font-size="9" fill="#2f5fa8" text-anchor="middle">v1 &#8212; the version in production</text>
+    <path d="M456 155 L490 155" fill="none" stroke="#2f5fa8" stroke-width="1.6" marker-end="url(#t5)"/>
+    <rect x="496" y="126" width="140" height="58" rx="8" fill="#f4f7fb" stroke="#5b6b7f" stroke-width="1.5"/>
+    <text x="566" y="152" font-size="10.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">database A</text>
+    <text x="566" y="170" font-size="9" fill="#5b6b7f" text-anchor="middle">its own store</text>
+  </g>
+
+  <!-- green -->
+  <rect x="256" y="212" width="400" height="110" rx="11" fill="#e6f4ea" stroke="#1e7a44" stroke-width="2"/>
+  <text x="276" y="236" font-size="11.5" font-weight="700" fill="#0f4d2a">GREEN &#8212; group: payment-service-v2 &#160;(new)</text>
+  <rect x="276" y="246" width="180" height="58" rx="8" fill="#ffffff" stroke="#1e7a44" stroke-width="1.5"/>
+  <text x="366" y="268" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">new ML model worker</text>
+  <text x="366" y="286" font-size="9" fill="#1e7a44" text-anchor="middle">v2 &#8212; started <tspan font-family="Consolas, monospace">--from-beginning</tspan></text>
+  <path d="M456 275 L490 275" fill="none" stroke="#1e7a44" stroke-width="1.6" marker-end="url(#t5)"/>
+  <rect x="496" y="246" width="140" height="58" rx="8" fill="#f4f7fb" stroke="#5b6b7f" stroke-width="1.5"/>
+  <text x="566" y="272" font-size="10.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">database B</text>
+  <text x="566" y="290" font-size="9" fill="#5b6b7f" text-anchor="middle">isolated, zero risk</text>
+
+  <g fill="#2f5fa8">
+    <circle r="6"><animate attributeName="cx" dur="2.6s" repeatCount="indefinite" values="114;366;566"/><animate attributeName="cy" dur="2.6s" repeatCount="indefinite" values="150;155;155"/><animate attributeName="opacity" dur="2.6s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.85;1"/></circle>
+  </g>
+  <g fill="#1e7a44">
+    <circle r="6"><animate attributeName="cx" dur="2.6s" begin="0.5s" repeatCount="indefinite" values="114;366;566"/><animate attributeName="cy" dur="2.6s" begin="0.5s" repeatCount="indefinite" values="264;275;275"/><animate attributeName="opacity" dur="2.6s" begin="0.5s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.85;1"/></circle>
+  </g>
+
+  <!-- compare -->
+  <rect x="672" y="122" width="184" height="180" rx="11" fill="#fff3cd" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="764" y="146" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">compare the results</text>
+  <g font-size="10" fill="#8a6d00">
+    <text x="690" y="172">&#8226;&#160; business logic</text>
+    <text x="690" y="194">&#8226;&#160; schema changes</text>
+    <text x="690" y="216">&#8226;&#160; performance metrics</text>
+    <text x="690" y="238">&#8226;&#160; and much more</text>
+  </g>
+  <text x="764" y="266" font-size="9.5" fill="#7a5b00" text-anchor="middle">real production data,</text>
+  <text x="764" y="282" font-size="9.5" fill="#7a5b00" text-anchor="middle">and absolutely no risk</text>
+
+  <!-- phase 2 -->
+  <rect x="24" y="336" width="410" height="132" rx="10" fill="#1b2a3a"/>
+  <text x="40" y="358" font-size="9.5" fill="#8ea3bb" font-family="Consolas, monospace">phase 1 &#8212; start the green group on the same topic</text>
+  <text x="40" y="378" font-size="9" fill="#a8d5ba" font-family="Consolas, monospace">$ kafka-console-consumer.sh ... --topic order-events \</text>
+  <text x="40" y="392" font-size="9" fill="#a8d5ba" font-family="Consolas, monospace">&#160;&#160;&#160;--group payment-service-v2 --from-beginning</text>
+  <text x="40" y="416" font-size="9.5" fill="#8ea3bb" font-family="Consolas, monospace">phase 2 &#8212; retire blue</text>
+  <text x="40" y="436" font-size="9" fill="#f4b400" font-family="Consolas, monospace">$ kafka-consumer-groups.sh ... --delete --group payment-service</text>
+  <text x="40" y="456" font-size="9" fill="#a8d5ba" font-family="Consolas, monospace">$ kafka-consumer-groups.sh ... --list&#160;&#160;&#8594;&#160;payment-service-v2</text>
+
+  <rect x="446" y="336" width="410" height="132" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="651" y="358" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">Why this is genuinely zero downtime</text>
+  <g font-size="10.5" fill="#1e7a44">
+    <text x="466" y="380">&#10003;&#160; The live system is never modified in place</text>
+    <text x="466" y="400">&#10003;&#160; Green is validated against real production data first</text>
+    <text x="466" y="420">&#10003;&#160; Kafka offsets give precise control over what the new</text>
+    <text x="482" y="436">&#160;&#160;&#160;version sees, when it starts and how it processes</text>
+    <text x="466" y="458">&#10003;&#160; Keep blue idle for a few days as an instant rollback</text>
+  </g>
+</svg>

@@ -5,7 +5,7 @@
 >
 > **Runnable benchmark:** [benchmark/](benchmark) — JMH, traditional I/O vs zero-copy.
 >
-> Previous: [07 — `__consumer_offsets` and lag](../07-consumer-offsets-and-lag/README.md) · [06 — Rebalancing and scaling](../06-rebalancing-and-scaling-scenarios/README.md) · [05 — Consumer groups and partitions](../05-consumer-groups-and-partitions/README.md) · [04 — CLI, produce/consume, offsets](../04-cli-produce-consume/README.md) · [03 — Local setup](../03-local-setup/README.md) · [02 — Fundamentals](../02-kafka-fundamentals/README.md) · [01 — Why Kafka](../01-why-kafka-and-what-is-kafka/README.md)
+> Previous: [07 — `__consumer_offsets` and lag](../07-consumer-offsets-and-lag/README.md) · Next: [09 — Offset reset, replay and zero-downtime deployment](../09-offset-reset-and-replay/README.md)
 
 ---
 
