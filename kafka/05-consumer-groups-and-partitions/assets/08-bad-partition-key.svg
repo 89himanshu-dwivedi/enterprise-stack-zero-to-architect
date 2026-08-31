@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" width="880" height="400" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A date as a partition key sends a whole day of traffic to one partition, while an order id spreads the load evenly">
+  <defs>
+    <marker id="p8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="400" fill="#ffffff"/>
+  <text x="24" y="30" font-size="18" font-weight="600" fill="#1b2a3a">8 · Choose a good partition key, or none of this helps</text>
+
+  <!-- bad -->
+  <rect x="20" y="46" width="400" height="288" rx="12" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.6"/>
+  <text x="220" y="70" font-size="12.5" font-weight="700" fill="#a01818" text-anchor="middle">Bad key &#8212; <tspan font-family="Consolas, monospace">key = 2026-08-31</tspan></text>
+  <text x="220" y="88" font-size="10" fill="#c0392b" text-anchor="middle">the date is identical for every record all day &#8594; one hash &#8594; one partition</text>
+
+  <g fill="#fdf1f1" stroke="#c62828" stroke-width="1.5">
+    <rect x="44" y="104" width="150" height="42" rx="7"/>
+    <rect x="44" y="154" width="150" height="42" rx="7"/>
+    <rect x="44" y="204" width="150" height="42" rx="7"/>
+  </g>
+  <g font-size="10.5" font-weight="600" fill="#a01818" text-anchor="middle">
+    <text x="119" y="130">partition 0</text>
+    <text x="119" y="180">partition 1</text>
+    <text x="119" y="230">partition 2</text>
+  </g>
+  <g fill="#f8dede">
+    <rect x="204" y="104" width="192" height="42" rx="7" stroke="#c62828" stroke-width="1.5"/>
+    <rect x="204" y="154" width="192" height="42" rx="7" stroke="#e0b4b4" stroke-width="1.5"/>
+    <rect x="204" y="204" width="192" height="42" rx="7" stroke="#e0b4b4" stroke-width="1.5"/>
+  </g>
+  <text x="300" y="122" font-size="10.5" font-weight="700" fill="#a01818" text-anchor="middle">instance 1</text>
+  <text x="300" y="138" font-size="9" fill="#c0392b" text-anchor="middle">100% of the load, melting</text>
+  <text x="300" y="172" font-size="10.5" font-weight="700" fill="#c96a6a" text-anchor="middle">instance 2</text>
+  <text x="300" y="188" font-size="9" fill="#c96a6a" text-anchor="middle">idle</text>
+  <text x="300" y="222" font-size="10.5" font-weight="700" fill="#c96a6a" text-anchor="middle">instance 3</text>
+  <text x="300" y="238" font-size="9" fill="#c96a6a" text-anchor="middle">idle</text>
+
+  <rect x="44" y="258" width="352" height="14" rx="7" fill="#f8dede"/>
+  <rect x="44" y="258" width="10" height="14" rx="7" fill="#c62828">
+    <animate attributeName="width" dur="4s" repeatCount="indefinite" values="10;352;10" keyTimes="0;0.9;1"/>
+  </rect>
+  <text x="220" y="292" font-size="10.5" font-weight="700" fill="#a01818" text-anchor="middle">load on partition 0 just keeps climbing</text>
+  <text x="220" y="314" font-size="10" fill="#a01818" text-anchor="middle">Spin up 50 instances if you like &#8212; it changes nothing.</text>
+
+  <!-- good -->
+  <rect x="460" y="46" width="400" height="288" rx="12" fill="#f7fbf8" stroke="#b6ddc4" stroke-width="1.6"/>
+  <text x="660" y="70" font-size="12.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">Good key &#8212; <tspan font-family="Consolas, monospace">key = order-id</tspan></text>
+  <text x="660" y="88" font-size="10" fill="#1e7a44" text-anchor="middle">high cardinality, evenly distributed, still groups one order&#8217;s events together</text>
+
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5">
+    <rect x="484" y="104" width="150" height="42" rx="7"/>
+    <rect x="484" y="154" width="150" height="42" rx="7"/>
+    <rect x="484" y="204" width="150" height="42" rx="7"/>
+  </g>
+  <g font-size="10.5" font-weight="600" fill="#0f4d2a" text-anchor="middle">
+    <text x="559" y="130">partition 0</text>
+    <text x="559" y="180">partition 1</text>
+    <text x="559" y="230">partition 2</text>
+  </g>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5">
+    <rect x="644" y="104" width="192" height="42" rx="7"/>
+    <rect x="644" y="154" width="192" height="42" rx="7"/>
+    <rect x="644" y="204" width="192" height="42" rx="7"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="740" y="122" font-size="10.5" font-weight="700" fill="#0f4d2a">instance 1</text>
+    <text x="740" y="138" font-size="9" fill="#1e7a44">~33% of the load</text>
+    <text x="740" y="172" font-size="10.5" font-weight="700" fill="#0f4d2a">instance 2</text>
+    <text x="740" y="188" font-size="9" fill="#1e7a44">~33% of the load</text>
+    <text x="740" y="222" font-size="10.5" font-weight="700" fill="#0f4d2a">instance 3</text>
+    <text x="740" y="238" font-size="9" fill="#1e7a44">~33% of the load</text>
+  </g>
+
+  <g>
+    <rect x="484" y="258" width="112" height="14" rx="7" fill="#dbeee2"/>
+    <rect x="484" y="258" width="8" height="14" rx="7" fill="#1e7a44"><animate attributeName="width" dur="4s" repeatCount="indefinite" values="8;112;8" keyTimes="0;0.9;1"/></rect>
+    <rect x="604" y="258" width="112" height="14" rx="7" fill="#dbeee2"/>
+    <rect x="604" y="258" width="8" height="14" rx="7" fill="#1e7a44"><animate attributeName="width" dur="4s" begin="0.2s" repeatCount="indefinite" values="8;112;8" keyTimes="0;0.9;1"/></rect>
+    <rect x="724" y="258" width="112" height="14" rx="7" fill="#dbeee2"/>
+    <rect x="724" y="258" width="8" height="14" rx="7" fill="#1e7a44"><animate attributeName="width" dur="4s" begin="0.1s" repeatCount="indefinite" values="8;112;8" keyTimes="0;0.9;1"/></rect>
+  </g>
+  <text x="660" y="292" font-size="10.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">load spread evenly, ordering still guaranteed per order</text>
+  <text x="660" y="314" font-size="10" fill="#0f4d2a" text-anchor="middle">Add a partition and an instance &#8594; you actually get more throughput.</text>
+
+  <rect x="24" y="346" width="832" height="44" rx="9" fill="#fff3cd" stroke="#b8860b" stroke-width="1.6"/>
+  <text x="440" y="366" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">One partition holding more records is fine &#8212; as long as the distribution is fair overall.</text>
+  <text x="440" y="383" font-size="10.5" fill="#8a6d00" text-anchor="middle">And remember: offsets belong to the <tspan font-weight="700">partition</tspan>, not to the topic.</text>
+</svg>

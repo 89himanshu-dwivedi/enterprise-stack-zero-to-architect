@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" width="880" height="430" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Two consumers without a group both receive every message, causing duplicate processing">
+  <defs>
+    <marker id="p1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="430" fill="#ffffff"/>
+  <text x="24" y="30" font-size="18" font-weight="600" fill="#1b2a3a">1 · Problem 1 &#8212; two consumers, no group, everybody gets everything</text>
+  <text x="24" y="52" font-size="12.5" fill="#5b6b7f">Two instances of the <tspan font-weight="700">same</tspan> Payment Service, spun up by auto-scaling. Watch what each one receives.</text>
+
+  <rect x="24" y="176" width="160" height="66" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="104" y="202" font-size="12.5" font-weight="700" fill="#12305e" text-anchor="middle">Order Service</text>
+  <text x="104" y="220" font-size="9.5" fill="#2f5fa8" text-anchor="middle">console producer</text>
+  <text x="104" y="234" font-size="9.5" fill="#2f5fa8" text-anchor="middle">order-1, order-3, order-4</text>
+
+  <line x1="184" y1="209" x2="244" y2="209" stroke="#5b6b7f" stroke-width="2" marker-end="url(#p1)"/>
+
+  <rect x="250" y="168" width="200" height="82" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+  <text x="350" y="196" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">topic: order-events</text>
+  <text x="350" y="216" font-size="9.5" fill="#1e7a44" text-anchor="middle">1 partition (the default)</text>
+  <text x="350" y="234" font-size="9.5" fill="#1e7a44" text-anchor="middle">no consumer group anywhere</text>
+
+  <path d="M450 190 L520 148" fill="none" stroke="#c62828" stroke-width="2" marker-end="url(#p1)"/>
+  <path d="M450 228 L520 288" fill="none" stroke="#c62828" stroke-width="2" marker-end="url(#p1)"/>
+
+  <!-- instance 1 -->
+  <rect x="530" y="86" width="326" height="116" rx="11" fill="#fff8f8" stroke="#c62828" stroke-width="2"/>
+  <text x="546" y="110" font-size="12.5" font-weight="700" fill="#a01818">Payment Service &#8212; instance 1</text>
+  <g font-size="11.5" font-family="Consolas, monospace" fill="#a01818">
+    <text x="546" y="134" opacity="0">order-1<animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.12;0.15;1"/></text>
+    <text x="546" y="156" opacity="0">order-3<animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.38;0.41;1"/></text>
+    <text x="546" y="178" opacity="0">order-4<animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.62;0.65;1"/></text>
+    <text x="700" y="134" font-size="9.5" fill="#c0392b" opacity="0">charges the card<animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.12;0.15;1"/></text>
+  </g>
+
+  <!-- instance 2 -->
+  <rect x="530" y="228" width="326" height="116" rx="11" fill="#fff8f8" stroke="#c62828" stroke-width="2"/>
+  <text x="546" y="252" font-size="12.5" font-weight="700" fill="#a01818">Payment Service &#8212; instance 2</text>
+  <g font-size="11.5" font-family="Consolas, monospace" fill="#a01818">
+    <text x="546" y="276" opacity="0">order-1<animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.12;0.15;1"/></text>
+    <text x="546" y="298" opacity="0">order-3<animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.38;0.41;1"/></text>
+    <text x="546" y="320" opacity="0">order-4<animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.62;0.65;1"/></text>
+    <text x="700" y="276" font-size="9.5" fill="#c0392b" opacity="0">charges it AGAIN<animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.12;0.15;1"/></text>
+  </g>
+
+  <g fill="#c62828">
+    <circle r="7"><animateMotion dur="9s" repeatCount="indefinite" path="M350 190 L690 144" keyPoints="0;0;1;1" keyTimes="0;0.06;0.13;1" calcMode="linear"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;0;0" keyTimes="0;0.05;0.09;0.14;1"/></circle>
+    <circle r="7"><animateMotion dur="9s" repeatCount="indefinite" path="M350 228 L690 286" keyPoints="0;0;1;1" keyTimes="0;0.06;0.13;1" calcMode="linear"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;0;0" keyTimes="0;0.05;0.09;0.14;1"/></circle>
+    <circle r="7"><animateMotion dur="9s" repeatCount="indefinite" path="M350 190 L690 144" keyPoints="0;0;1;1" keyTimes="0;0.32;0.39;1" calcMode="linear"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;0;0" keyTimes="0;0.31;0.35;0.40;1"/></circle>
+    <circle r="7"><animateMotion dur="9s" repeatCount="indefinite" path="M350 228 L690 286" keyPoints="0;0;1;1" keyTimes="0;0.32;0.39;1" calcMode="linear"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;0;0" keyTimes="0;0.31;0.35;0.40;1"/></circle>
+    <circle r="7"><animateMotion dur="9s" repeatCount="indefinite" path="M350 190 L690 144" keyPoints="0;0;1;1" keyTimes="0;0.56;0.63;1" calcMode="linear"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;0;0" keyTimes="0;0.55;0.59;0.64;1"/></circle>
+    <circle r="7"><animateMotion dur="9s" repeatCount="indefinite" path="M350 228 L690 286" keyPoints="0;0;1;1" keyTimes="0;0.56;0.63;1" calcMode="linear"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;0;0" keyTimes="0;0.55;0.59;0.64;1"/></circle>
+  </g>
+
+  <rect x="24" y="362" width="832" height="56" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+  <text x="440" y="384" font-size="12.5" font-weight="700" fill="#a01818" text-anchor="middle">Redundant, duplicate processing &#8212; and therefore no scaling at all</text>
+  <text x="440" y="404" font-size="11" fill="#a01818" text-anchor="middle">Both instances burn the same CPU and the same network bandwidth on the same records. (If one were Shipping and the other Payment, this would be perfectly fine &#8212; but these are two instances of one service.)</text>
+</svg>

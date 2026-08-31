@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" width="880" height="430" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="When a consumer instance dies the controller rebalances the partitions, and reassigns again when it comes back">
+  <defs>
+    <marker id="p9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="430" fill="#ffffff"/>
+  <text x="24" y="30" font-size="18" font-weight="600" fill="#1b2a3a">9 · Rebalancing &#8212; what happens when an instance dies or returns</text>
+
+  <!-- phase caption -->
+  <rect x="24" y="44" width="832" height="32" rx="8" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4"/>
+  <g text-anchor="middle" font-size="12" font-weight="700">
+    <text x="440" y="65" fill="#0f4d2a" opacity="0"><animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.28;0.31;1"/>Steady state &#8212; partition 0 &#8594; instance 1, partition 1 &#8594; instance 2</text>
+    <text x="440" y="65" fill="#a01818" opacity="0"><animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.31;0.34;0.60;0.63;1"/>Instance 1 goes down &#8594; the controller triggers a rebalance &#8594; instance 2 now owns BOTH partitions</text>
+    <text x="440" y="65" fill="#7a5b00" opacity="0"><animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.63;0.66;0.97;1"/>Instance 1 comes back &#8594; another rebalance &#8594; partitions are reassigned, possibly swapped</text>
+  </g>
+
+  <!-- topic -->
+  <rect x="60" y="106" width="260" height="180" rx="12" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+  <text x="190" y="128" font-size="11.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">topic: order-events</text>
+  <rect x="80" y="142" width="220" height="60" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6"/>
+  <text x="190" y="168" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">partition 0</text>
+  <text x="190" y="188" font-size="9" fill="#1e7a44" text-anchor="middle">keys like order-1</text>
+  <rect x="80" y="214" width="220" height="60" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6"/>
+  <text x="190" y="240" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">partition 1</text>
+  <text x="190" y="260" font-size="9" fill="#1e7a44" text-anchor="middle">keys like order-2</text>
+
+  <!-- controller -->
+  <rect x="368" y="164" width="150" height="64" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="2">
+    <animate attributeName="stroke-width" dur="15s" repeatCount="indefinite" values="2;2;4;2;2;4;2;2" keyTimes="0;0.31;0.35;0.40;0.63;0.67;0.72;1"/>
+  </rect>
+  <text x="443" y="190" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">CONTROLLER</text>
+  <text x="443" y="208" font-size="9" fill="#8a6d00" text-anchor="middle">does the reassignment</text>
+  <text x="443" y="221" font-size="9" fill="#8a6d00" text-anchor="middle">nobody asks it to</text>
+
+  <!-- instance 1 alive -->
+  <g>
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="1;1;0;0;1;1" keyTimes="0;0.31;0.34;0.63;0.67;1"/>
+    <rect x="566" y="118" width="290" height="72" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+    <text x="711" y="144" font-size="12" font-weight="700" fill="#12305e" text-anchor="middle">Payment Service &#8212; instance 1</text>
+    <text x="711" y="164" font-size="10" fill="#2f5fa8" text-anchor="middle">assigned: partition 0</text>
+    <text x="711" y="180" font-size="9" fill="#2f5fa8" text-anchor="middle">receives order-1 keys</text>
+  </g>
+  <!-- instance 1 dead -->
+  <g opacity="0">
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.32;0.35;0.62;0.66;1"/>
+    <rect x="566" y="118" width="290" height="72" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="2" stroke-dasharray="7 4"/>
+    <text x="711" y="150" font-size="12" font-weight="700" fill="#a01818" text-anchor="middle">instance 1 &#8212; DOWN</text>
+    <text x="711" y="170" font-size="10" fill="#a01818" text-anchor="middle">left the group</text>
+    <line x1="586" y1="130" x2="836" y2="178" stroke="#c62828" stroke-width="2"/>
+    <line x1="836" y1="130" x2="586" y2="178" stroke="#c62828" stroke-width="2"/>
+  </g>
+
+  <!-- instance 2 -->
+  <rect x="566" y="212" width="290" height="72" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="711" y="238" font-size="12" font-weight="700" fill="#12305e" text-anchor="middle">Payment Service &#8212; instance 2</text>
+  <text x="711" y="258" font-size="10" fill="#2f5fa8" text-anchor="middle" opacity="0">assigned: partition 1<animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.32;0.35;1"/></text>
+  <text x="711" y="258" font-size="10" font-weight="700" fill="#a01818" text-anchor="middle" opacity="0">assigned: partition 0 AND partition 1<animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.34;0.37;0.62;0.66;1"/></text>
+  <text x="711" y="258" font-size="10" fill="#7a5b00" text-anchor="middle" opacity="0">assigned: partition 0 (swapped after rebalance)<animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.66;0.70;0.97;1"/></text>
+  <text x="711" y="274" font-size="9" fill="#2f5fa8" text-anchor="middle">keeps consuming throughout</text>
+
+  <!-- assignment lines -->
+  <path d="M300 172 L560 154" fill="none" stroke="#2f5fa8" stroke-width="2" marker-end="url(#p9)" opacity="1">
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="1;1;0;0;0;0" keyTimes="0;0.31;0.34;0.66;0.70;1"/>
+  </path>
+  <path d="M300 244 L560 248" fill="none" stroke="#2f5fa8" stroke-width="2" marker-end="url(#p9)"/>
+  <path d="M300 172 L560 236" fill="none" stroke="#c62828" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#p9)" opacity="0">
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.35;0.39;0.62;0.66;1"/>
+  </path>
+  <path d="M300 244 L560 160" fill="none" stroke="#b8860b" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#p9)" opacity="0">
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.68;0.72;0.97;1"/>
+  </path>
+
+  <!-- log -->
+  <rect x="24" y="304" width="832" height="72" rx="10" fill="#1b2a3a"/>
+  <text x="40" y="326" font-size="9.5" fill="#8ea3bb" font-family="Consolas, monospace">consumer log</text>
+  <text x="40" y="348" font-size="10.5" fill="#f4b400" font-family="Consolas, monospace" opacity="0">
+    [Consumer clientId=..., groupId=payment-service] Request joining group due to: group is already rebalancing
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.33;0.36;0.60;0.64;1"/>
+  </text>
+  <text x="40" y="368" font-size="10.5" fill="#a8d5ba" font-family="Consolas, monospace" opacity="0">
+    Notifying assignor about the new Assignment: partitions=[order-events-0, order-events-1]
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.36;0.39;0.60;0.64;1"/>
+  </text>
+  <text x="40" y="348" font-size="10.5" fill="#f4b400" font-family="Consolas, monospace" opacity="0">
+    [Consumer clientId=..., groupId=payment-service] Successfully joined group &#8212; rebalancing again
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.65;0.69;0.97;1"/>
+  </text>
+  <text x="40" y="368" font-size="10.5" fill="#a8d5ba" font-family="Consolas, monospace" opacity="0">
+    Notifying assignor about the new Assignment: partitions=[order-events-1]
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.68;0.72;0.97;1"/>
+  </text>
+
+  <rect x="24" y="388" width="832" height="30" rx="8" fill="#fff3cd" stroke="#b8860b" stroke-width="1.4"/>
+  <text x="440" y="408" font-size="11" font-weight="700" fill="#7a5b00" text-anchor="middle">No message is lost. A key may move to a different instance after a rebalance, but it still always lands on <tspan text-decoration="underline">one</tspan> instance, in order.</text>
+</svg>

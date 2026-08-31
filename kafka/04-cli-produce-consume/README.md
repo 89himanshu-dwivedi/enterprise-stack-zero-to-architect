@@ -5,7 +5,7 @@
 >
 > All commands in one place: **[commands.md](commands.md)**
 >
-> Previous: [03 — Local setup](../03-local-setup/README.md) · [02 — Fundamentals](../02-kafka-fundamentals/README.md) · [01 — Why Kafka](../01-why-kafka-and-what-is-kafka/README.md)
+> Previous: [03 — Local setup](../03-local-setup/README.md) · Next: [05 — Consumer groups and partitions](../05-consumer-groups-and-partitions/README.md)
 
 ---
 

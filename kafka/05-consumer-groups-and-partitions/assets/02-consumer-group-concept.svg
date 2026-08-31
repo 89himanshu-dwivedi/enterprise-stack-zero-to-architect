@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" width="880" height="470" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A consumer group is a logical box around the instances of one service, so only one instance in the group handles each message">
+  <defs>
+    <marker id="p2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="470" fill="#ffffff"/>
+  <text x="24" y="30" font-size="18" font-weight="600" fill="#1b2a3a">2 · The fix &#8212; a consumer group is a logical box around a service&#8217;s instances</text>
+
+  <rect x="24" y="206" width="150" height="66" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+  <text x="99" y="232" font-size="12" font-weight="700" fill="#12305e" text-anchor="middle">Order Service</text>
+  <text x="99" y="250" font-size="9.5" fill="#2f5fa8" text-anchor="middle">publishes order-1</text>
+  <line x1="174" y1="239" x2="204" y2="239" stroke="#5b6b7f" stroke-width="2" marker-end="url(#p2)"/>
+
+  <rect x="210" y="198" width="170" height="82" rx="10" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+  <text x="295" y="226" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">Kafka broker</text>
+  <text x="295" y="244" font-size="9.5" fill="#1e7a44" text-anchor="middle">topic: order-events</text>
+  <text x="295" y="260" font-size="9" fill="#1e7a44" text-anchor="middle">(broker = Kafka server)</text>
+
+  <path d="M380 214 L420 150" fill="none" stroke="#b8860b" stroke-width="2" marker-end="url(#p2)"/>
+  <path d="M380 264 L420 336" fill="none" stroke="#b8860b" stroke-width="2" marker-end="url(#p2)"/>
+
+  <!-- group A -->
+  <rect x="428" y="62" width="428" height="164" rx="12" fill="#fffdf5" stroke="#b8860b" stroke-width="2.4" stroke-dasharray="9 6"/>
+  <text x="448" y="84" font-size="12" font-weight="700" fill="#7a5b00">consumer group: product-service</text>
+  <g fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.6">
+    <rect x="448" y="94" width="388" height="36" rx="7"/>
+    <rect x="448" y="136" width="388" height="36" rx="7"/>
+    <rect x="448" y="178" width="388" height="36" rx="7"/>
+  </g>
+  <g font-size="11" font-weight="600" fill="#12305e">
+    <text x="462" y="117">Product Service &#8212; instance 1</text>
+    <text x="462" y="159">Product Service &#8212; instance 2</text>
+    <text x="462" y="201">Product Service &#8212; instance 3</text>
+  </g>
+  <rect x="448" y="94" width="388" height="36" rx="7" fill="#1e7a44" opacity="0.16">
+    <animate attributeName="y" dur="9s" repeatCount="indefinite" values="94;136;178;94" keyTimes="0;0.33;0.66;1" calcMode="discrete"/>
+  </rect>
+  <text x="800" y="117" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="end">
+    &#10003; handles it
+    <animate attributeName="y" dur="9s" repeatCount="indefinite" values="117;159;201;117" keyTimes="0;0.33;0.66;1" calcMode="discrete"/>
+  </text>
+
+  <!-- group B -->
+  <rect x="428" y="252" width="428" height="164" rx="12" fill="#fffdf5" stroke="#b8860b" stroke-width="2.4" stroke-dasharray="9 6"/>
+  <text x="448" y="274" font-size="12" font-weight="700" fill="#7a5b00">consumer group: payment-service</text>
+  <g fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.6">
+    <rect x="448" y="284" width="388" height="36" rx="7"/>
+    <rect x="448" y="326" width="388" height="36" rx="7"/>
+    <rect x="448" y="368" width="388" height="36" rx="7"/>
+  </g>
+  <g font-size="11" font-weight="600" fill="#12305e">
+    <text x="462" y="307">Payment Service &#8212; instance 1</text>
+    <text x="462" y="349">Payment Service &#8212; instance 2</text>
+    <text x="462" y="391">Payment Service &#8212; instance 3</text>
+  </g>
+  <rect x="448" y="326" width="388" height="36" rx="7" fill="#1e7a44" opacity="0.16">
+    <animate attributeName="y" dur="9s" repeatCount="indefinite" values="326;368;284;326" keyTimes="0;0.33;0.66;1" calcMode="discrete"/>
+  </rect>
+  <text x="800" y="349" font-size="9.5" font-weight="700" fill="#0f4d2a" text-anchor="end">
+    &#10003; handles it
+    <animate attributeName="y" dur="9s" repeatCount="indefinite" values="349;391;307;349" keyTimes="0;0.33;0.66;1" calcMode="discrete"/>
+  </text>
+
+  <g fill="#b8860b">
+    <circle r="7"><animateMotion dur="3s" repeatCount="indefinite" path="M295 214 L470 112"/><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;1;1;0" keyTimes="0;0.12;0.8;1"/></circle>
+    <circle r="7"><animateMotion dur="3s" repeatCount="indefinite" path="M295 264 L470 344"/><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;1;1;0" keyTimes="0;0.12;0.8;1"/></circle>
+  </g>
+
+  <rect x="24" y="428" width="832" height="34" rx="9" fill="#f7fbf8" stroke="#1e7a44" stroke-width="1.8"/>
+  <text x="440" y="450" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">Each service gets the message once. Inside a group, exactly one instance handles it &#8212; the others stay out of the way. That is scaling.</text>
+</svg>

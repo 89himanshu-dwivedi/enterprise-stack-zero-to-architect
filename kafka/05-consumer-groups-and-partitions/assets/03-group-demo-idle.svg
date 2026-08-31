@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480" width="880" height="480" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="With a consumer group only one consumer receives records while the second sits idle, and a consumer in a different group receives everything as well">
+  <rect width="880" height="480" fill="#ffffff"/>
+  <text x="24" y="30" font-size="18" font-weight="600" fill="#1b2a3a">3 · With a group &#8212; problem solved, new problem appears</text>
+
+  <!-- producer -->
+  <rect x="24" y="46" width="410" height="180" rx="11" fill="#1b2a3a"/>
+  <text x="40" y="68" font-size="11" font-weight="700" fill="#f4b400" font-family="Consolas, monospace">PRODUCER &#8212; order service</text>
+  <text x="40" y="88" font-size="9" fill="#8ea3bb" font-family="Consolas, monospace">kafka-console-producer.sh --topic order-events</text>
+  <g font-size="11.5" font-family="Consolas, monospace" fill="#dbe4ee">
+    <text x="40" y="112" opacity="0">&gt; 5<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.05;0.07;1"/></text>
+    <text x="40" y="132" opacity="0">&gt; 6<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.12;0.14;1"/></text>
+    <text x="40" y="152" opacity="0">&gt; 7<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.19;0.21;1"/></text>
+    <text x="40" y="172" opacity="0">&gt; 8<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.26;0.28;1"/></text>
+    <text x="150" y="112" opacity="0">&gt; 16<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.56;0.58;1"/></text>
+    <text x="150" y="132" opacity="0">&gt; 17<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.66;0.68;1"/></text>
+    <text x="150" y="152" opacity="0">&gt; 18<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.76;0.78;1"/></text>
+  </g>
+  <text x="40" y="206" font-size="9" fill="#8ea3bb" font-family="Consolas, monospace">(no --group on a producer)</text>
+
+  <!-- consumer 1 -->
+  <rect x="446" y="46" width="410" height="180" rx="11" fill="#1b2a3a"/>
+  <text x="462" y="68" font-size="11" font-weight="700" fill="#a8d5ba" font-family="Consolas, monospace">CONSUMER 1 &#8212; group payment-service</text>
+  <text x="462" y="88" font-size="9" fill="#8ea3bb" font-family="Consolas, monospace">... --topic order-events --group payment-service</text>
+  <g font-size="11.5" font-family="Consolas, monospace" fill="#a8d5ba">
+    <text x="462" y="112" opacity="0">5<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.07;0.09;1"/></text>
+    <text x="462" y="132" opacity="0">6<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.14;0.16;1"/></text>
+    <text x="462" y="152" opacity="0">7<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.21;0.23;1"/></text>
+    <text x="462" y="172" opacity="0">8<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.28;0.30;1"/></text>
+    <text x="560" y="112" opacity="0">16<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.58;0.60;1"/></text>
+    <text x="560" y="132" opacity="0">17<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.68;0.70;1"/></text>
+    <text x="560" y="152" opacity="0">18<animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.78;0.80;1"/></text>
+  </g>
+  <text x="462" y="206" font-size="9.5" font-weight="700" fill="#f4b400" font-family="Consolas, monospace">doing all the work</text>
+
+  <!-- consumer 2 -->
+  <rect x="24" y="240" width="410" height="180" rx="11" fill="#1b2a3a"/>
+  <text x="40" y="262" font-size="11" font-weight="700" fill="#a8d5ba" font-family="Consolas, monospace">CONSUMER 2 &#8212; group payment-service</text>
+  <text x="40" y="282" font-size="9" fill="#8ea3bb" font-family="Consolas, monospace">same group as consumer 1</text>
+  <text x="40" y="330" font-size="13" font-weight="700" fill="#c96a6a" font-family="Consolas, monospace" opacity="0">
+    (nothing &#8212; completely idle)
+    <animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.10;0.13;1"/>
+  </text>
+  <text x="40" y="366" font-size="10" fill="#8ea3bb" font-family="Consolas, monospace" opacity="0">
+    one instance is saturated,
+    <animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.32;0.35;1"/>
+  </text>
+  <text x="40" y="382" font-size="10" fill="#8ea3bb" font-family="Consolas, monospace" opacity="0">
+    the other does nothing &#8212; still not real scaling
+    <animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.32;0.35;1"/>
+  </text>
+
+  <!-- consumer 3 -->
+  <rect x="446" y="240" width="410" height="180" rx="11" fill="#1b2a3a" stroke="#b8860b" stroke-width="2"/>
+  <text x="462" y="262" font-size="11" font-weight="700" fill="#f4b400" font-family="Consolas, monospace">CONSUMER 3 &#8212; group product-service</text>
+  <text x="462" y="282" font-size="9" fill="#8ea3bb" font-family="Consolas, monospace">a DIFFERENT group &#8594; its own copy of the stream</text>
+  <g font-size="11.5" font-family="Consolas, monospace" fill="#f4b400" opacity="0">
+    <animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.54;0.57;1"/>
+    <text x="462" y="312">16</text>
+    <text x="462" y="332">17</text>
+    <text x="462" y="352">18</text>
+    <text x="540" y="312">&#8592; product-service also receives all of them</text>
+  </g>
+
+  <rect x="24" y="432" width="832" height="36" rx="9" fill="#fff3cd" stroke="#b8860b" stroke-width="1.6"/>
+  <text x="440" y="447" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">Different groups &#8594; each group gets every message. Same group &#8594; only one instance gets it.</text>
+  <text x="440" y="462" font-size="10.5" fill="#8a6d00" text-anchor="middle">But the second instance is <tspan font-weight="700">idle</tspan>. Duplicates are gone, and the work is still not spread. That is what partitions fix.</text>
+</svg>
