@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" width="880" height="430" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Changing the partition count changes hash key modulo partitions, so an existing key can move to a different partition">
+  <defs>
+    <marker id="q5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="430" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">5 · Add a partition and the map changes underneath you</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">Kafka routes with <tspan font-family="Consolas, monospace" font-weight="700">hash(key) % partitionCount</tspan>. Change the divisor and the answer changes.</text>
+
+  <!-- before -->
+  <rect x="20" y="66" width="404" height="290" rx="12" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <text x="222" y="90" font-size="12.5" font-weight="700" fill="#1b2a3a" text-anchor="middle">Before &#8212; 3 partitions</text>
+  <text x="222" y="108" font-size="10" fill="#5b6b7f" text-anchor="middle" font-family="Consolas, monospace">hash(key) % 3</text>
+
+  <g fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.4">
+    <rect x="40" y="124" width="72" height="32" rx="6"/>
+    <rect x="40" y="164" width="72" height="32" rx="6"/>
+    <rect x="40" y="204" width="72" height="32" rx="6"/>
+    <rect x="40" y="244" width="72" height="32" rx="6"/>
+  </g>
+  <g font-size="11" font-weight="700" fill="#12305e" text-anchor="middle" font-family="Consolas, monospace">
+    <text x="76" y="145">key 1</text><text x="76" y="185">key 2</text><text x="76" y="225">key 3</text><text x="76" y="265">key 4</text>
+  </g>
+
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5">
+    <rect x="248" y="124" width="150" height="44" rx="8"/>
+    <rect x="248" y="180" width="150" height="44" rx="8"/>
+    <rect x="248" y="236" width="150" height="44" rx="8"/>
+  </g>
+  <g font-size="10.5" font-weight="600" fill="#0f4d2a" text-anchor="middle">
+    <text x="323" y="145">partition 0</text><text x="323" y="160" font-size="9" fill="#1e7a44">key 3</text>
+    <text x="323" y="201">partition 1</text><text x="323" y="216" font-size="9" fill="#1e7a44">key 2</text>
+    <text x="323" y="257">partition 2</text><text x="323" y="272" font-size="9" fill="#1e7a44">key 1, key 4</text>
+  </g>
+  <g stroke="#5b6b7f" stroke-width="1.3" fill="none" marker-end="url(#q5)">
+    <path d="M112 140 L242 250"/>
+    <path d="M112 180 L242 198"/>
+    <path d="M112 220 L242 144"/>
+    <path d="M112 260 L242 262"/>
+  </g>
+  <text x="222" y="304" font-size="10.5" fill="#5b6b7f" text-anchor="middle">consumer 1 gets keys 1 and 4 &#183; consumer 2 gets key 2 &#183; consumer 3 gets key 3</text>
+  <text x="222" y="330" font-size="10" fill="#5b6b7f" text-anchor="middle" font-family="Consolas, monospace">kafka-topics.sh --alter --topic order-events --partitions 4</text>
+
+  <path d="M424 210 L456 210" fill="none" stroke="#b8860b" stroke-width="3" marker-end="url(#q5)"/>
+
+  <!-- after -->
+  <rect x="460" y="66" width="396" height="290" rx="12" fill="#fffdf5" stroke="#b8860b" stroke-width="1.8"/>
+  <text x="658" y="90" font-size="12.5" font-weight="700" fill="#7a5b00" text-anchor="middle">After &#8212; 4 partitions</text>
+  <text x="658" y="108" font-size="10" fill="#8a6d00" text-anchor="middle" font-family="Consolas, monospace">hash(key) % 4</text>
+
+  <g fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.4">
+    <rect x="480" y="124" width="72" height="32" rx="6"/>
+    <rect x="480" y="164" width="72" height="32" rx="6"/>
+    <rect x="480" y="204" width="72" height="32" rx="6"/>
+  </g>
+  <rect x="480" y="244" width="72" height="32" rx="6" fill="#fff3cd" stroke="#b8860b" stroke-width="2.2">
+    <animate attributeName="stroke-width" dur="2.4s" repeatCount="indefinite" values="2.2;3.8;2.2"/>
+  </rect>
+  <g font-size="11" font-weight="700" text-anchor="middle" font-family="Consolas, monospace">
+    <text x="516" y="145" fill="#12305e">key 1</text><text x="516" y="185" fill="#12305e">key 2</text>
+    <text x="516" y="225" fill="#12305e">key 3</text><text x="516" y="265" fill="#7a5b00">key 4</text>
+  </g>
+
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5">
+    <rect x="660" y="118" width="150" height="38" rx="8"/>
+    <rect x="660" y="164" width="150" height="38" rx="8"/>
+    <rect x="660" y="210" width="150" height="38" rx="8"/>
+  </g>
+  <rect x="660" y="256" width="150" height="38" rx="8" fill="#fff3cd" stroke="#b8860b" stroke-width="2.2"/>
+  <g font-size="10.5" font-weight="600" text-anchor="middle">
+    <text x="735" y="135" fill="#0f4d2a">partition 0</text><text x="735" y="149" font-size="9" fill="#1e7a44">key 3</text>
+    <text x="735" y="181" fill="#0f4d2a">partition 1</text><text x="735" y="195" font-size="9" fill="#1e7a44">key 2</text>
+    <text x="735" y="227" fill="#0f4d2a">partition 2</text><text x="735" y="241" font-size="9" fill="#1e7a44">key 1</text>
+    <text x="735" y="273" fill="#7a5b00">partition 3 (new)</text><text x="735" y="287" font-size="9" fill="#8a6d00">key 4 &#8212; MOVED</text>
+  </g>
+  <g stroke="#5b6b7f" stroke-width="1.3" fill="none" marker-end="url(#q5)">
+    <path d="M552 140 L654 226"/>
+    <path d="M552 180 L654 182"/>
+    <path d="M552 220 L654 136"/>
+  </g>
+  <path d="M552 260 L654 272" fill="none" stroke="#b8860b" stroke-width="2.4" marker-end="url(#q5)">
+    <animate attributeName="stroke-width" dur="2.4s" repeatCount="indefinite" values="2.4;4;2.4"/>
+  </path>
+
+  <text x="658" y="316" font-size="11" font-weight="700" fill="#7a5b00" text-anchor="middle">key 4 used to live on partition 2. Now it lands on partition 3.</text>
+  <text x="658" y="334" font-size="10" fill="#8a6d00" text-anchor="middle">Nobody moved the old records &#8212; they are still sitting on partition 2.</text>
+
+  <rect x="24" y="372" width="832" height="42" rx="9" fill="#ffebee" stroke="#c62828" stroke-width="1.6"/>
+  <text x="440" y="392" font-size="12" font-weight="700" fill="#a01818" text-anchor="middle">Changing the partition count silently breaks the key &#8594; partition guarantee for existing keys.</text>
+  <text x="440" y="408" font-size="10.5" fill="#a01818" text-anchor="middle">Be very, very careful whenever you alter the number of partitions on a live topic.</text>
+</svg>

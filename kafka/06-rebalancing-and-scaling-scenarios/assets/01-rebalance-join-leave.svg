@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" width="880" height="440" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Partitions being reassigned as a consumer joins and then leaves the group">
+  <defs>
+    <marker id="q1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2f5fa8"/>
+    </marker>
+  </defs>
+  <rect width="880" height="440" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">1 · A consumer joins &#8594; rebalance. A consumer leaves &#8594; rebalance.</text>
+
+  <rect x="24" y="42" width="832" height="32" rx="8" fill="#eef2f7" stroke="#5b6b7f" stroke-width="1.4"/>
+  <g text-anchor="middle" font-size="12" font-weight="700">
+    <text x="440" y="63" fill="#1b2a3a" opacity="0"><animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.30;0.33;1"/>One consumer in the group &#8594; it owns <tspan font-weight="700">both</tspan> partitions</text>
+    <text x="440" y="63" fill="#0f4d2a" opacity="0"><animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.33;0.36;0.66;0.69;1"/>Auto-scaling starts a second instance &#8594; REBALANCE &#8594; one partition each</text>
+    <text x="440" y="63" fill="#a01818" opacity="0"><animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.69;0.72;0.97;1"/>Consumer 1 is shut down &#8594; REBALANCE &#8594; consumer 2 picks up both partitions</text>
+  </g>
+
+  <!-- topic -->
+  <rect x="40" y="100" width="252" height="176" rx="12" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+  <text x="166" y="122" font-size="11.5" font-weight="700" fill="#0f4d2a" text-anchor="middle">topic: order-events (2 partitions)</text>
+  <rect x="58" y="134" width="216" height="60" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6"/>
+  <text x="166" y="160" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">partition 0</text>
+  <text x="166" y="180" font-size="9" fill="#1e7a44" text-anchor="middle">keys 1, 7 hash here</text>
+  <rect x="58" y="204" width="216" height="60" rx="9" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.6"/>
+  <text x="166" y="230" font-size="12" font-weight="700" fill="#0f4d2a" text-anchor="middle">partition 1</text>
+  <text x="166" y="250" font-size="9" fill="#1e7a44" text-anchor="middle">keys 2, 5, 6 hash here</text>
+
+  <!-- controller -->
+  <rect x="352" y="158" width="152" height="60" rx="10" fill="#fff3cd" stroke="#b8860b" stroke-width="2">
+    <animate attributeName="stroke-width" dur="15s" repeatCount="indefinite" values="2;2;4.5;2;2;4.5;2;2" keyTimes="0;0.33;0.37;0.42;0.69;0.73;0.78;1"/>
+  </rect>
+  <text x="428" y="184" font-size="11.5" font-weight="700" fill="#7a5b00" text-anchor="middle">CONTROLLER</text>
+  <text x="428" y="202" font-size="9" fill="#8a6d00" text-anchor="middle">reassigns, unasked</text>
+
+  <!-- consumer 1 alive -->
+  <g>
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="1;1;0;0;1;1" keyTimes="0;0.69;0.72;0.96;0.99;1"/>
+    <rect x="552" y="112" width="304" height="72" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+    <text x="704" y="138" font-size="12" font-weight="700" fill="#12305e" text-anchor="middle">consumer 1 &#183; group payment-service</text>
+    <text x="704" y="160" font-size="10" fill="#2f5fa8" text-anchor="middle" opacity="0">owns partition 0 AND partition 1<animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.31;0.34;1"/></text>
+    <text x="704" y="160" font-size="10" fill="#2f5fa8" text-anchor="middle" opacity="0">owns partition 0<animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.35;0.38;0.67;0.70;1"/></text>
+    <text x="704" y="176" font-size="9" fill="#2f5fa8" text-anchor="middle">--property print.key=true</text>
+  </g>
+  <!-- consumer 1 down -->
+  <g opacity="0">
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.70;0.73;0.96;1"/>
+    <rect x="552" y="112" width="304" height="72" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="2" stroke-dasharray="7 4"/>
+    <text x="704" y="146" font-size="12" font-weight="700" fill="#a01818" text-anchor="middle">consumer 1 &#8212; stopped (Ctrl+C)</text>
+    <text x="704" y="166" font-size="10" fill="#a01818" text-anchor="middle">left the group</text>
+  </g>
+
+  <!-- consumer 2 -->
+  <g opacity="0">
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.33;0.36;0.98;1"/>
+    <rect x="552" y="204" width="304" height="72" rx="10" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="2"/>
+    <text x="704" y="230" font-size="12" font-weight="700" fill="#12305e" text-anchor="middle">consumer 2 &#183; group payment-service</text>
+    <text x="704" y="252" font-size="10" fill="#2f5fa8" text-anchor="middle" opacity="0">owns partition 1<animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.67;0.70;1"/></text>
+    <text x="704" y="252" font-size="10" font-weight="700" fill="#a01818" text-anchor="middle" opacity="0">owns partition 0 AND partition 1<animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.71;0.74;0.97;1"/></text>
+    <text x="704" y="268" font-size="9" fill="#2f5fa8" text-anchor="middle">started by auto-scaling</text>
+  </g>
+
+  <!-- assignment arrows -->
+  <path d="M274 160 L546 144" fill="none" stroke="#2f5fa8" stroke-width="2" marker-end="url(#q1)">
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="1;1;0;0;1;1" keyTimes="0;0.69;0.72;0.96;0.99;1"/>
+  </path>
+  <path d="M274 232 L546 156" fill="none" stroke="#2f5fa8" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#q1)" opacity="1">
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.31;0.34;1"/>
+  </path>
+  <path d="M274 234 L546 236" fill="none" stroke="#2f5fa8" stroke-width="2" marker-end="url(#q1)" opacity="0">
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.35;0.38;0.98;1"/>
+  </path>
+  <path d="M274 158 L546 224" fill="none" stroke="#c62828" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#q1)" opacity="0">
+    <animate attributeName="opacity" dur="15s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.72;0.76;0.97;1"/>
+  </path>
+
+  <!-- log -->
+  <rect x="24" y="296" width="832" height="80" rx="10" fill="#1b2a3a"/>
+  <text x="40" y="318" font-size="9.5" fill="#8ea3bb" font-family="Consolas, monospace">consumer log &#8212; you see this every single time a consumer starts or stops</text>
+  <text x="40" y="342" font-size="10.5" fill="#f4b400" font-family="Consolas, monospace">[Consumer clientId=console-consumer, groupId=payment-service] Request joining group due to: group is already rebalancing</text>
+  <text x="40" y="362" font-size="10.5" fill="#a8d5ba" font-family="Consolas, monospace">Notifying assignor about the new Assignment: partitions=[order-events-0, order-events-1]</text>
+
+  <rect x="24" y="388" width="832" height="42" rx="9" fill="#fff3cd" stroke="#b8860b" stroke-width="1.6"/>
+  <text x="440" y="408" font-size="12" font-weight="700" fill="#7a5b00" text-anchor="middle">Whenever a consumer joins or leaves the group, Kafka rebalances and reassigns the partitions.</text>
+  <text x="440" y="425" font-size="10.5" fill="#8a6d00" text-anchor="middle">2 partitions + 2 consumers &#8594; one each. 2 partitions + 1 consumer &#8594; that consumer takes both.</text>
+</svg>

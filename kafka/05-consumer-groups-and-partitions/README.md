@@ -5,7 +5,7 @@
 >
 > Commands in one place: **[commands.md](commands.md)**
 >
-> Previous: [04 — Topics, producing, consuming, offsets](../04-cli-produce-consume/README.md) · [03 — Local setup](../03-local-setup/README.md) · [02 — Fundamentals](../02-kafka-fundamentals/README.md) · [01 — Why Kafka](../01-why-kafka-and-what-is-kafka/README.md)
+> Previous: [04 — Topics, producing, consuming, offsets](../04-cli-produce-consume/README.md) · Next: [06 — Rebalancing and scaling scenarios](../06-rebalancing-and-scaling-scenarios/README.md)
 
 ---
 

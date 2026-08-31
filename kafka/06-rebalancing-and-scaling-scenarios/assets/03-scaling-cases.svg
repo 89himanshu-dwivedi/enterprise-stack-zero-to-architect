@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500" width="880" height="500" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Four consumer group scaling cases with a topic of three partitions">
+  <rect width="880" height="500" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">3 · The four scaling cases &#8212; topic with 3 partitions</text>
+  <text x="24" y="50" font-size="12.5" fill="#5b6b7f">In production a topic might have 40 or 100 partitions. Three is just easier to draw &#8212; the rules are identical.</text>
+
+  <!-- CASE 1 -->
+  <rect x="24" y="64" width="404" height="200" rx="12" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <rect x="24" y="64" width="404" height="200" rx="12" fill="none" stroke="#2f5fa8" stroke-width="3" opacity="0">
+    <animate attributeName="opacity" dur="16s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.24;0.26;1"/>
+  </rect>
+  <text x="44" y="88" font-size="12.5" font-weight="700" fill="#1b2a3a">Case 1 &#8212; 1 consumer</text>
+  <text x="44" y="104" font-size="10" fill="#5b6b7f">all three partitions go to the single consumer</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5">
+    <rect x="44" y="116" width="120" height="38" rx="7"/>
+    <rect x="44" y="162" width="120" height="38" rx="7"/>
+    <rect x="44" y="208" width="120" height="38" rx="7"/>
+  </g>
+  <g font-size="10.5" font-weight="600" fill="#0f4d2a" text-anchor="middle">
+    <text x="104" y="140">partition 0</text><text x="104" y="186">partition 1</text><text x="104" y="232">partition 2</text>
+  </g>
+  <rect x="264" y="162" width="140" height="38" rx="7" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.5"/>
+  <text x="334" y="186" font-size="10.5" font-weight="600" fill="#12305e" text-anchor="middle">consumer 1</text>
+  <g stroke="#2f5fa8" stroke-width="1.4" fill="none">
+    <path d="M164 135 L264 175"/><path d="M164 181 L264 181"/><path d="M164 227 L264 187"/>
+  </g>
+
+  <!-- CASE 2 -->
+  <rect x="452" y="64" width="404" height="200" rx="12" fill="#f9fafc" stroke="#c9d3e0" stroke-width="1.6"/>
+  <rect x="452" y="64" width="404" height="200" rx="12" fill="none" stroke="#2f5fa8" stroke-width="3" opacity="0">
+    <animate attributeName="opacity" dur="16s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.24;0.26;0.49;0.51;1"/>
+  </rect>
+  <text x="472" y="88" font-size="12.5" font-weight="700" fill="#1b2a3a">Case 2 &#8212; 2 consumers</text>
+  <text x="472" y="104" font-size="10" fill="#5b6b7f">rebalance: one partition handed to the newcomer, two stay</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5">
+    <rect x="472" y="116" width="120" height="38" rx="7"/>
+    <rect x="472" y="162" width="120" height="38" rx="7"/>
+    <rect x="472" y="208" width="120" height="38" rx="7"/>
+  </g>
+  <g font-size="10.5" font-weight="600" fill="#0f4d2a" text-anchor="middle">
+    <text x="532" y="140">partition 0</text><text x="532" y="186">partition 1</text><text x="532" y="232">partition 2</text>
+  </g>
+  <rect x="692" y="130" width="140" height="38" rx="7" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.5"/>
+  <text x="762" y="154" font-size="10.5" font-weight="600" fill="#12305e" text-anchor="middle">consumer 1</text>
+  <rect x="692" y="196" width="140" height="38" rx="7" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.5"/>
+  <text x="762" y="220" font-size="10.5" font-weight="600" fill="#12305e" text-anchor="middle">consumer 2</text>
+  <g stroke="#2f5fa8" stroke-width="1.4" fill="none">
+    <path d="M592 135 L692 143"/><path d="M592 181 L692 155"/><path d="M592 227 L692 215"/>
+  </g>
+  <text x="762" y="250" font-size="9" fill="#5b6b7f" text-anchor="middle">2 partitions &#183; 1 partition</text>
+
+  <!-- CASE 3 -->
+  <rect x="24" y="278" width="404" height="200" rx="12" fill="#f7fbf8" stroke="#b6ddc4" stroke-width="1.6"/>
+  <rect x="24" y="278" width="404" height="200" rx="12" fill="none" stroke="#0f4d2a" stroke-width="3" opacity="0">
+    <animate attributeName="opacity" dur="16s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.49;0.51;0.74;0.76;1"/>
+  </rect>
+  <text x="44" y="302" font-size="12.5" font-weight="700" fill="#0f4d2a">Case 3 &#8212; 3 consumers &#160;&#160;&#9733; the ideal</text>
+  <text x="44" y="318" font-size="10" fill="#1e7a44">partitions = consumers &#8594; perfectly fair distribution</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5">
+    <rect x="44" y="330" width="120" height="38" rx="7"/>
+    <rect x="44" y="376" width="120" height="38" rx="7"/>
+    <rect x="44" y="422" width="120" height="38" rx="7"/>
+  </g>
+  <g font-size="10.5" font-weight="600" fill="#0f4d2a" text-anchor="middle">
+    <text x="104" y="354">partition 0</text><text x="104" y="400">partition 1</text><text x="104" y="446">partition 2</text>
+  </g>
+  <g fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.5">
+    <rect x="264" y="330" width="140" height="38" rx="7"/>
+    <rect x="264" y="376" width="140" height="38" rx="7"/>
+    <rect x="264" y="422" width="140" height="38" rx="7"/>
+  </g>
+  <g font-size="10.5" font-weight="600" fill="#12305e" text-anchor="middle">
+    <text x="334" y="354">consumer 1</text><text x="334" y="400">consumer 2</text><text x="334" y="446">consumer 3</text>
+  </g>
+  <g stroke="#1e7a44" stroke-width="1.8" fill="none">
+    <path d="M164 349 L264 349"/><path d="M164 395 L264 395"/><path d="M164 441 L264 441"/>
+  </g>
+
+  <!-- CASE 4 -->
+  <rect x="452" y="278" width="404" height="200" rx="12" fill="#fff8f8" stroke="#e0b4b4" stroke-width="1.6"/>
+  <rect x="452" y="278" width="404" height="200" rx="12" fill="none" stroke="#c62828" stroke-width="3" opacity="0">
+    <animate attributeName="opacity" dur="16s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.74;0.76;0.98;1"/>
+  </rect>
+  <text x="472" y="302" font-size="12.5" font-weight="700" fill="#a01818">Case 4 &#8212; 4 consumers, still 3 partitions</text>
+  <text x="472" y="318" font-size="10" fill="#c0392b">no partition is left over &#8594; the fourth consumer sits idle</text>
+  <g fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.5">
+    <rect x="472" y="328" width="120" height="32" rx="7"/>
+    <rect x="472" y="366" width="120" height="32" rx="7"/>
+    <rect x="472" y="404" width="120" height="32" rx="7"/>
+  </g>
+  <g font-size="10" font-weight="600" fill="#0f4d2a" text-anchor="middle">
+    <text x="532" y="349">partition 0</text><text x="532" y="387">partition 1</text><text x="532" y="425">partition 2</text>
+  </g>
+  <g fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.5">
+    <rect x="692" y="328" width="140" height="32" rx="7"/>
+    <rect x="692" y="366" width="140" height="32" rx="7"/>
+    <rect x="692" y="404" width="140" height="32" rx="7"/>
+  </g>
+  <rect x="692" y="442" width="140" height="32" rx="7" fill="#ffebee" stroke="#c62828" stroke-width="1.8" stroke-dasharray="6 4">
+    <animate attributeName="stroke-width" dur="2.4s" repeatCount="indefinite" values="1.8;3.2;1.8"/>
+  </rect>
+  <g font-size="10" font-weight="600" text-anchor="middle">
+    <text x="762" y="349" fill="#12305e">consumer 1</text>
+    <text x="762" y="387" fill="#12305e">consumer 2</text>
+    <text x="762" y="425" fill="#12305e">consumer 3</text>
+    <text x="762" y="463" fill="#a01818">consumer 4 &#8212; IDLE</text>
+  </g>
+  <g stroke="#1e7a44" stroke-width="1.6" fill="none">
+    <path d="M592 344 L692 344"/><path d="M592 382 L692 382"/><path d="M592 420 L692 420"/>
+  </g>
+</svg>

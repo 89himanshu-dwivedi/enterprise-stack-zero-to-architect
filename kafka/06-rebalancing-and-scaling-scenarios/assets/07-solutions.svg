@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500" width="880" height="500" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Three ways to handle a partition count change: design upfront, tolerate with custom logic, or cut over with a drain or a new topic">
+  <defs>
+    <marker id="q7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b6b7f"/>
+    </marker>
+  </defs>
+  <rect width="880" height="500" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="600" fill="#1b2a3a">7 · Three ways out</text>
+
+  <!-- option 1 -->
+  <rect x="24" y="44" width="832" height="96" rx="11" fill="#f7fbf8" stroke="#1e7a44" stroke-width="2"/>
+  <circle cx="56" cy="76" r="16" fill="#1e7a44"/>
+  <text x="56" y="82" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+  <text x="84" y="72" font-size="13.5" font-weight="700" fill="#0f4d2a">Design it properly at the first place &#8212; the best option</text>
+  <text x="84" y="94" font-size="11.5" fill="#1e7a44">If you know the load your application is going to take, size the partitions upfront. 100 partitions on day one costs almost nothing;</text>
+  <text x="84" y="112" font-size="11.5" fill="#1e7a44">re-partitioning a live topic costs you correctness. Over-provisioning partitions is the cheap mistake, under-provisioning is the expensive one.</text>
+  <text x="84" y="131" font-size="10.5" fill="#0f4d2a" font-family="Consolas, monospace">kafka-topics.sh --create --topic order-events --partitions 100 --replication-factor 3</text>
+
+  <!-- option 2 -->
+  <rect x="24" y="152" width="832" height="96" rx="11" fill="#fffdf5" stroke="#b8860b" stroke-width="2"/>
+  <circle cx="56" cy="184" r="16" fill="#b8860b"/>
+  <text x="56" y="190" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+  <text x="84" y="180" font-size="13.5" font-weight="700" fill="#7a5b00">Tolerate it &#8212; only if the application is not mission critical</text>
+  <text x="84" y="202" font-size="11.5" fill="#8a6d00">Handle the out-of-order case yourself: keep a <tspan font-weight="700">timestamp</tspan> on every event and reorder / ignore stale ones on the consumer side,</text>
+  <text x="84" y="220" font-size="11.5" fill="#8a6d00">or simply accept some disorder for a short window while the old partitions drain.</text>
+  <text x="84" y="240" font-size="10.5" fill="#7a5b00">Fine for analytics and notifications. Not fine for payments, ledgers or inventory.</text>
+
+  <!-- option 3 -->
+  <rect x="24" y="260" width="832" height="216" rx="11" fill="#f4f7fb" stroke="#2f5fa8" stroke-width="2"/>
+  <circle cx="56" cy="292" r="16" fill="#2f5fa8"/>
+  <text x="56" y="298" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+  <text x="84" y="288" font-size="13.5" font-weight="700" fill="#12305e">Cut over cleanly</text>
+
+  <rect x="84" y="302" width="340" height="86" rx="9" fill="#ffffff" stroke="#8ea3bb" stroke-width="1.6"/>
+  <text x="100" y="322" font-size="11.5" font-weight="700" fill="#1b2a3a">3a &#183; stop, drain, restart</text>
+  <text x="100" y="340" font-size="10.5" fill="#5b6b7f">Stop the producer &#8594; let consumers drain the existing</text>
+  <text x="100" y="356" font-size="10.5" fill="#5b6b7f">partitions completely &#8594; then start producing again.</text>
+  <text x="100" y="378" font-size="10.5" font-weight="700" fill="#a01818">Correct, but it needs downtime &#8212; often impossible.</text>
+
+  <rect x="440" y="302" width="400" height="160" rx="9" fill="#ffffff" stroke="#2f5fa8" stroke-width="1.8"/>
+  <text x="456" y="322" font-size="11.5" font-weight="700" fill="#12305e">3b &#183; new topic + automated switchover &#8212; what actually gets used</text>
+
+  <rect x="456" y="332" width="110" height="42" rx="7" fill="#e8f0fe" stroke="#2f5fa8" stroke-width="1.5"/>
+  <text x="511" y="350" font-size="10" font-weight="700" fill="#12305e" text-anchor="middle">automation</text>
+  <text x="511" y="364" font-size="9" fill="#2f5fa8" text-anchor="middle">script / curl</text>
+
+  <rect x="596" y="322" width="110" height="30" rx="6" fill="#fff3cd" stroke="#b8860b" stroke-width="1.4"/>
+  <text x="651" y="341" font-size="9.5" font-weight="700" fill="#7a5b00" text-anchor="middle">notify producer</text>
+  <rect x="596" y="360" width="110" height="30" rx="6" fill="#fff3cd" stroke="#b8860b" stroke-width="1.4"/>
+  <text x="651" y="379" font-size="9.5" font-weight="700" fill="#7a5b00" text-anchor="middle">notify consumer</text>
+
+  <rect x="726" y="322" width="100" height="30" rx="6" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.4"/>
+  <text x="776" y="341" font-size="9" font-weight="700" fill="#0f4d2a" text-anchor="middle">write to NEW</text>
+  <rect x="726" y="360" width="100" height="30" rx="6" fill="#e6f4ea" stroke="#1e7a44" stroke-width="1.4"/>
+  <text x="776" y="374" font-size="9" font-weight="700" fill="#0f4d2a" text-anchor="middle">switch AFTER</text>
+  <text x="776" y="385" font-size="8" fill="#1e7a44" text-anchor="middle">old is drained</text>
+
+  <g stroke="#5b6b7f" stroke-width="1.4" fill="none" marker-end="url(#q7)">
+    <path d="M566 340 L590 337"/>
+    <path d="M566 366 L590 375"/>
+    <path d="M706 337 L720 337"/>
+    <path d="M706 375 L720 375"/>
+  </g>
+  <g fill="#2f5fa8">
+    <circle r="5"><animateMotion dur="3s" repeatCount="indefinite" path="M511 350 L651 337 L776 337"/><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.85;1"/></circle>
+    <circle r="5"><animateMotion dur="3s" begin="1.5s" repeatCount="indefinite" path="M511 360 L651 375 L776 375"/><animate attributeName="opacity" dur="3s" begin="1.5s" repeatCount="indefinite" values="1;1;0" keyTimes="0;0.85;1"/></circle>
+  </g>
+
+  <text x="456" y="412" font-size="10.5" fill="#12305e">Create <tspan font-family="Consolas, monospace">order-events-v2</tspan> with the new partition count. The script tells the producer to publish there from now on,</text>
+  <text x="456" y="428" font-size="10.5" fill="#12305e">and tells the consumer to switch across only once it has finished the old messages on the old partitions.</text>
+  <text x="456" y="450" font-size="10.5" font-weight="700" fill="#0f4d2a">No downtime, no reordering, no lost records.</text>
+
+  <text x="84" y="410" font-size="10.5" fill="#5b6b7f">The alternative on the right avoids the</text>
+  <text x="84" y="426" font-size="10.5" fill="#5b6b7f">downtime entirely, which is why it wins</text>
+  <text x="84" y="442" font-size="10.5" fill="#5b6b7f">in most production situations.</text>
+
+  <rect x="24" y="486" width="832" height="0" rx="0" fill="none"/>
+</svg>
