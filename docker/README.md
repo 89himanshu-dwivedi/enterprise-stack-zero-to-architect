@@ -19,6 +19,7 @@ Most Docker material teaches you five commands and stops. That is the easy 20%. 
 - Why your image is 1.2 GB when the app is 8 MB
 - What actually happens to your data when a container is deleted
 - Why adding yourself to the `docker` group is the same as handing out root
+- Why two Swarm managers are worse than one
 - When a container is the wrong answer
 
 This course is written from that side of the line.
@@ -41,7 +42,12 @@ This course is written from that side of the line.
 | 10 | [Registries](lessons/10-registries.md) | Docker Hub, push, private and cloud registries, tagging strategy, scanning |
 | 11 | [Storage and networking](lessons/11-storage-networking.md) | Volumes, bind mounts, all six network drivers, DNS, port publishing |
 | 12 | [Docker Compose](lessons/12-compose.md) | Multi-container stacks, dependencies, environments |
-| 13 | [Production and interviews](lessons/13-production.md) | Security, limits, health checks, logging, CI/CD, when to move to Kubernetes |
+| 13 | [Docker Swarm](lessons/13-swarm.md) | Orchestration, managers and workers, Raft quorum, HA scenarios, rolling updates |
+| 14 | [Swarm networking &amp; load balancing](lessons/14-swarm-networking-lb.md) | Overlay isolation and VNIs, VIP, routing mesh, external NGINX |
+| 15 | [Stacks, image distribution &amp; scaling](lessons/15-stack-scaling.md) | Compose vs stack, the "No such image" problem, registries, scaling |
+| 16 | [Resource limits](lessons/16-resource-limits.md) | Hard vs soft limits, memory, CPU shares, Swarm reservations |
+| 17 | [Monitoring and logging](lessons/17-monitoring-logging.md) | docker stats, cAdvisor, log drivers, rotation, the EFK stack |
+| 18 | [Production and interviews](lessons/18-production.md) | Security, health, CI/CD, when Docker alone stops being enough |
 
 Every module follows the same six blocks: **mental model → mechanics → build it → what breaks →
 cost & performance → interview drill**.

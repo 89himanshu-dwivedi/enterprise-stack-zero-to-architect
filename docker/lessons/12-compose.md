@@ -280,7 +280,7 @@ volumes, which destroys the data. It is the most dangerous two characters in the
 
 ---
 
-[← Module 11](11-storage-networking.md) &nbsp;&nbsp;|&nbsp;&nbsp; [Module 13: Production and interviews →](13-production.md)
+[← Module 11](11-storage-networking.md) &nbsp;&nbsp;|&nbsp;&nbsp; [Module 13: Docker Swarm →](13-swarm.md)
 
 ---
 

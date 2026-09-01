@@ -182,9 +182,64 @@ Multi-container stacks defined in one file.
 - environment files and overrides
 - the dev-to-prod boundary
 
-### [Production and interviews](lessons/13-production.md)
+### [Docker Swarm](lessons/13-swarm.md)
 
 `MODULE 13`
+
+Turning a set of hosts into a cluster with a scheduler and self-healing.
+
+- managers, workers, services, tasks, desired state
+- Raft consensus and why quorum decides everything
+- why 2 managers is worse than 1, and always use an odd number
+- rolling updates, rollback, placement constraints
+
+### [Swarm networking &amp; load balancing](lessons/14-swarm-networking-lb.md)
+
+`MODULE 14`
+
+How a request finds a container that could be on any node.
+
+- overlay isolation and Virtual Network Identifiers
+- VIP plus IPVS internal load balancing
+- the ingress routing mesh, and the client IP it hides
+- NGINX as an external load balancer
+
+### [Stacks, image distribution &amp; scaling](lessons/15-stack-scaling.md)
+
+`MODULE 15`
+
+Compose files on a cluster - and the two problems that appear immediately.
+
+- Compose vs Stack, and what `deploy:` changes
+- the "No such image" failure every Swarm beginner hits
+- registries, `--with-registry-auth`, CI/CD
+- vertical vs horizontal, declarative scaling, and the honest truth about autoscaling
+
+### [Resource limits](lessons/16-resource-limits.md)
+
+`MODULE 16`
+
+Turning "one container can kill the host" into "one container can only kill itself".
+
+- hard limits vs soft reservations
+- memory, OOM kills and exit code 137
+- `--cpus` vs `--cpu-shares` - and why shares limit nothing
+- reservations as a scheduling contract in Swarm
+
+### [Monitoring and logging](lessons/17-monitoring-logging.md)
+
+`MODULE 17`
+
+Seeing what containers actually do, before the container disappears.
+
+- `docker stats`, `docker events`, `docker top`
+- cAdvisor, Prometheus, Grafana
+- log drivers and the rotation setting that prevents an outage
+- centralised logging with the EFK stack
+
+### [Production and interviews](lessons/18-production.md)
+
+`MODULE 18`
 
 The module that decides whether any of it ships - plus the question bank.
 

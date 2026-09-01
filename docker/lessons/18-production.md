@@ -1,11 +1,11 @@
 # Production and interviews
 
-*Module 13 · Capstone*
+*Module 18 · Capstone*
 
-The module that decides whether anything from modules 01-12 is allowed near real traffic - plus the
+The module that decides whether anything from modules 01-17 is allowed near real traffic - plus the
 question bank that gets you through the interview.
 
-[Course home](../index.md) / Module 13
+[Course home](../index.md) / Module 18
 
 ## 1. Security checklist
 
@@ -250,7 +250,7 @@ image, replace the container, keep state in volumes and external stores.
 
 ---
 
-[← Module 12](12-compose.md) &nbsp;&nbsp;|&nbsp;&nbsp; [Course home](../index.md)
+[← Module 17](17-monitoring-logging.md) &nbsp;&nbsp;|&nbsp;&nbsp; [Course home](../index.md)
 
 ---
 
