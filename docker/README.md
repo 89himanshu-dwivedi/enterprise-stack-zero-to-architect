@@ -48,6 +48,7 @@ This course is written from that side of the line.
 | 16 | [Resource limits](lessons/16-resource-limits.md) | Hard vs soft limits, memory, CPU shares, Swarm reservations |
 | 17 | [Monitoring and logging](lessons/17-monitoring-logging.md) | docker stats, cAdvisor, log drivers, rotation, the EFK stack |
 | 18 | [Production and interviews](lessons/18-production.md) | Security, health, CI/CD, when Docker alone stops being enough |
+| 19 | [Docker in Salesforce, AI and cloud work](lessons/19-salesforce-ai-cloud.md) | Applied: `sf` CLI images, Heroku, MuleSoft, Agentforce, BYO models, MCP |
 
 Every module follows the same six blocks: **mental model → mechanics → build it → what breaks →
 cost & performance → interview drill**.

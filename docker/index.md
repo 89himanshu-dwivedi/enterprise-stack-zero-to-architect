@@ -251,6 +251,20 @@ The module that decides whether any of it ships - plus the question bank.
 - logging, image slimming, CI/CD
 - when Docker alone stops being enough
 
+### [Docker in Salesforce, AI and cloud work](lessons/19-salesforce-ai-cloud.md)
+
+`MODULE 19`
+
+The applied module: eighteen modules of theory, pointed at the platform you work on.
+
+- why Salesforce cannot be containerized, and what that means
+- a pinned `sf` CLI image, and the end of "it broke and we changed nothing"
+- Heroku, Named Credentials, and where custom code lives now
+- CloudHub 2.0 and Runtime Fabric are both containers
+- what actually runs behind an Agentforce action
+- bring-your-own-model endpoints, RAG stacks, MCP servers
+- the image *is* the credential
+
 ---
 
 > **WARNING - On versions and commands**

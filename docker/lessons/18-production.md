@@ -250,7 +250,7 @@ image, replace the container, keep state in volumes and external stores.
 
 ---
 
-[← Module 17](17-monitoring-logging.md) &nbsp;&nbsp;|&nbsp;&nbsp; [Course home](../index.md)
+[← Module 17](17-monitoring-logging.md) &nbsp;&nbsp;|&nbsp;&nbsp; [Module 19: Docker in Salesforce, AI and cloud work →](19-salesforce-ai-cloud.md)
 
 ---
 
