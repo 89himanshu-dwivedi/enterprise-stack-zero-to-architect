@@ -50,6 +50,16 @@ I add one folder per tool as I work through it. Each folder holds my notes plus 
 
 ---
 
+## Attribution & ownership
+
+Copyright (c) 2026 Himanshu Kumar. All rights reserved.
+
+This material is my original work. Reading it here and linking to it is welcome.
+Downloading, copying, mirroring, forking, redistributing, or using it to train an
+AI model requires **prior written permission**.
+
+Request permission: [github.com/89himanshu-dwivedi](https://github.com/89himanshu-dwivedi)
+
 ## License
 
-MIT — take anything useful.
+See [LICENSE](LICENSE) &mdash; proprietary, all rights reserved, permission required.
