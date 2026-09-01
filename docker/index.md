@@ -146,7 +146,8 @@ Declarative image builds - repeatable, reviewable, version controlled.
 
 - every instruction and what it costs
 - layer caching and instruction order
-- multi-stage builds
+- multi-stage builds: 742 MB down to 187 MB, measured
+- build stage vs deployment stage
 - non-root users, pinned bases, `.dockerignore`
 
 ### [Registries](lessons/10-registries.md)
@@ -177,7 +178,9 @@ The two things people get wrong first, and the ones that lose data.
 
 Multi-container stacks defined in one file.
 
-- services, networks, volumes
+- a three-container app built by hand first, so you feel the problem
+- installing Compose, and v1 vs v2
+- services, networks, volumes, project naming
 - `depends_on` and why it is not health
 - environment files and overrides
 - the dev-to-prod boundary

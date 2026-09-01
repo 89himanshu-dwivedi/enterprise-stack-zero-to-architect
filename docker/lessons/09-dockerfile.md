@@ -202,7 +202,126 @@ flowchart LR
 
 ## 6. Multi-stage builds
 
-The single biggest image-size win available.
+The single biggest image-size win available - and the clearest demonstration of the difference between
+what you need to **build** software and what you need to **run** it.
+
+### 6.1 The standard Dockerfile, built the obvious way
+
+A real Java service, one image, one stage, everything in it. This is what almost everyone writes first.
+
+```dockerfile
+# Dockerfile.single - works perfectly, and ships a compiler to production
+FROM maven:3.9-eclipse-temurin-21
+WORKDIR /src
+COPY pom.xml .
+RUN mvn -B dependency:go-offline
+COPY src ./src
+RUN mvn -B clean package -DskipTests
+EXPOSE 8080
+CMD ["java", "-jar", "/src/target/app-1.0.jar"]
+```
+
+```bash
+docker build -f Dockerfile.single -t demo:single .
+docker images demo:single
+# REPOSITORY   TAG      SIZE
+# demo         single   742MB
+```
+
+It runs. It also puts all of this on every production host:
+
+| What ships | Needed to build? | Needed to run? |
+| --- | --- | --- |
+| Maven 3.9 | Yes | No |
+| Full JDK (compiler, `javac`, debug tools) | Yes | No - a JRE is enough |
+| `~/.m2` dependency cache, hundreds of jars | Yes | No |
+| Your `.java` source files | Yes | No |
+| Build plugins and test scaffolding | Yes | No |
+| One `app-1.0.jar` | Produced by the build | **Yes** |
+
+Roughly 700 MB of that image is build machinery that will never execute in production. It is pulled on
+every deploy, scanned by every CVE tool, and available to anyone who gets a shell in the container.
+
+### 6.2 The same app, multi-stage
+
+```dockerfile
+# Dockerfile - stage 1 builds, stage 2 runs
+FROM maven:3.9-eclipse-temurin-21 AS build
+WORKDIR /src
+COPY pom.xml .
+RUN mvn -B dependency:go-offline
+COPY src ./src
+RUN mvn -B clean package -DskipTests
+
+FROM eclipse-temurin:21-jre-alpine AS runtime
+WORKDIR /app
+COPY --from=build /src/target/app-1.0.jar app.jar
+RUN addgroup -S app && adduser -S -G app app
+USER app
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+```
+
+```bash
+docker build -t demo:multi .
+docker images "demo"
+# REPOSITORY   TAG      SIZE
+# demo         single   742MB
+# demo         multi    187MB
+```
+
+Same source, same behaviour, same command. One line - `COPY --from=build` - removed 555 MB.
+
+### 6.3 Build stage vs deployment stage
+
+```mermaid
+flowchart LR
+    S0["docker build"]
+    S1["Stage 'build': maven + JDK + source"]
+    S2["mvn package produces app-1.0.jar"]
+    S3["Stage 'runtime': JRE only"]
+    S4["COPY --from=build - just the jar crosses over"]
+    S5["Final image tagged; stage 'build' discarded"]
+    S0 --> S1
+    S1 --> S2
+    S2 --> S3
+    S3 --> S4
+    S4 --> S5
+    F0["COPY --from=build /src /app"]
+    F1["Whole build tree copied, not just the artifact"]
+    F2["Source and .m2 cache back in the final image"]
+    F3["Multi-stage used, size unchanged - nothing gained"]
+    S4 -. fails .-> F0
+    F0 --> F1
+    F1 --> F2
+    F2 --> F3
+    classDef bad fill:#fdecea,stroke:#c62828;
+    class F0,F1,F2,F3 bad;
+```
+
+> **Why it matters:** Multi-stage does not shrink anything by itself. The saving comes entirely from being **specific** about what crosses the boundary. `COPY --from=build /src/target/app-1.0.jar` is a win; `COPY --from=build /src /app` is the same image with extra steps.
+
+| Concept | Build stage | Deployment stage |
+| --- | --- | --- |
+| Purpose | Compile, bundle, test | Execute the artifact |
+| Base image | Fat: SDK, compiler, package manager | Thin: runtime, or nothing |
+| Lives in the final image? | No - discarded after the build | Yes - this is what you ship |
+| Cares about size? | No | Very much |
+| Cares about build speed? | Very much - use cache mounts | No |
+| Runs as root? | Fine, it is throwaway | No - `USER` a non-root account |
+
+### 6.4 What actually changed
+
+| Measure | `demo:single` | `demo:multi` | Effect |
+| --- | --- | --- | --- |
+| Image size | 742 MB | 187 MB | 75% smaller |
+| Pull time on a 100 Mbps link | ~60 s | ~15 s | Faster deploys and rollbacks |
+| Registry cost for 50 tags | ~37 GB | ~9 GB | Direct money |
+| Compiler present | Yes | No | Attacker cannot build tools in place |
+| Source code present | Yes | No | Your code is not sitting on the host |
+| Package manager present | Yes | Only `apk` | Fewer CVEs to triage every week |
+
+Go further and the numbers get dramatic, because a statically linked binary needs no runtime at all:
 
 ```dockerfile
 FROM golang:1.22 AS build          # ~800 MB with the toolchain
@@ -216,8 +335,39 @@ USER 65534:65534
 ENTRYPOINT ["/app"]
 ```
 
-Final image: about 8 MB. The compiler, the source code and the module cache never reach production - so
-they cannot be exploited and do not cost pull time.
+Final image: about 8 MB.
+
+### 6.5 The same pattern in every language
+
+| Stack | Build stage | Deployment stage | What crosses over |
+| --- | --- | --- | --- |
+| Java | `maven:...-temurin-21` | `eclipse-temurin:21-jre-alpine` | the `.jar` |
+| Go | `golang:1.22` | `scratch` or `distroless/static` | the binary |
+| Node API | `node:20` (`npm ci`) | `node:20-alpine` | `node_modules` + source |
+| React / Vue | `node:20` (`npm run build`) | `nginx:alpine` | the `dist/` folder |
+| Python | `python:3.12` (`pip install --target`) | `python:3.12-slim` | site-packages + source |
+| .NET | `sdk:8.0` | `aspnet:8.0` | the publish output |
+
+### 6.6 Stage tricks worth knowing
+
+```bash
+docker build --target build -t demo:debug .     # stop at the build stage and inspect it
+docker run --rm -it demo:debug sh               # the compiler is here, not in production
+```
+
+- **Name every stage** with `AS name`. Referring to stages by index (`--from=0`) breaks the moment
+  someone inserts a stage.
+- **`--from` can be an image, not just a stage**:
+  `COPY --from=nginx:1.25-alpine /etc/nginx/nginx.conf /etc/nginx/nginx.conf`.
+- **Independent stages build in parallel** under BuildKit - a test stage and an asset stage cost you the
+  slower of the two, not the sum.
+- **Only the final stage is tagged.** Everything else is intermediate and disappears, which is exactly
+  the point.
+- **A test stage is free CI**: `RUN mvn test` inside the build stage means a failing test fails the build.
+
+> **TIP - Debugging a multi-stage build**
+>
+> `scratch` and distroless images have no shell, so `docker exec ... sh` fails. Do not add a shell to fix it. Build with `--target build` and debug in the fat stage instead, where every tool already exists.
 
 | Base | Typical final size | Trade-off |
 | --- | --- | --- |
@@ -285,17 +435,52 @@ layer. This file takes two minutes to write and prevents a whole category of inc
 > 1. Write a Dockerfile for any small app you have. Build it and record the size.
 > 2. Deliberately put `COPY . .` before the dependency install. Time two builds with a one-character source change.
 > 3. Fix the order and time it again. That difference is your CI bill.
-> 4. Convert it to a multi-stage build. Compare sizes.
-> 5. Switch the base to Alpine or slim. Compare again.
-> 6. Add a non-root `USER` and confirm with `docker exec ... whoami`.
-> 7. Add a `.dockerignore` and watch the "Sending build context" size drop.
-> 8. Run `docker history` on your final image and justify every layer over 10 MB.
+> 4. Build the naive single-stage version of a compiled app and record `docker images` size.
+> 5. Convert it to two stages, copy only the artifact across, and record the size again. Write both numbers down.
+> 6. Deliberately do `COPY --from=build /src /app` instead of copying just the artifact, rebuild, and confirm the saving disappears.
+> 7. Build with `--target build`, shell into that stage, and confirm the compiler exists there but not in the final image.
+> 8. Switch the base to Alpine or slim. Compare again.
+> 9. Add a non-root `USER` and confirm with `docker exec ... whoami`.
+> 10. Add a `.dockerignore` and watch the "Sending build context" size drop.
+> 11. Run `docker history` on your final image and justify every layer over 10 MB.
 
 > **ASSIGNMENT - Assignment**
 >
 > Take a real service and produce a production-grade Dockerfile: multi-stage, pinned base, non-root user, `.dockerignore`, `HEALTHCHECK`, exec-form `ENTRYPOINT`, and no secrets anywhere. Record before/after image size, build time on a code-only change, and CVE count from a scanner. Those three numbers are the strongest evidence you can bring to a review.
 
 ## 10. Interview drill
+
+<details>
+<summary><b>What is a multi-stage build, and where does the saving actually come from?</b></summary>
+
+A single Dockerfile with several `FROM` instructions. Early stages hold the SDK, compiler and source and
+produce an artifact; the final stage starts from a thin runtime and pulls only that artifact across with
+`COPY --from`. Intermediate stages are discarded and never tagged.
+
+The saving comes from being specific about what crosses the boundary - not from the syntax itself.
+`COPY --from=build /src/target/app.jar` gives a 75% reduction; `COPY --from=build /src /app` copies the
+whole build tree back in and gives you nothing.
+
+</details>
+
+<details>
+<summary><b>Why is shipping the build toolchain to production a problem, beyond size?</b></summary>
+
+Size is only the visible cost. A compiler and package manager in the image give an attacker who gets code
+execution the tools to build and install whatever they want in place. The source code sits on every
+production host. Every build package is another CVE your scanner reports each week. And a 742 MB image
+versus 187 MB changes pull time, which changes how fast you can roll back during an incident.
+
+</details>
+
+<details>
+<summary><b>How do you debug a distroless or `scratch` image with no shell?</b></summary>
+
+You do not add a shell. Build with `--target <build-stage>` and debug in the fat stage, which has every
+tool already, or attach an ephemeral debug container with `docker debug` / `kubectl debug`. Adding busybox
+to the production image to make debugging easier undoes the reason you chose distroless.
+
+</details>
 
 <details>
 <summary><b>How does the Docker build cache work, and how do you exploit it?</b></summary>

@@ -41,7 +41,7 @@ This course is written from that side of the line.
 | 09 | [Dockerfiles](lessons/09-dockerfile.md) | Instructions, layer caching, multi-stage builds, `.dockerignore`, security |
 | 10 | [Registries](lessons/10-registries.md) | Docker Hub, push, private and cloud registries, tagging strategy, scanning |
 | 11 | [Storage and networking](lessons/11-storage-networking.md) | Volumes, bind mounts, all six network drivers, DNS, port publishing |
-| 12 | [Docker Compose](lessons/12-compose.md) | Multi-container stacks, dependencies, environments |
+| 12 | [Docker Compose](lessons/12-compose.md) | A three-container app by hand, then the same thing in one file |
 | 13 | [Docker Swarm](lessons/13-swarm.md) | Orchestration, managers and workers, Raft quorum, HA scenarios, rolling updates |
 | 14 | [Swarm networking &amp; load balancing](lessons/14-swarm-networking-lb.md) | Overlay isolation and VNIs, VIP, routing mesh, external NGINX |
 | 15 | [Stacks, image distribution &amp; scaling](lessons/15-stack-scaling.md) | Compose vs stack, the "No such image" problem, registries, scaling |
