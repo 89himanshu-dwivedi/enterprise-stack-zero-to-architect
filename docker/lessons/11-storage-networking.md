@@ -87,6 +87,7 @@ docker run --rm -v pgdata:/data -v "$(pwd)":/backup alpine \
 | `none` | No networking at all | Batch jobs that must not reach the network |
 | `overlay` | Spans multiple hosts | Swarm / multi-host clusters |
 | `macvlan` | Container gets a real MAC and IP on your LAN | Legacy integrations expecting a physical host |
+| **plugins** | Third-party drivers - Weave, Calico, Cisco ACI | Inheriting an existing enterprise network model |
 
 ```bash
 docker network create appnet
@@ -235,14 +236,25 @@ must see the host's real interfaces, and services that need a large or dynamic p
 >
 > The container can bind any host port, see all host interfaces, and reach anything the host can reach - including services you thought were bound to localhost only. Treat `--network host` like `--privileged`: allowed when there is a specific technical reason, never as a shortcut to "make networking work".
 
-### None mode
+### None mode - no networking at all
 
 ```bash
-docker run --network none alpine ip addr        # loopback only
+docker run --network none alpine ip addr        # loopback only, nothing else
 ```
 
-The container gets a network namespace with nothing in it but `lo`. Useful for batch jobs that process
-mounted data and must not touch the network at all - a genuine security control, not a curiosity.
+The container gets a network namespace containing nothing but `lo`. It cannot reach the network and the
+network cannot reach it.
+
+| Real use case | Why `none` is the right answer |
+| --- | --- |
+| **Malware and untrusted binary analysis** | Detonate a sample with no route out. It cannot call home, scan your LAN, or infect other containers |
+| **Extremely confidential data processing** | Mount the data, process it, write the result to a volume - with no network path for it to leave by |
+| **Pure compute batch jobs** | Transcoding, rendering, calculations that only need mounted files |
+| **Proving a dependency** | Run a service with `none` and watch what breaks - an excellent way to discover undocumented outbound calls |
+
+> **NOTE - Not available for Swarm services**
+>
+> `none` works for standalone containers. Swarm services need to be reachable on the service network, so the driver is not offered there.
 
 ### Overlay - containers across multiple hosts
 
@@ -284,12 +296,78 @@ docker service create --name api --network appnet myapi:1.0
 >
 > Kubernetes solves the same problem with a CNI plugin - Calico, Cilium, Flannel - and the same underlying idea: an address space that spans nodes, with the platform routing packets to the right one. Understanding overlay here means Kubernetes networking is a vocabulary change rather than a new concept.
 
-### macvlan
+### macvlan - the container becomes a machine on your LAN
 
-The container gets its **own MAC address and an IP on your physical LAN**, so the rest of the network
-sees it as a separate machine. Use it for legacy systems or appliances that must appear as real hosts.
-It needs promiscuous mode on the NIC, cooperation from your network team, and it is usually a last
-resort.
+Macvlan gives each container its **own MAC address and an IP from your physical subnet**, attached
+straight to the host's NIC. The host's networking layer is bypassed entirely - no bridge, no NAT, no port
+publishing.
+
+```text
+                 ┌──────────────── physical switch ────────────────┐
+                 │            │              │             │       │
+        ┌────────┴───┐  ┌─────┴──────┐  ┌────┴─────┐  ┌────┴────────┐
+        │ Docker     │  │ Docker     │  │ External │  │  Internet   │
+        │ host 1     │  │ host 2     │  │   PC     │  │   router    │
+        │ .1.10      │  │ .1.11      │  │  .1.50   │  │   .1.1      │
+        │            │  │            │  └──────────┘  └─────────────┘
+        │ c1  .1.2   │  │ c4  .1.5   │
+        │ c2  .1.3   │  │ c5  .1.6   │   <- containers hold IPs from the SAME
+        │ c3  .1.4   │  │ c6  .1.7   │      192.168.1.0/24 physical subnet
+        └────────────┘  └────────────┘
+```
+
+From the external PC, `ping 192.168.1.2` reaches container `c1` directly. Not the host - the container.
+The rest of your network genuinely cannot tell it apart from a physical machine.
+
+| Consequence | Detail |
+| --- | --- |
+| Own MAC and IP | The container appears as an independent device; your DHCP server and switches see it as one |
+| **No NAT** | Removing the translation layer can reduce latency versus bridge |
+| **No `-p`, no `EXPOSE`** | Every port the container listens on is reachable from the LAN immediately |
+| Cross-host is trivial | `c1` on host 1 talks to `c4` on host 2 over the ordinary network - no overlay needed |
+| Host cannot reach its own containers | By design, the parent interface cannot talk to its macvlan children without an extra sub-interface |
+| Platform support | Linux only - **not supported on Docker Desktop for Windows or macOS** |
+| Network prerequisites | The NIC usually needs promiscuous mode, which many cloud providers and corporate switches forbid |
+
+```bash
+docker network create -d macvlan \
+  --subnet 192.168.1.0/24 \
+  --gateway 192.168.1.1 \
+  -o parent=eth0 \
+  pub_net
+
+docker run -dit --name c1 --network pub_net --ip 192.168.1.2 nettools
+```
+
+> **WARNING - macvlan is a legacy answer, and a security decision**
+>
+> With bridge you publish *specific* ports, so the exposed surface is deliberate and small. With macvlan **every listening port is on the LAN the moment the container starts** - and if the subnet is publicly routable, on the internet. That is why real-world deployments overwhelmingly use bridge with published ports, and macvlan is reserved for legacy applications, appliances, or monitoring tools that must appear as physical hosts.
+
+### Cleaning up networks
+
+```bash
+docker network rm ud1 ud2          # remove specific networks
+docker network prune               # remove every network no container is using
+```
+
+Built-in networks (`bridge`, `host`, `none`) cannot be removed, and a network in use by a running
+container will refuse to be deleted until you disconnect or stop it.
+
+### Network plugins - extending the drivers
+
+Docker's driver set is not the limit. **Network plugins** let you attach Docker to networking systems it
+does not implement itself, from Docker Hub or from third-party vendors.
+
+| Example | What it adds |
+| --- | --- |
+| Weave Net | Encrypted mesh networking across hosts, without Swarm |
+| Calico | Policy-driven networking with real network policy enforcement |
+| Cilium | eBPF-based networking and observability |
+| **Cisco ACI** | Ties Docker hosts into Application Centric Infrastructure, so containers, VMs and physical devices are all managed from one network fabric and policy model |
+
+> **TIP - Why an enterprise reaches for a plugin**
+>
+> A large organisation already has a network policy model - Cisco ACI, NSX, or similar. A plugin lets containers inherit that model rather than becoming an island the network team cannot see or govern. That is almost always the driver: not a missing feature, but a governance boundary. In Kubernetes the same role is played by CNI plugins.
 
 ### Choosing
 
@@ -297,9 +375,10 @@ resort.
 | --- | --- |
 | Normal multi-container app on one host | **User-defined bridge** |
 | Maximum network performance, or an agent that must see host interfaces | `host` |
-| No network access at all | `none` |
+| No network access at all - malware sandbox, confidential processing | `none` |
 | Containers on different hosts must talk | `overlay` (Swarm) - or move to Kubernetes |
-| Container must look like a physical machine on the LAN | `macvlan` |
+| Container must look like a physical machine on the LAN | `macvlan` (legacy) |
+| Must inherit the enterprise network policy model | A vendor **plugin** |
 
 ## 7. Putting it together
 
@@ -466,6 +545,38 @@ attached to it behave as if they share one flat LAN while Docker routes each pac
 host and container. It needs a control plane - Swarm mode or an external key-value store - the right ports
 open between hosts, and optional data-plane encryption. Kubernetes solves the same problem with a CNI
 plugin.
+
+</details>
+
+<details>
+<summary><b>What is macvlan, and why is it rarely the right choice?</b></summary>
+
+It gives the container its own MAC address and an IP from the physical subnet, attached directly to the
+host NIC - so the LAN sees it as a separate machine, with no NAT and no port publishing. That last part is
+the problem: every listening port is exposed to the network the moment the container starts, whereas
+bridge exposes only the ports you publish. It also needs promiscuous mode, is Linux-only, and the host
+cannot reach its own macvlan containers without extra configuration. Reserve it for legacy systems and
+appliances that must appear as physical hosts.
+
+</details>
+
+<details>
+<summary><b>Give a genuine use case for `--network none`.</b></summary>
+
+Malware or untrusted binary analysis - the sample runs with no route out, so it cannot call home, scan the
+LAN or reach other containers. Also processing highly confidential data with no network path for it to
+leave by, and pure compute batch jobs. It is a real security control, and it is not available for Swarm
+services.
+
+</details>
+
+<details>
+<summary><b>Why would an enterprise install a Docker network plugin?</b></summary>
+
+To make containers obey the network model the organisation already has. A plugin such as Cisco ACI, Weave
+or Calico lets containers, VMs and physical devices be governed from one fabric and one policy model,
+rather than containers becoming an island the network team cannot see or control. The equivalent in
+Kubernetes is the CNI plugin.
 
 </details>
 
