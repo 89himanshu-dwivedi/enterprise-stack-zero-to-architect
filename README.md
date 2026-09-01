@@ -34,6 +34,17 @@ For each tool: what problem it solves, when **not** to use it, the config that b
 
 ---
 
+## Courses in this repo
+
+| Folder | Course | Size |
+| --- | --- | --- |
+| [docker](docker/README.md) | **Docker: Zero to Architect** — containers from the kernel up: OS-level virtualisation, images and layers, Dockerfiles, registries, storage and networking, Compose, production hardening | 13 modules |
+| [kafka](kafka/README.md) | Kafka ↔ Salesforce integration patterns — bridges, Platform Events, governor limits, end-to-end flows | Notes + code |
+
+Everything is Markdown with Mermaid diagrams, so it reads directly here on GitHub — no downloads, no build step.
+
+---
+
 ## How this repo is built
 
 I add one folder per tool as I work through it. Each folder holds my notes plus a minimal working setup — usually a `docker-compose.yml` and a script you can actually run.
