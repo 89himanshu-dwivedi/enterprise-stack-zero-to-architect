@@ -168,8 +168,8 @@ The two things people get wrong first, and the ones that lose data.
 
 - volumes vs bind mounts vs tmpfs
 - the writable layer and why it disappears
-- bridge, host and user-defined networks
-- container DNS and port publishing
+- bridge, user-defined bridge, host, none, overlay, macvlan
+- container DNS, port publishing, multi-host traffic
 
 ### [Docker Compose](lessons/12-compose.md)
 

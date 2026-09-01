@@ -192,7 +192,116 @@ Read `-p` left to right: **host:container**.
 >
 > On Linux, Docker writes its own iptables rules. A published port can therefore be reachable from the internet even though your host firewall appears to block it. Bind to `127.0.0.1` for anything that should not be public, and verify from outside the host rather than trusting the firewall config.
 
-## 6. Putting it together
+## 6. The other drivers: host, none, overlay, macvlan
+
+### Host mode - no network namespace at all
+
+```bash
+docker run -it --name c1 --network host my-web-server /bin/bash
+```
+
+The container **shares the host's network namespace**. It does not get its own IP, its own interfaces or
+its own routing table - it uses the host's. Inside the container, `ip addr` shows the host's addresses.
+
+```mermaid
+flowchart LR
+    N0["Client"]
+    N1["Host NIC and IP"]
+    N2["docker0 bridge - NAT"]
+    N3["Container 172.18.0.2:80"]
+    N4["Container in HOST mode"]
+    N0 -- "host-ip:80" --> N1
+    N1 -- "bridge mode: NAT translates" --> N2
+    N2 -- "forward" --> N3
+    N1 -- "host mode: no translation" --> N4
+```
+
+> **Why it matters:** In bridge mode a request to `host-ip:8080` is translated by Docker's NAT rules to `container-ip:80` and back again for the reply. In host mode that entire layer is removed - the container binds directly to the host's interface, so its "container IP" *is* the host IP.
+
+| | Bridge | Host |
+| --- | --- | --- |
+| Container IP | Its own, e.g. `172.18.0.2` | **The host's IP** |
+| NAT / port translation | Yes | **None** |
+| `-p 8080:80` | Required to expose anything | **Ignored** - the app is already on the host's ports |
+| Port conflicts | Only on the host side | Two containers cannot both bind port 80 |
+| Isolation | Own network namespace | **No network isolation from the host** |
+| Performance | NAT adds a small overhead | Slightly faster, no translation |
+| Availability | Everywhere | **Linux only** - on Docker Desktop for Mac/Windows the "host" is the hidden Linux VM, not your machine |
+
+Use it for: high-throughput or latency-sensitive network workloads, monitoring and network agents that
+must see the host's real interfaces, and services that need a large or dynamic port range.
+
+> **WARNING - Host mode gives up a security boundary**
+>
+> The container can bind any host port, see all host interfaces, and reach anything the host can reach - including services you thought were bound to localhost only. Treat `--network host` like `--privileged`: allowed when there is a specific technical reason, never as a shortcut to "make networking work".
+
+### None mode
+
+```bash
+docker run --network none alpine ip addr        # loopback only
+```
+
+The container gets a network namespace with nothing in it but `lo`. Useful for batch jobs that process
+mounted data and must not touch the network at all - a genuine security control, not a curiosity.
+
+### Overlay - containers across multiple hosts
+
+Bridge and host are **single-host** drivers. In production you run several Docker hosts, because one
+host is a single point of failure. So how does `c1` on host A talk to `c4` on host B?
+
+```mermaid
+flowchart LR
+    N0["Host A"]
+    N1["c1"]
+    N2["Overlay network (VXLAN)"]
+    N3["Host B"]
+    N4["c4"]
+    N1 -- "attached" --> N2
+    N0 -- "underlay: real network" --> N3
+    N2 -- "attached" --> N4
+    N1 -- "talks to c4 by name" --> N4
+```
+
+> **Why it matters:** The overlay network sits **on top of** the hosts' real network. Containers on different machines behave as though they share one flat LAN, and Docker transparently routes each packet to the right daemon host and the right destination container. Your application never learns that the two containers are on different machines.
+
+| Concern | Detail |
+| --- | --- |
+| How it works | Packets are encapsulated (VXLAN) and carried over the hosts' existing network - the "underlay" |
+| What it needs | A **control plane**: Docker Swarm mode, or an external key-value store on the classic setup. A plain standalone Docker host cannot create a usable overlay on its own |
+| Setup | `docker swarm init` on the first host, `docker swarm join` on the others, then `docker network create -d overlay appnet` |
+| Ports to open | The cluster's control and data ports between hosts - overlays fail silently when a firewall blocks them |
+| Encryption | Off by default; `--opt encrypted` turns on encryption of the data plane, at a performance cost |
+| Overhead | Encapsulation costs some throughput and adds MTU considerations |
+
+```bash
+docker swarm init                                  # host A becomes a manager
+docker swarm join --token <token> <manager-ip>     # host B joins
+docker network create -d overlay --attachable appnet
+docker service create --name api --network appnet myapi:1.0
+```
+
+> **TIP - In 2026 most teams meet overlay through Kubernetes, not Swarm**
+>
+> Kubernetes solves the same problem with a CNI plugin - Calico, Cilium, Flannel - and the same underlying idea: an address space that spans nodes, with the platform routing packets to the right one. Understanding overlay here means Kubernetes networking is a vocabulary change rather than a new concept.
+
+### macvlan
+
+The container gets its **own MAC address and an IP on your physical LAN**, so the rest of the network
+sees it as a separate machine. Use it for legacy systems or appliances that must appear as real hosts.
+It needs promiscuous mode on the NIC, cooperation from your network team, and it is usually a last
+resort.
+
+### Choosing
+
+| Requirement | Driver |
+| --- | --- |
+| Normal multi-container app on one host | **User-defined bridge** |
+| Maximum network performance, or an agent that must see host interfaces | `host` |
+| No network access at all | `none` |
+| Containers on different hosts must talk | `overlay` (Swarm) - or move to Kubernetes |
+| Container must look like a physical machine on the LAN | `macvlan` |
+
+## 7. Putting it together
 
 ```bash
 docker network create appnet
@@ -214,7 +323,7 @@ Note what this gets right: named volume for state, user-defined network for DNS,
 API bound to localhost, resource limits set, restart policy set. That is the shape of a correct
 single-host deployment - and module 12 turns it into one file.
 
-## 7. Diagnosing
+## 8. Diagnosing
 
 ```bash
 docker network ls
@@ -240,7 +349,7 @@ docker exec -it api sh -c "df -h"                  # is the volume mounted where
 >
 > Each container has its own network namespace. To reach the host from inside a container, use `host.docker.internal` on Docker Desktop, or the gateway IP / `--add-host` on Linux. To reach another container, use its name on a shared network.
 
-## 8. Extra points
+## 9. Extra points
 
 - **Volumes are the only supported way to run stateful workloads on a single host.** Anything
   multi-host needs a networked filesystem or a managed database.
@@ -269,7 +378,7 @@ docker exec -it api sh -c "df -h"                  # is the volume mounted where
 >
 > Deploy a three-container stack imperatively - database, API, reverse proxy - with a named volume, two networks (frontend and backend), the database published to nothing, resource limits and restart policies. Then write the runbook: how to back up the volume, how to restore it, and exactly which command would destroy the data. Test the restore. An untested backup is not a backup.
 
-## 9. Interview drill
+## 10. Interview drill
 
 <details>
 <summary><b>Volume or bind mount?</b></summary>
@@ -335,6 +444,28 @@ On a user-defined network, yes: `docker network create -d bridge --subnet 192.16
 default bridge does not let you choose - it allocates from its own range, typically `172.17.0.0/16`. That
 is one more reason to create your own networks, especially when Docker's default range collides with your
 corporate network.
+
+</details>
+
+<details>
+<summary><b>What does `--network host` actually change, and when would you use it?</b></summary>
+
+The container shares the host's network namespace instead of getting its own, so it uses the host's IP,
+interfaces and routing table, and there is no NAT or port translation - `-p` is ignored because the app
+binds host ports directly. Use it for latency-sensitive or high-throughput networking and for agents that
+must observe the host's real interfaces. The cost is a lost isolation boundary and host-wide port
+conflicts, and it is a Linux-only driver.
+
+</details>
+
+<details>
+<summary><b>How do containers on two different hosts communicate?</b></summary>
+
+With an overlay network. It encapsulates traffic (VXLAN) over the hosts' existing network, so containers
+attached to it behave as if they share one flat LAN while Docker routes each packet to the correct daemon
+host and container. It needs a control plane - Swarm mode or an external key-value store - the right ports
+open between hosts, and optional data-plane encryption. Kubernetes solves the same problem with a CNI
+plugin.
 
 </details>
 

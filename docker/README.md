@@ -39,7 +39,7 @@ This course is written from that side of the line.
 | 08 | [Your first containers](lessons/08-first-container.md) | `run`, `-it`, `-d`, ports, lifecycle, logs, exec |
 | 09 | [Dockerfiles](lessons/09-dockerfile.md) | Instructions, layer caching, multi-stage builds, `.dockerignore`, security |
 | 10 | [Registries](lessons/10-registries.md) | Docker Hub, push, private and cloud registries, tagging strategy, scanning |
-| 11 | [Storage and networking](lessons/11-storage-networking.md) | Volumes, bind mounts, networks, DNS, port publishing |
+| 11 | [Storage and networking](lessons/11-storage-networking.md) | Volumes, bind mounts, all six network drivers, DNS, port publishing |
 | 12 | [Docker Compose](lessons/12-compose.md) | Multi-container stacks, dependencies, environments |
 | 13 | [Production and interviews](lessons/13-production.md) | Security, limits, health checks, logging, CI/CD, when to move to Kubernetes |
 
