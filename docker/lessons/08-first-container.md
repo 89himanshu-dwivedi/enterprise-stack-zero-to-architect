@@ -158,7 +158,32 @@ docker cp web:/etc/nginx/nginx.conf ./     # copy a file out
 >
 > Anything you install or edit inside a running container lives in its writable layer and dies with it. Use `exec` for diagnosis only. If a change should persist, it belongs in the Dockerfile.
 
-## 7. Cleaning up
+## 7. Going the other way: container back to image
+
+You can freeze a container's current state - writable layer and all - into a new image.
+
+```bash
+docker diff web                              # what changed vs the image: A added, C changed, D deleted
+docker commit web myapp:snapshot             # container -> new image
+docker commit -m "configured nginx" -a "me" web myapp:1.0-manual
+docker save myapp:snapshot -o snapshot.tar   # ship it as a file (module 10)
+```
+
+This is the flow people describe as "send the whole environment, not just the code": configure a
+container in development, commit it to an image, push or export it, and the next team recreates an
+identical container from it.
+
+| `docker commit` is right for | `docker commit` is wrong for |
+| --- | --- |
+| Capturing a broken container's state before you destroy it, so you can debug the exact filesystem | Building the images you ship |
+| A quick snapshot mid-experiment | Anything that needs to be reproduced next month |
+| Rescuing work from a container you should have built properly | CI/CD pipelines |
+
+> **WARNING - Commit is a snapshot, not a build**
+>
+> A committed image has no Dockerfile, so nobody - including you - can say how it was made, reproduce it, review it, or patch it. Its history is a black box, and it usually carries shell history, caches and junk from your session. Use it as a debugging and rescue tool; use a Dockerfile (module 09) for everything you actually deploy.
+
+## 8. Cleaning up
 
 ```bash
 docker stop web && docker rm web
@@ -176,7 +201,7 @@ Common errors:
 | `You cannot remove a running container` | Still running | `docker stop` first, or `rm -f` |
 | `executable file not found` | Wrong shell path (`bash` on Alpine) | Use `/bin/sh` |
 
-## 8. Extra points
+## 9. Extra points
 
 - **`docker run` = `create` + `start`.** They exist separately if you need to configure before starting.
 - **`--rm` for every experiment.** Future you will not have to clean up 60 exited containers.
@@ -203,7 +228,7 @@ Common errors:
 >
 > Run a real two-container setup imperatively: a database with a named volume and a web app connected to it on a user-defined network, both with names, restart policies and memory limits. Write down every command. Then delete everything and rebuild from your notes in under two minutes. In module 12 you will replace those notes with one Compose file - and the contrast is the lesson.
 
-## 9. Interview drill
+## 10. Interview drill
 
 <details>
 <summary><b>Why does a container exit immediately after starting?</b></summary>
@@ -254,6 +279,16 @@ or fix the leak, and make the application handle SIGTERM.
 Imperative `docker run` for experiments, testing an image and one-off debugging. Declarative Dockerfiles
 and Compose for anything repeatable, reviewable and shipped, because the definition is version controlled
 and produces the same result every time.
+
+</details>
+
+<details>
+<summary><b>When would you use `docker commit`?</b></summary>
+
+Rarely, and never for images you ship. It snapshots a container's current state - including its writable
+layer - into an image, which is genuinely useful for capturing a broken container before you destroy it,
+or rescuing an experiment. But the result has no Dockerfile, so it cannot be reproduced, reviewed or
+patched, and it carries whatever junk your session left behind. Production images come from a Dockerfile.
 
 </details>
 

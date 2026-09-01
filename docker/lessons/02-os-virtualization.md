@@ -18,6 +18,10 @@ budget.
 You never talk to hardware. You type into a shell, the shell asks the kernel, the kernel drives the
 hardware.
 
+> **NOTE - The phone in your pocket is the easiest example**
+>
+> Android is a Linux kernel with a completely different user space on top. Two Android phones from different manufacturers feel nothing alike - different launcher, different camera app, different settings screens - while the kernel underneath is broadly the same. Same kernel, different shell. That is exactly the container model.
+
 ```mermaid
 flowchart LR
     N0["You"]

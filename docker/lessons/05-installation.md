@@ -14,8 +14,8 @@ decision rather than a convenience.
 | **CPU** | 64-bit processor. For Docker Desktop on Windows, SLAT (Second Level Address Translation) support. |
 | **Virtualisation** | Intel **VT-x** or AMD **AMD-V** enabled in BIOS/UEFI. Needed whenever a Linux VM sits underneath - Docker Desktop on Windows and macOS. |
 | **RAM** | 4 GB recommended. A 1 GB cloud VM is fine for learning. Real requirement depends entirely on what you run. |
-| **Disk** | Start with 20+ GB. Images, layers, volumes and build cache accumulate quickly. |
-| **Linux kernel** | Modern kernel required. Check with `uname -r`. |
+| **Disk** | Start with 20+ GB. Images, layers, volumes and build cache accumulate quickly. How much you really need depends entirely on what you store *inside* containers - a web app serving images and video locally needs far more than one reading from object storage. |
+| **Linux kernel** | Modern kernel required - historically 3.10 was the floor, and anything current is far beyond it. Check with `uname -r`. |
 | **Windows** | 64-bit Windows 10/11; WSL 2 recommended. |
 | **macOS** | Recent macOS with Docker Desktop. |
 
@@ -26,6 +26,42 @@ decision rather than a convenience.
 > **TIP - Learn on a cloud VM**
 >
 > A free-tier Ubuntu 22.04 VM on AWS, Azure or GCP is the least painful learning environment: no BIOS flags, no Desktop licence question, and you can destroy and rebuild it freely. Ubuntu 22.04 LTS is available on all three.
+
+## 1a. Lab: a cloud VM as your Docker host
+
+Any of the three clouds works; AWS shown because its free tier is the one most people already have.
+
+```bash
+# 1. Launch an instance
+#    Name:  docker-host
+#    AMI:   Ubuntu Server 22.04 LTS (64-bit x86)
+#    Type:  t2.micro / t3.micro  (1 GB RAM is enough to learn on)
+#    Key pair: select or create one, and download the .pem
+
+# 2. Connect (from the folder holding the key)
+chmod 400 my-key.pem                      # Linux/macOS; on Windows use the file's Security tab
+ssh -i my-key.pem ubuntu@<PUBLIC-IP>      # default user on Ubuntu images is "ubuntu"
+
+# 3. You are now on the machine that will become your Docker host
+uname -r          # kernel version
+lsb_release -a    # distro version
+```
+
+| Cloud | Image | Default SSH user |
+| --- | --- | --- |
+| AWS EC2 | Ubuntu Server 22.04 LTS | `ubuntu` |
+| Azure VM | Ubuntu Server 22.04 LTS | whatever you set at creation |
+| GCP Compute Engine | Ubuntu 22.04 LTS | your Google account name |
+
+> **TIP - Stop the instance, do not terminate it**
+>
+> **Terminate** destroys the VM and everything on it - you reinstall Docker from scratch next session. **Stop** shuts it down and preserves the disk, so tomorrow you press start and continue where you left off. On the AWS free tier the 750 hours/month allowance is only consumed while the instance is *running*, so stopping it between sessions is also what keeps it free.
+>
+> Note that a stopped instance usually gets a **new public IP** when restarted, unless you attach an Elastic IP. Re-copy the IP each time.
+
+> **WARNING - Do not open the security group to the world**
+>
+> Restrict SSH (port 22) to your own IP, not `0.0.0.0/0`. An Ubuntu box with an open SSH port is being brute-forced within minutes of appearing on the internet, and you are about to install a root-equivalent daemon on it.
 
 ## 2. Two routes on Ubuntu
 
