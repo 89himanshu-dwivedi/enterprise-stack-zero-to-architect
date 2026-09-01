@@ -102,7 +102,76 @@ user-defined network. No IP addresses, no `--link`, no configuration.
 >
 > On the default `bridge` network, containers can reach each other by IP but **not by name**. IPs change on restart. Always create a user-defined network - it is one command and removes an entire class of "worked yesterday" failures.
 
-## 4. Publishing ports
+## 4. Default bridge vs user-defined bridge, hands on
+
+Every Docker host starts with one network per driver:
+
+```bash
+docker network ls                  # bridge, host, none
+docker network inspect bridge      # subnet, gateway, and which containers are attached
+```
+
+The default bridge hands out addresses from a private range - typically `172.17.0.0/16`, so containers
+get `172.17.0.2`, `172.17.0.3` and so on. Attach three containers and `docker network inspect bridge`
+lists all three with their addresses.
+
+### Create your own
+
+```bash
+docker network create -d bridge ud1                        # Docker picks the subnet
+docker network create -d bridge --subnet 192.168.10.0/24 ud2   # you pick it
+
+docker network ls
+docker network inspect ud1        # e.g. 172.18.0.0/16, gateway 172.18.0.1
+docker network inspect ud2        # 192.168.10.0/24, gateway 192.168.10.1
+```
+
+`-d bridge` (or `--driver bridge`) is the driver. Without `--subnet`, Docker allocates the next free
+private range itself.
+
+### Move a running container between networks
+
+You do not have to recreate a container to change its networking.
+
+```bash
+docker network disconnect bridge c1     # detach from the default bridge
+docker network connect ud1 c1           # attach to your own network
+docker network inspect bridge           # c1 is gone; c2 and c3 remain
+docker network inspect ud1              # c1 is here now
+docker inspect -f '{{json .NetworkSettings.Networks}}' c1   # from the container's side
+```
+
+A container can be attached to **several** networks at once - which is exactly how you put an API on both
+a `frontend` and a `backend` network while keeping the database on `backend` only.
+
+### Why user-defined always wins
+
+| Capability | Default bridge | User-defined bridge |
+| --- | --- | --- |
+| Containers reach each other by **name** (embedded DNS) | No - IP only | **Yes** |
+| Isolation from unrelated containers | All share one flat network | Each network is separate |
+| Attach/detach while running | Limited | **Yes**, on the fly |
+| Choose your own subnet | No | **Yes**, `--subnet` |
+| Configurable per network | No | Yes |
+| Legacy `--link` / shared environment variables | That is its mechanism | Not needed - DNS replaces it |
+
+> **TIP - Ubuntu images have no networking tools**
+>
+> `ping`, `ifconfig` and `ip` are not in the official `ubuntu` image, so your first network test fails with `command not found` rather than a real error. Rather than installing them by hand in every container, build one small debug image and reuse it:
+>
+> ```dockerfile
+> FROM ubuntu:22.04
+> RUN apt update && apt install -y iproute2 iputils-ping net-tools dnsutils curl
+> CMD ["sleep", "infinity"]
+> ```
+> ```bash
+> docker build -t nettools .
+> docker run -dit --name c1 --network ud1 nettools
+> docker exec -it c1 ping c2        # name resolution, on a user-defined network
+> ```
+> Keep that image around - it is the fastest way to diagnose any container networking question.
+
+## 5. Publishing ports
 
 ```bash
 docker run -p 8080:80 nginx              # host 8080 -> container 80, on ALL host interfaces
@@ -123,7 +192,7 @@ Read `-p` left to right: **host:container**.
 >
 > On Linux, Docker writes its own iptables rules. A published port can therefore be reachable from the internet even though your host firewall appears to block it. Bind to `127.0.0.1` for anything that should not be public, and verify from outside the host rather than trusting the firewall config.
 
-## 5. Putting it together
+## 6. Putting it together
 
 ```bash
 docker network create appnet
@@ -145,7 +214,7 @@ Note what this gets right: named volume for state, user-defined network for DNS,
 API bound to localhost, resource limits set, restart policy set. That is the shape of a correct
 single-host deployment - and module 12 turns it into one file.
 
-## 6. Diagnosing
+## 7. Diagnosing
 
 ```bash
 docker network ls
@@ -171,7 +240,7 @@ docker exec -it api sh -c "df -h"                  # is the volume mounted where
 >
 > Each container has its own network namespace. To reach the host from inside a container, use `host.docker.internal` on Docker Desktop, or the gateway IP / `--add-host` on Linux. To reach another container, use its name on a shared network.
 
-## 7. Extra points
+## 8. Extra points
 
 - **Volumes are the only supported way to run stateful workloads on a single host.** Anything
   multi-host needs a networked filesystem or a managed database.
@@ -200,7 +269,7 @@ docker exec -it api sh -c "df -h"                  # is the volume mounted where
 >
 > Deploy a three-container stack imperatively - database, API, reverse proxy - with a named volume, two networks (frontend and backend), the database published to nothing, resource limits and restart policies. Then write the runbook: how to back up the volume, how to restore it, and exactly which command would destroy the data. Test the restore. An untested backup is not a backup.
 
-## 8. Interview drill
+## 9. Interview drill
 
 <details>
 <summary><b>Volume or bind mount?</b></summary>
@@ -246,6 +315,26 @@ your host firewall appears to allow.
 Each container has its own network namespace, so `localhost` is the container itself. Use the other
 container's name on a shared network, or `host.docker.internal` (Desktop) / the gateway address on Linux
 to reach the host.
+
+</details>
+
+<details>
+<summary><b>How do you move a running container onto a different network?</b></summary>
+
+`docker network disconnect <network> <container>` then `docker network connect <network> <container>` -
+no recreation needed. A container can also be attached to several networks at once, which is how an API
+sits on both a frontend and a backend network while the database stays on the backend only. Verify with
+`docker network inspect` or `docker inspect` on the container.
+
+</details>
+
+<details>
+<summary><b>Can you control the IP range Docker uses?</b></summary>
+
+On a user-defined network, yes: `docker network create -d bridge --subnet 192.168.10.0/24 mynet`. The
+default bridge does not let you choose - it allocates from its own range, typically `172.17.0.0/16`. That
+is one more reason to create your own networks, especially when Docker's default range collides with your
+corporate network.
 
 </details>
 

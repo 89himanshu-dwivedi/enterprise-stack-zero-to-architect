@@ -183,7 +183,70 @@ identical container from it.
 >
 > A committed image has no Dockerfile, so nobody - including you - can say how it was made, reproduce it, review it, or patch it. Its history is a black box, and it usually carries shell history, caches and junk from your session. Use it as a debugging and rescue tool; use a Dockerfile (module 09) for everything you actually deploy.
 
-## 8. Cleaning up
+## 8. Full lab: build a web server imperatively
+
+This is the end-to-end version - a real container serving a real page, built entirely by hand. It is
+worth doing once, because module 09 automates exactly these steps.
+
+```bash
+# clean slate
+docker ps                                  # what is running
+docker stop my-web                         # stop it
+docker ps -a                               # everything, including exited
+docker rm my-web static-site               # remove them
+docker ps -a                               # empty
+
+# create an interactive Ubuntu container with port 80 published
+docker run -it --name web -p 80:80 ubuntu:latest /bin/bash
+```
+
+> **NOTE - You do not have to pull first**
+>
+> If the image is not local, `docker run` prints `Unable to find image 'ubuntu:latest' locally` and pulls it automatically before creating the container. Pulling first is only useful when you want the download to happen at a controlled moment.
+
+Now you are inside the container, at a root prompt:
+
+```bash
+apt update                                 # refresh package lists - same as any Ubuntu box
+apt install -y apache2                     # install the web server
+
+systemctl start apache2                    # <-- FAILS inside a container
+service apache2 start                      # <-- works
+service apache2 status                     # verify it is running
+```
+
+> **WARNING - `systemctl` does not work inside a container**
+>
+> `systemctl` talks to **systemd**, the init system - and systemd is not running inside a normal container, because PID 1 is your process, not an init daemon. You get `System has not been booted with systemd as init system` or a D-Bus error.
+>
+> Use the older `service` script instead, or start the binary directly. And if you find yourself wanting systemd inside a container, that is a signal you are treating it as a small VM - run one process per container instead.
+
+> **TIP - The ServerName warning is harmless**
+>
+> On first start Apache prints `Could not reliably determine the server's fully qualified domain name`. It is a warning, not an error; the service still starts. Silence it later by setting `ServerName` in the config.
+
+Test it from outside - open `http://<host-ip>` in a browser and you get the default Apache page. Traffic
+reaches host port 80, Docker forwards it to port 80 inside the container, and Apache answers.
+
+```mermaid
+flowchart LR
+    N0["Browser"]
+    N1["Docker host :80"]
+    N2["Container :80"]
+    N3["Apache"]
+    N0 -- "HTTP" --> N1
+    N1 -- "-p 80:80 forwards" --> N2
+    N2 --> N3
+    N3 -- "default page" --> N0
+```
+
+> **Why it matters:** Nothing here is Docker magic - it is an ordinary Ubuntu install of Apache. The only Docker parts are the isolation and the port forwarding. That is the whole point of module 02.
+
+**And now the problem with all of it.** Everything you just typed lives in one container's writable
+layer. Exit the shell and the container stops. Remove it and Apache is gone. Do it again tomorrow and
+you type all of it again, possibly differently. That is precisely what a Dockerfile fixes - module 09.
+
+## 9. Cleaning up
 
 ```bash
 docker stop web && docker rm web
@@ -201,7 +264,7 @@ Common errors:
 | `You cannot remove a running container` | Still running | `docker stop` first, or `rm -f` |
 | `executable file not found` | Wrong shell path (`bash` on Alpine) | Use `/bin/sh` |
 
-## 9. Extra points
+## 10. Extra points
 
 - **`docker run` = `create` + `start`.** They exist separately if you need to configure before starting.
 - **`--rm` for every experiment.** Future you will not have to clean up 60 exited containers.
@@ -228,7 +291,7 @@ Common errors:
 >
 > Run a real two-container setup imperatively: a database with a named volume and a web app connected to it on a user-defined network, both with names, restart policies and memory limits. Write down every command. Then delete everything and rebuild from your notes in under two minutes. In module 12 you will replace those notes with one Compose file - and the contrast is the lesson.
 
-## 10. Interview drill
+## 11. Interview drill
 
 <details>
 <summary><b>Why does a container exit immediately after starting?</b></summary>
@@ -289,6 +352,16 @@ Rarely, and never for images you ship. It snapshots a container's current state 
 layer - into an image, which is genuinely useful for capturing a broken container before you destroy it,
 or rescuing an experiment. But the result has no Dockerfile, so it cannot be reproduced, reviewed or
 patched, and it carries whatever junk your session left behind. Production images come from a Dockerfile.
+
+</details>
+
+<details>
+<summary><b>Why does `systemctl` fail inside a container?</b></summary>
+
+Because systemd is not running. In a container PID 1 is your application process, not an init system, so
+there is no service manager for `systemctl` to talk to. Use `service`, or start the binary directly - and
+if you feel you need systemd inside a container, you are treating it as a small VM. One process per
+container.
 
 </details>
 

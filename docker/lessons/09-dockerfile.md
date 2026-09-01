@@ -24,7 +24,79 @@ Docker Hub already has thousands of images. You build your own because:
 >
 > Capital D, no extension, and it is case-sensitive on Linux. `dockerfile` or `DockerFile` will not be found by default.
 
-## 2. A complete, sane example
+## 2. The same web server, declaratively
+
+Module 08 built an Apache container by hand: `apt update`, `apt install apache2`, `service apache2 start`.
+Here is that exact work as a Dockerfile - and the one line that changes.
+
+```dockerfile
+FROM ubuntu:22.04
+
+RUN apt update && apt install -y apache2
+
+CMD ["apache2ctl", "-D", "FOREGROUND"]
+```
+
+```bash
+docker build -t my-web-server .              # Dockerfile -> image  (do this once)
+docker run -d --name web -p 80:80 my-web-server   # image -> container (do this any number of times)
+```
+
+Three steps: **Dockerfile → image → container**. The first two happen once; after that you can create one
+container or ten thousand from the same image, identically.
+
+### RUN happens at build time; CMD happens at start time
+
+| | `RUN` | `CMD` |
+| --- | --- | --- |
+| When | While the **image is built** | Every time a **container starts** |
+| How often | Once, baked into a layer | On every `run`, `start`, restart |
+| Use for | Installing packages, creating users, setting up the filesystem | Launching the application process |
+| If repeated | Each `RUN` is its own layer | Only the **last** `CMD` in the file takes effect |
+
+The analogy that makes it stick: you install software on a computer **once**, but you start the service
+**every time** the machine boots. `RUN` is the install; `CMD` is the start.
+
+### Why `apache2ctl -D FOREGROUND` and not `service apache2 start`
+
+This is the single most common Dockerfile mistake, and the reason people say "my container exits
+immediately".
+
+```mermaid
+flowchart LR
+    S0["CMD apache2ctl -D FOREGROUND"]
+    S1["Apache runs in the FOREGROUND as PID 1"]
+    S2["Docker sees a live main process"]
+    S3["Container stays up and serves traffic"]
+    S0 --> S1
+    S1 --> S2
+    S2 --> S3
+    F0["CMD service apache2 start"]
+    F1["Script starts Apache in the BACKGROUND and returns"]
+    F2["Main process has exited"]
+    F3["Container stops - even though Apache 'started'"]
+    S0 -. fails .-> F0
+    F0 --> F1
+    F1 --> F2
+    F2 --> F3
+    classDef bad fill:#fdecea,stroke:#c62828;
+    class F0,F1,F2,F3 bad;
+```
+
+> **Why it matters:** A container lives exactly as long as its main process. `service ... start` is designed for a machine with an init system: it daemonises the service into the background and exits successfully. Docker sees the main process finish and stops the container. You must run the application **in the foreground** so it *is* PID 1.
+
+| Software | Foreground form |
+| --- | --- |
+| Apache | `apache2ctl -D FOREGROUND` |
+| Nginx | `nginx -g "daemon off;"` |
+| PostgreSQL | `postgres` (the binary, not `pg_ctl start`) |
+| Node / Python / Java | Normally foreground already: `node server.js` |
+
+> **TIP - The rule to remember**
+>
+> Never `systemctl`, never `service`, never a `&` at the end. Run the binary in the foreground. If a program insists on daemonising, look for its "do not fork" flag - almost every server has one.
+
+## 3. A complete, sane example
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -54,7 +126,7 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
 CMD ["node", "dist/server.js"]
 ```
 
-## 3. The instructions
+## 4. The instructions
 
 | Instruction | Does | Notes |
 | --- | --- | --- |
@@ -86,7 +158,7 @@ Use `ENTRYPOINT` for the program and `CMD` for its default arguments.
 >
 > `CMD ["node", "server.js"]` (exec form) makes your app PID 1, so it receives SIGTERM and can shut down cleanly. `CMD node server.js` (shell form) wraps it in `/bin/sh -c`, which becomes PID 1, does not forward signals, and gets your app SIGKILLed on every deploy.
 
-## 4. Build and the cache
+## 5. Build and the cache
 
 ```bash
 docker build -t myapp:1.0 .
@@ -128,7 +200,7 @@ flowchart LR
 
 > **Why it matters:** Copy dependency manifests and install dependencies **before** copying your source. Dependencies change rarely, source changes constantly. Get this one line order right and your CI builds go from minutes to seconds.
 
-## 5. Multi-stage builds
+## 6. Multi-stage builds
 
 The single biggest image-size win available.
 
@@ -155,7 +227,7 @@ they cannot be exploited and do not cost pull time.
 | `gcr.io/distroless/*` | ~25 MB + app | No shell, no package manager - very hard to attack, hard to debug |
 | `scratch` | Your binary only | Static binaries only |
 
-## 6. `.dockerignore`
+## 7. `.dockerignore`
 
 ```text
 .git
@@ -174,7 +246,7 @@ docker-compose.yml
 Two reasons: builds are faster because less is uploaded, and secrets do not accidentally end up in a
 layer. This file takes two minutes to write and prevents a whole category of incident.
 
-## 7. Security checklist for every Dockerfile
+## 8. Security checklist for every Dockerfile
 
 | Rule | Why |
 | --- | --- |
@@ -195,7 +267,7 @@ layer. This file takes two minutes to write and prevents a whole category of inc
 > ```
 > Combine them into one `RUN`, or the bytes ship anyway.
 
-## 8. Extra points
+## 9. Extra points
 
 - **BuildKit is the default modern builder** - parallel stages, build secrets, cache mounts
   (`RUN --mount=type=cache,target=/root/.npm npm ci`), and much faster builds.
@@ -223,7 +295,7 @@ layer. This file takes two minutes to write and prevents a whole category of inc
 >
 > Take a real service and produce a production-grade Dockerfile: multi-stage, pinned base, non-root user, `.dockerignore`, `HEALTHCHECK`, exec-form `ENTRYPOINT`, and no secrets anywhere. Record before/after image size, build time on a code-only change, and CVE count from a scanner. Those three numbers are the strongest evidence you can bring to a review.
 
-## 9. Interview drill
+## 10. Interview drill
 
 <details>
 <summary><b>How does the Docker build cache work, and how do you exploit it?</b></summary>
@@ -268,6 +340,25 @@ Dockerfile and set `USER`.
 Yes. Shell form runs your command under `/bin/sh -c`, so the shell is PID 1 and does not forward signals;
 your app never sees SIGTERM and gets SIGKILLed after the stop grace period. Exec form makes your process
 PID 1 so it can shut down cleanly.
+
+</details>
+
+<details>
+<summary><b>Your Dockerfile ends with `CMD service apache2 start` and the container exits immediately. Why?</b></summary>
+
+`service ... start` daemonises Apache into the background and then returns. That return ends the main
+process, and a container lives exactly as long as PID 1 - so Docker stops the container even though Apache
+did start. Run the server in the foreground instead: `CMD ["apache2ctl", "-D", "FOREGROUND"]`, or
+`nginx -g "daemon off;"` for nginx. Every server has a do-not-fork option.
+
+</details>
+
+<details>
+<summary><b>RUN versus CMD?</b></summary>
+
+`RUN` executes at build time and its result is baked into an image layer - use it for installing packages
+and preparing the filesystem. `CMD` executes when a container starts, every time - use it to launch the
+application. Multiple `RUN` instructions all run; only the last `CMD` takes effect.
 
 </details>
 
