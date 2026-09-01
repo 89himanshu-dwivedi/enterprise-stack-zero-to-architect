@@ -35,15 +35,38 @@ flowchart LR
 
 > **Why it matters:** `docker stop` and `docker start` keep the writable layer. `docker rm` - and every deployment that replaces a container with a new image - destroys it. If your data is not in a volume, upgrading your app deletes your database.
 
+### Prove it to yourself in two minutes
+
+Do not take this on trust. Run it:
+
+```bash
+docker run -it --name c1 ubuntu:22.04 /bin/bash
+
+# inside the container
+apt-get update && apt-get install -y vim
+vi testfile              # type something, :wq
+ls                       # testfile is there
+exit                     # container stops
+
+docker rm c1             # container removed
+docker run -it --name c1 ubuntu:22.04 /bin/bash
+ls                       # testfile is GONE
+```
+
+The file was never anywhere except that one container's writable layer. This is the entire reason the
+rest of this module exists: **store the data outside the container** - on the Docker host's disk - and
+mount it in. Then the container is disposable and the data is not.
+
 ## 2. Three ways to persist
 
 | | Volume | Bind mount | tmpfs |
 | --- | --- | --- | --- |
-| Stored | Docker-managed area on the host | A path you choose on the host | Host RAM |
-| Created by | `docker volume create` or automatically | You, by path | `--tmpfs` |
-| Portable | Yes | No - depends on host layout | n/a |
+| Stored | Docker-managed area on the host: `/var/lib/docker/volumes/` | A path **you** choose on the host | Host RAM |
+| Created by | `docker volume create`, or automatically at run time | You, by path | `--tmpfs` |
+| Managed by the Docker CLI | **Yes** - `docker volume ls/inspect/rm/prune` | **No** - it is just a host directory | n/a |
+| Portable | Yes - no dependency on host layout | No - depends on the host's paths | n/a |
 | Permissions | Docker handles them | Host UID/GID must match | n/a |
-| Backup | `docker volume` tooling, drivers | Ordinary filesystem tools | Not persisted |
+| Backup | `docker volume` tooling and drivers | Ordinary filesystem tools | Not persisted |
 | Use for | **Databases, uploads, anything stateful** | Source code in development, config files | Secrets and scratch space |
 
 ```bash
@@ -60,7 +83,80 @@ docker run --tmpfs /run/secrets:rw,size=1m myapp:1.0
 docker volume ls
 docker volume inspect pgdata
 docker volume rm pgdata          # destroys the data
+docker volume prune              # every volume no container is using
 ```
+
+### Volumes, hands on
+
+```bash
+sudo -i                                    # /var/lib/docker is root-only
+docker volume ls                           # empty on a fresh host
+docker volume create vol-1
+docker volume ls                           # DRIVER local, VOLUME NAME vol-1
+
+docker volume inspect vol-1
+# "Mountpoint": "/var/lib/docker/volumes/vol-1/_data"
+
+ls /var/lib/docker/volumes/                # vol-1 is a directory here
+```
+
+So a volume is, physically, a directory on the host that Docker owns and tracks. You never have to know
+that path to use it - you refer to the volume by **name**:
+
+```bash
+docker run -it --name c1 -v vol-1:/var/storage ubuntu:22.04 /bin/bash
+
+# inside the container
+cd /var/storage          # this is vol-1, mounted here
+echo "survives" > proof.txt
+exit
+
+docker rm c1
+docker run -it --name c2 -v vol-1:/var/storage ubuntu:22.04 /bin/bash
+cat /var/storage/proof.txt      # still there - different container, same data
+```
+
+Read `-v vol-1:/var/storage` as **volume-name : path inside the container**. The path is yours to choose;
+it does not have to exist in the image.
+
+> **TIP - One volume, many containers**
+>
+> Several containers can mount the same volume at the same time, which gives you shared storage between them - useful for a shared upload directory or a common cache. Just remember Docker provides no locking: if two writers can conflict, the application must handle it.
+
+### Bind mounts, hands on
+
+A bind mount takes a directory **you** created on the host and maps it into the container.
+
+```bash
+mkdir ~/shared
+
+docker run -it --name c1 \
+  --mount type=bind,source=/home/ubuntu/shared,target=/data \
+  ubuntu:22.04 /bin/bash
+
+# inside the container
+cd /data
+echo "created from c1" > file1.txt
+# detach without stopping: Ctrl+P then Ctrl+Q
+```
+
+Back on the host, `ls ~/shared` shows `file1.txt` immediately - the container wrote straight into your
+directory. Mount the same source into a second container and both see the same files.
+
+| `-v` short syntax | `--mount` long syntax |
+| --- | --- |
+| `-v vol-1:/var/storage` | `--mount type=volume,source=vol-1,target=/var/storage` |
+| `-v /home/ubuntu/shared:/data` | `--mount type=bind,source=/home/ubuntu/shared,target=/data` |
+| Terse, everywhere in tutorials | Explicit and self-documenting; required for some options |
+| **Creates a missing host path silently** | **Errors if the source path does not exist** |
+
+> **TIP - Prefer `--mount` in anything scripted**
+>
+> With `-v`, a typo in the host path does not fail - Docker helpfully creates an empty directory and mounts that, so your application starts with no data and no error. `--mount` refuses instead. In a deployment script that difference is the gap between a loud failure and a silent one.
+
+> **NOTE - Bind mounts are the older mechanism**
+>
+> They existed before volumes, cannot be managed with `docker volume` commands, and depend entirely on the host's directory layout - so they do not move cleanly between machines. For anything new, use volumes. Learn bind mounts because development workflows and older systems are full of them.
 
 > **WARNING - `docker system prune --volumes` deletes data**
 >
@@ -445,13 +541,16 @@ docker exec -it api sh -c "df -h"                  # is the volume mounted where
 
 > **PRACTICE - Practice now**
 >
-> 1. Run Postgres **without** a volume, create a table, `docker rm -f` it, run it again - the table is gone.
-> 2. Repeat with `-v pgdata:/var/lib/postgresql/data` and confirm the table survives.
-> 3. Run two containers on the default bridge and try to `ping` by name. It fails.
-> 4. Create a user-defined network, attach both, and try again. It works.
-> 5. Publish a database with `-p 5432:5432`, then check from another machine whether you can reach it. Then rebind to `127.0.0.1` and re-check.
-> 6. Bind mount a source directory, edit a file on the host, and see the change inside the container.
-> 7. Back up a volume with the tar one-liner and restore it into a fresh volume.
+> 1. Run the two-minute proof from section 1: create a file in a container, remove the container, and watch it disappear.
+> 2. Run Postgres **without** a volume, create a table, `docker rm -f` it, run it again - the table is gone.
+> 3. Repeat with `-v pgdata:/var/lib/postgresql/data` and confirm the table survives.
+> 4. `docker volume create vol-1`, inspect it, and find the directory under `/var/lib/docker/volumes/`.
+> 5. Mount one volume into two containers at once and write from both.
+> 6. Do the same with a bind mount using `--mount type=bind`, then repeat it with a deliberately wrong source path using `-v` and see the empty directory Docker creates for you.
+> 7. Run two containers on the default bridge and try to `ping` by name. It fails.
+> 8. Create a user-defined network, attach both, and try again. It works.
+> 9. Publish a database with `-p 5432:5432`, then check from another machine whether you can reach it. Then rebind to `127.0.0.1` and re-check.
+> 10. Back up a volume with the tar one-liner and restore it into a fresh volume.
 
 > **ASSIGNMENT - Assignment**
 >
@@ -466,6 +565,34 @@ Volumes for anything stateful in any environment you care about: Docker manages 
 permissions, they are portable across hosts and backed by tooling. Bind mounts for development, where you
 want live host files inside the container, or for injecting a specific host config file - at the cost of
 depending on host paths and UID matching.
+
+</details>
+
+<details>
+<summary><b>Where does a Docker volume physically live?</b></summary>
+
+In a Docker-managed directory on the host, under `/var/lib/docker/volumes/<name>/_data` on Linux.
+`docker volume inspect` shows the exact mountpoint. You never need that path in normal use - you refer to
+the volume by name - but knowing it is what lets you reason about disk usage and backups.
+
+</details>
+
+<details>
+<summary><b>`-v` or `--mount` - does it matter?</b></summary>
+
+Functionally they overlap, but `--mount` is explicit and, crucially, **fails if the bind source does not
+exist**, whereas `-v` silently creates an empty directory and mounts that. In a deployment script that is
+the difference between an obvious error and an application starting with no data. Use `--mount` in
+anything automated.
+
+</details>
+
+<details>
+<summary><b>Can two containers share one volume?</b></summary>
+
+Yes - mount the same volume into as many containers as you like, simultaneously. That gives you shared
+storage, for example a common upload directory. Docker does not provide any locking, so if concurrent
+writers could conflict, the application has to handle it.
 
 </details>
 
