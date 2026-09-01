@@ -25,13 +25,13 @@ flowchart LR
     N3["Local image store"]
     N4["Registry"]
     N5["Containers"]
-    N0 -- "docker run nginx" --> N1
-    N1 -- "request" --> N2
-    N2 -- "image present?" --> N3
-    N3 -- "miss: pull" --> N4
-    N4 -- "layers" --> N3
-    N2 -- "create + start" --> N5
-    N5 -- "status" --> N0
+    N0 -->|"docker run nginx"| N1
+    N1 -->|"request"| N2
+    N2 -->|"image present?"| N3
+    N3 -->|"miss: pull"| N4
+    N4 -->|"layers"| N3
+    N2 -->|"create + start"| N5
+    N5 -->|"status"| N0
 ```
 
 > **Why it matters:** The CLI is a thin client. That is why a remote CLI can drive a remote daemon, why anything with API access has full control of the host, and why "Docker is not running" almost always means the daemon, not the command.
@@ -106,10 +106,10 @@ flowchart LR
     N1["DOCKER_HOST env var"]
     N2["Remote daemon over TLS"]
     N3["Remote host containers"]
-    N0 -- "context" --> N1
-    N1 -- "API over TCP" --> N2
-    N2 -- "creates" --> N3
-    N3 -- "results" --> N0
+    N0 -->|"context"| N1
+    N1 -->|"API over TCP"| N2
+    N2 -->|"creates"| N3
+    N3 -->|"results"| N0
 ```
 
 > **Why it matters:** Docker Desktop on Windows and macOS already does this - the CLI runs on your OS, the daemon runs inside a lightweight Linux VM. Understanding that removes most Desktop confusion, including why paths behave oddly on bind mounts.

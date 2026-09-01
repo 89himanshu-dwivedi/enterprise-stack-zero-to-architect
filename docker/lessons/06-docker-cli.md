@@ -135,7 +135,7 @@ flowchart LR
     F1["It contains --privileged or -v /:/host"]
     F2["Host compromised or data deleted"]
     F3["Read first. Every time."]
-    S0 -. fails .-> F0
+    S0 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3

@@ -107,7 +107,7 @@ flowchart LR
     F1["node2 and node3: 'No such image'"]
     F2["Tasks stuck in Rejected / Pending"]
     F3["Push to a registry every node can pull from"]
-    S2 -. fails .-> F0
+    S2 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3
@@ -184,7 +184,7 @@ flowchart LR
     F1["Tasks stay Pending"]
     F2["docker service ps shows 'no suitable node'"]
     F3["Add a node, or relax constraints and limits"]
-    S3 -. fails .-> F0
+    S3 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3

@@ -37,12 +37,12 @@ flowchart LR
     N2["Worker node 1"]
     N3["Worker node 2"]
     N4["Tasks (containers)"]
-    N0 -- "desired state" --> N1
-    N1 -- "assign task" --> N2
-    N1 -- "assign task" --> N3
+    N0 -->|"desired state"| N1
+    N1 -->|"assign task"| N2
+    N1 -->|"assign task"| N3
     N2 --> N4
     N3 --> N4
-    N4 -- "status" --> N1
+    N4 -->|"status"| N1
 ```
 
 > **Why it matters:** You never tell Swarm *how* to run something. You declare the desired state - "five replicas of this image" - and the managers keep reality matching it. That declarative model is the single biggest mental shift from `docker run`.
@@ -128,7 +128,7 @@ flowchart LR
     F1["Its tasks are lost - 2/3 running"]
     F2["Managers detect the gap"]
     F3["Task rescheduled on a surviving node - 3/3 again"]
-    S3 -. fails .-> F0
+    S3 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3

@@ -284,10 +284,10 @@ Partitions, consumer groups and consumer lag are all very important for **scalin
 
 ```mermaid
 flowchart LR
-    C["Consumer"] -->|"1 · poll() — group + topic"| B["Broker"]
-    B -->|"2 · N records from stored offset"| C
-    C -->|"3 · commit (auto or manual)"| B
-    B -->|"4 · write offset"| O["__consumer_offsets<br/>key: group, topic, partition<br/>value: offset, timestamp"]
+    C["Consumer"] -->|"1 - poll() — group + topic"| B["Broker"]
+    B -->|"2 - N records from stored offset"| C
+    C -->|"3 - commit (auto or manual)"| B
+    B -->|"4 - write offset"| O["__consumer_offsets<br/>key: group, topic, partition<br/>value: offset, timestamp"]
     O -.->|"restart / rebalance / new consumer"| B
     P["Producer"] -->|"LOG-END-OFFSET"| B
     B -->|"LOG-END-OFFSET − CURRENT-OFFSET"| L["LAG"]

@@ -39,10 +39,10 @@ flowchart LR
     N1["backend overlay - VNI 4098"]
     N2["Node A"]
     N3["Node B"]
-    N0 -- "VXLAN tagged 4097" --> N2
-    N1 -- "VXLAN tagged 4098" --> N2
-    N0 -- "VXLAN tagged 4097" --> N3
-    N1 -- "VXLAN tagged 4098" --> N3
+    N0 -->|"VXLAN tagged 4097"| N2
+    N1 -->|"VXLAN tagged 4098"| N2
+    N0 -->|"VXLAN tagged 4097"| N3
+    N1 -->|"VXLAN tagged 4098"| N3
 ```
 
 > **Why it matters:** Each overlay gets its own **VNI - Virtual Network Identifier** - carried in the VXLAN header. A node drops any packet whose VNI does not match a network it is a member of, so traffic on `frontend` is invisible to `backend` at the encapsulation layer. This is genuine network segmentation, not access control bolted on afterwards.
@@ -75,9 +75,9 @@ flowchart LR
     N3["db task 1"]
     N4["db task 2"]
     N5["db task 3"]
-    N0 -- "connect to db" --> N1
-    N1 -- "single virtual IP" --> N2
-    N2 -- "load balances" --> N3
+    N0 -->|"connect to db"| N1
+    N1 -->|"single virtual IP"| N2
+    N2 -->|"load balances"| N3
     N2 --> N4
     N2 --> N5
 ```
@@ -116,11 +116,11 @@ flowchart LR
     N2["ingress overlay network"]
     N3["Node 2 - web task"]
     N4["Node 3 - web task"]
-    N0 -- "http://node1:8080" --> N1
-    N1 -- "routing mesh forwards" --> N2
+    N0 -->|"http://node1:8080"| N1
+    N1 -->|"routing mesh forwards"| N2
     N2 --> N3
     N2 --> N4
-    N3 -- "response" --> N0
+    N3 -->|"response"| N0
 ```
 
 > **Why it matters:** The **routing mesh** means your external load balancer can point at every node without knowing where tasks are scheduled. Nodes come and go, replicas move, and the front door never changes. It is also why a published port is cluster-wide: you cannot have two services publishing 8080 in ingress mode.
@@ -157,10 +157,10 @@ flowchart LR
     N4["Node 3"]
     N5["Service tasks"]
     N0 --> N1
-    N1 -- "health-checked upstreams" --> N2
+    N1 -->|"health-checked upstreams"| N2
     N1 --> N3
     N1 --> N4
-    N2 -- "routing mesh" --> N5
+    N2 -->|"routing mesh"| N5
     N3 --> N5
 ```
 

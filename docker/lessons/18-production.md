@@ -104,10 +104,10 @@ flowchart LR
     N5["Health check + rollback"]
     N0 --> N1
     N1 --> N2
-    N2 -- "gate: CVEs, tests" --> N3
+    N2 -->|"gate: CVEs, tests"| N3
     N3 --> N4
     N4 --> N5
-    N5 -- "unhealthy" --> N3
+    N5 -->|"unhealthy"| N3
 ```
 
 > **Why it matters:** Build the image **once** and promote the same bytes through every environment. Rebuilding per environment reintroduces exactly the drift containers were meant to remove.

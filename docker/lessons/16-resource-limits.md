@@ -81,7 +81,7 @@ flowchart LR
     F1["Kernel OOM-kills the process"]
     F2["Exit code 137, OOMKilled true"]
     F3["Raise the limit, or fix the leak"]
-    S2 -. fails .-> F0
+    S2 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3

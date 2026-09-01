@@ -35,11 +35,11 @@ flowchart LR
     N3["Host OS (one kernel)"]
     N4["Container engine"]
     N5["Container: app + libs"]
-    N0 -- "hardware virtualisation" --> N1
-    N1 -- "virtual hardware" --> N2
-    N0 -- "or" --> N3
-    N3 -- "OS-level virtualisation" --> N4
-    N4 -- "namespaces + cgroups" --> N5
+    N0 -->|"hardware virtualisation"| N1
+    N1 -->|"virtual hardware"| N2
+    N0 -->|"or"| N3
+    N3 -->|"OS-level virtualisation"| N4
+    N4 -->|"namespaces + cgroups"| N5
 ```
 
 > **Why it matters:** VMs share hardware and duplicate the OS. Containers share hardware **and** the OS kernel, and duplicate only what is above it. Every difference in the table above follows from that one line.
@@ -111,7 +111,7 @@ flowchart LR
     F1["Container cannot provide it"]
     F2["Use a VM - or a container inside a VM"]
     F3["Accept the size and boot-time cost"]
-    S1 -. fails .-> F0
+    S1 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3

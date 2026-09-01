@@ -120,7 +120,7 @@ flowchart LR
     F1["Environments drift apart"]
     F2["Works in dev, fails in prod"]
     F3["Days lost debugging config, not logic"]
-    S0 -. fails .-> F0
+    S0 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3

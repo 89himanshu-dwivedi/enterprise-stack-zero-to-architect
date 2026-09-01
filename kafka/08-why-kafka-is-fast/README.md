@@ -252,13 +252,13 @@ All these optimisations together make Kafka capable of handling **millions of me
 
 ```mermaid
 flowchart TD
-    Q["Why is Kafka fast?"] --> D1["1 · sequential append-only writes"]
-    Q --> D2["2 · zero-copy — java.nio transferTo/transferFrom"]
-    Q --> D3["3 · batching on both sides + compression"]
-    Q --> D4["4 · partitioning → parallelism"]
-    Q --> D5["5 · pull-based consumers"]
-    Q --> D6["6 · binary protocol, serde pushed to clients"]
-    Q --> D7["7 · leader/follower async replication"]
+    Q["Why is Kafka fast?"] --> D1["1 - sequential append-only writes"]
+    Q --> D2["2 - zero-copy — java.nio transferTo/transferFrom"]
+    Q --> D3["3 - batching on both sides + compression"]
+    Q --> D4["4 - partitioning → parallelism"]
+    Q --> D5["5 - pull-based consumers"]
+    Q --> D6["6 - binary protocol, serde pushed to clients"]
+    Q --> D7["7 - leader/follower async replication"]
     D1 --> R["optimised disk I/O"]
     D2 --> R
     D3 --> N["optimised network communication"]

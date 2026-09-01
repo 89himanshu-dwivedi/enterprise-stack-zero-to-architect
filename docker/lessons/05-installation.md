@@ -173,7 +173,7 @@ flowchart LR
     F1["User not in docker group, or group not applied yet"]
     F2["usermod -aG docker $USER"]
     F3["Log out and back in - the shell must pick up the new group"]
-    S1 -. fails .-> F0
+    S1 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3

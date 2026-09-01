@@ -25,7 +25,7 @@ flowchart LR
     F1["Writable layer deleted"]
     F2["Database gone"]
     F3["Use a volume - always, for anything stateful"]
-    S1 -. fails .-> F0
+    S1 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3
@@ -307,10 +307,10 @@ flowchart LR
     N2["docker0 bridge - NAT"]
     N3["Container 172.18.0.2:80"]
     N4["Container in HOST mode"]
-    N0 -- "host-ip:80" --> N1
-    N1 -- "bridge mode: NAT translates" --> N2
-    N2 -- "forward" --> N3
-    N1 -- "host mode: no translation" --> N4
+    N0 -->|"host-ip:80"| N1
+    N1 -->|"bridge mode: NAT translates"| N2
+    N2 -->|"forward"| N3
+    N1 -->|"host mode: no translation"| N4
 ```
 
 > **Why it matters:** In bridge mode a request to `host-ip:8080` is translated by Docker's NAT rules to `container-ip:80` and back again for the reply. In host mode that entire layer is removed - the container binds directly to the host's interface, so its "container IP" *is* the host IP.
@@ -364,10 +364,10 @@ flowchart LR
     N2["Overlay network (VXLAN)"]
     N3["Host B"]
     N4["c4"]
-    N1 -- "attached" --> N2
-    N0 -- "underlay: real network" --> N3
-    N2 -- "attached" --> N4
-    N1 -- "talks to c4 by name" --> N4
+    N1 -->|"attached"| N2
+    N0 -->|"underlay: real network"| N3
+    N2 -->|"attached"| N4
+    N1 -->|"talks to c4 by name"| N4
 ```
 
 > **Why it matters:** The overlay network sits **on top of** the hosts' real network. Containers on different machines behave as though they share one flat LAN, and Docker transparently routes each packet to the right daemon host and the right destination container. Your application never learns that the two containers are on different machines.

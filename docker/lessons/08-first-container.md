@@ -110,14 +110,14 @@ flowchart LR
     S4["removed"]
     S0 --> S1
     S1 --> S2
-    S2 -- "docker stop" --> S3
-    S3 -- "docker start" --> S2
-    S3 -- "docker rm" --> S4
+    S2 -->|"docker stop"| S3
+    S3 -->|"docker start"| S2
+    S3 -->|"docker rm"| S4
     F0["Main process exits on its own"]
     F1["Container exits with a code"]
     F2["docker ps -a shows Exited (1)"]
     F3["docker logs tells you why"]
-    S2 -. fails .-> F0
+    S2 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3
@@ -234,10 +234,10 @@ flowchart LR
     N1["Docker host :80"]
     N2["Container :80"]
     N3["Apache"]
-    N0 -- "HTTP" --> N1
-    N1 -- "-p 80:80 forwards" --> N2
+    N0 -->|"HTTP"| N1
+    N1 -->|"-p 80:80 forwards"| N2
     N2 --> N3
-    N3 -- "default page" --> N0
+    N3 -->|"default page"| N0
 ```
 
 > **Why it matters:** Nothing here is Docker magic - it is an ordinary Ubuntu install of Apache. The only Docker parts are the isolation and the port forwarding. That is the whole point of module 02.

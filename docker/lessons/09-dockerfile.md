@@ -75,7 +75,7 @@ flowchart LR
     F1["Script starts Apache in the BACKGROUND and returns"]
     F2["Main process has exited"]
     F3["Container stops - even though Apache 'started'"]
-    S0 -. fails .-> F0
+    S0 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3
@@ -190,7 +190,7 @@ flowchart LR
     F1["Any source edit invalidates the copy"]
     F2["npm ci re-runs on every build"]
     F3["90 seconds wasted, every commit"]
-    S2 -. fails .-> F0
+    S2 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3
@@ -291,7 +291,7 @@ flowchart LR
     F1["Whole build tree copied, not just the artifact"]
     F2["Source and .m2 cache back in the final image"]
     F3["Multi-stage used, size unchanged - nothing gained"]
-    S4 -. fails .-> F0
+    S4 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3

@@ -33,12 +33,12 @@ what runs that?"** - and the answer today is almost always containers.
 
 ```mermaid
 flowchart LR
-    N0["Salesforce org<br/>Apex · Flow · LWC · Data Cloud · Agentforce"]
+    N0["Salesforce org<br/>Apex - Flow - LWC - Data Cloud - Agentforce"]
     N1["CI/CD runner<br/>container with sf CLI"]
     N2["Heroku dyno<br/>your container"]
     N3["MuleSoft / CloudHub 2.0<br/>Mule app in a container"]
     N4["AI service<br/>RAG API + vector DB"]
-    N5["BYO model endpoint<br/>SageMaker · Vertex · Azure ML"]
+    N5["BYO model endpoint<br/>SageMaker - Vertex - Azure ML"]
     N6["MCP server<br/>agentic dev tooling"]
     N1 -->|"deploy metadata, run tests"| N0
     N0 -->|"Named Credential callout"| N2
@@ -132,7 +132,7 @@ flowchart LR
     F1["Two minutes of install per job"]
     F2["A new CLI release lands overnight"]
     F3["Pipeline fails on a day nobody changed anything"]
-    S1 -. fails .-> F0
+    S1 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3
@@ -246,7 +246,7 @@ flowchart LR
     F1["A large batch embedding job runs"]
     F2["Container is OOM-killed, exit 137"]
     F3["Action times out; the agent apologises to a customer"]
-    N3 -. fails .-> F0
+    N3 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3

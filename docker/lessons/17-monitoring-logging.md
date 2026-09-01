@@ -84,10 +84,10 @@ flowchart LR
     N2["Prometheus"]
     N3["Grafana dashboards"]
     N4["Alertmanager"]
-    N0 -- "cgroup stats" --> N1
-    N1 -- "/metrics scraped" --> N2
+    N0 -->|"cgroup stats"| N1
+    N1 -->|"/metrics scraped"| N2
     N2 --> N3
-    N2 -- "rules" --> N4
+    N2 -->|"rules"| N4
 ```
 
 > **Why it matters:** cAdvisor alone gives you pretty graphs that nobody watches. The value is the pipeline: cAdvisor exposes, Prometheus stores and evaluates rules, Grafana visualises, Alertmanager wakes someone up. In Swarm, deploy cAdvisor and the node exporter as `--mode global` services so every node is covered automatically.
@@ -153,9 +153,9 @@ flowchart LR
     N1["Fluentd - collect, parse, enrich"]
     N2["Elasticsearch - index and store"]
     N3["Kibana - search and dashboards"]
-    N0 -- "fluentd log driver" --> N1
-    N1 -- "structured documents" --> N2
-    N2 -- "queries" --> N3
+    N0 -->|"fluentd log driver"| N1
+    N1 -->|"structured documents"| N2
+    N2 -->|"queries"| N3
 ```
 
 | Component | Role |

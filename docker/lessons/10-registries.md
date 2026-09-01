@@ -20,10 +20,10 @@ flowchart LR
     N1["Registry"]
     N2["CI pipeline"]
     N3["Production nodes"]
-    N0 -- "docker push" --> N1
-    N2 -- "build + push" --> N1
-    N1 -- "docker pull" --> N3
-    N1 -- "docker pull" --> N0
+    N0 -->|"docker push"| N1
+    N2 -->|"build + push"| N1
+    N1 -->|"docker pull"| N3
+    N1 -->|"docker pull"| N0
 ```
 
 > **Why it matters:** The registry is the single point every environment trusts. Whoever can push to it can change what production runs - which is why push permissions matter more than most people assume.
@@ -125,7 +125,7 @@ flowchart LR
     F1["Contains a backdoor or is 3 years unpatched"]
     F2["Ships straight to production"]
     F3["Use Official images, scan, pin, and mirror"]
-    S0 -. fails .-> F0
+    S0 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3

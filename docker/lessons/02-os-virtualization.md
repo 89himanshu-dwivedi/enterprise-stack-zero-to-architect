@@ -29,12 +29,12 @@ flowchart LR
     N2["Libraries (libc)"]
     N3["Kernel"]
     N4["Hardware"]
-    N0 -- "command" --> N1
-    N1 -- "syscall" --> N2
-    N2 -- "syscall" --> N3
-    N3 -- "driver" --> N4
-    N4 -- "result" --> N3
-    N3 -- "return" --> N1
+    N0 -->|"command"| N1
+    N1 -->|"syscall"| N2
+    N2 -->|"syscall"| N3
+    N3 -->|"driver"| N4
+    N4 -->|"result"| N3
+    N3 -->|"return"| N1
 ```
 
 > **Why it matters:** If two systems can share one kernel and differ only in user space, you do not need two operating systems - and that is exactly what a container is.
@@ -116,11 +116,11 @@ flowchart LR
     N2["Image layer: app"]
     N3["Image layer: dependencies"]
     N4["Image layer: base OS user space"]
-    N0 -- "write" --> N1
-    N0 -- "read" --> N2
-    N2 -- "miss" --> N3
-    N3 -- "miss" --> N4
-    N1 -- "delete container" --> N0
+    N0 -->|"write"| N1
+    N0 -->|"read"| N2
+    N2 -->|"miss"| N3
+    N3 -->|"miss"| N4
+    N1 -->|"delete container"| N0
 ```
 
 > **Why it matters:** The writable layer is destroyed with the container. Anything written there and not placed in a volume is gone - this is the single most common data-loss incident for people new to Docker (module 11).

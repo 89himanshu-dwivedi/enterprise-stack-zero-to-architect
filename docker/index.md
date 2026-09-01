@@ -39,11 +39,11 @@ flowchart LR
     N3["Local image store"]
     N4["Container (namespaces + cgroups)"]
     N5["Host kernel"]
-    N0 -- "docker run nginx" --> N1
-    N1 -- "image not local: pull" --> N2
-    N2 -- "layers" --> N3
-    N3 -- "read-only layers + writable layer" --> N4
-    N4 -- "syscalls" --> N5
+    N0 -->|"docker run nginx"| N1
+    N1 -->|"image not local: pull"| N2
+    N2 -->|"layers"| N3
+    N3 -->|"read-only layers + writable layer"| N4
+    N4 -->|"syscalls"| N5
 ```
 
 > **Why it matters:** The CLI never creates anything. It sends a request to the daemon over an API, and the daemon asks the host kernel for isolated processes. Every permission and security question follows from that.

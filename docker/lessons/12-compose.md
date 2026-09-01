@@ -46,7 +46,7 @@ flowchart LR
     F1["All three land on the default bridge"]
     F2["No automatic DNS there"]
     F3["PHP: getaddrinfo for 'db' failed"]
-    N1 -. fails .-> F0
+    N1 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3
@@ -389,7 +389,7 @@ flowchart LR
     F1["api starts as soon as db CONTAINER exists"]
     F2["Postgres still initialising - connection refused"]
     F3["api crashes; restart policy masks a real design gap"]
-    S1 -. fails .-> F0
+    S1 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3

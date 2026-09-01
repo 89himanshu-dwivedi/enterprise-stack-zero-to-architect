@@ -28,11 +28,11 @@ flowchart LR
     N2["Build your own from a Dockerfile"]
     N3["Local image store"]
     N4["Containers"]
-    N0 -- "someone already made it" --> N1
-    N1 -- "layers downloaded" --> N3
-    N0 -- "custom requirements" --> N2
-    N2 -- "docker build" --> N3
-    N3 -- "docker run" --> N4
+    N0 -->|"someone already made it"| N1
+    N1 -->|"layers downloaded"| N3
+    N0 -->|"custom requirements"| N2
+    N2 -->|"docker build"| N3
+    N3 -->|"docker run"| N4
 ```
 
 > **Why it matters:** Almost every real image is both - you pull an official base and build your layers on top of it. Module 09 covers building; this module is everything else.
@@ -196,7 +196,7 @@ flowchart LR
     F1["Different bytes than last week"]
     F2["Behaviour changes with no code change"]
     F3["Pin to a version or a digest"]
-    S0 -. fails .-> F0
+    S0 -.->|"fails"| F0
     F0 --> F1
     F1 --> F2
     F2 --> F3
