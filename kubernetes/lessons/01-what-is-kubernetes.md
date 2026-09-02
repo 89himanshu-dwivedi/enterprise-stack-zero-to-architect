@@ -436,7 +436,7 @@ services, Compose on a host or a managed container service is usually the honest
 
 ---
 
-[Course home](../index.md) &nbsp;&nbsp;|&nbsp;&nbsp; Module 02 coming next
+[Course home](../index.md) &nbsp;&nbsp;|&nbsp;&nbsp; [Module 02: Kubernetes defined, and the architecture →](02-kubernetes-defined-and-architecture.md)
 
 ---
 

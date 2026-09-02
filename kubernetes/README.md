@@ -42,6 +42,13 @@ Building now. Modules land here as each one is finished.
 | # | Module | What it covers |
 | --- | --- | --- |
 | 01 | [What is Kubernetes](lessons/01-what-is-kubernetes.md) | Containers, microservices, why one host is a liability, and what orchestration actually owns |
+| 02 | [Kubernetes defined, and the architecture](lessons/02-kubernetes-defined-and-architecture.md) | The interview answer, control plane and worker nodes, why Kubernetes manages Pods and not containers, and what it does *not* do |
+| 03 | [Architecture part 1: the control plane](lessons/03-control-plane-architecture.md) | kubectl, the API server hub, etcd, controllers and the reconciliation loop, the scheduler, and what breaks when each component dies |
+| 04 | [Architecture part 2: the worker node](lessons/04-worker-node-architecture.md) | kubelet as the control plane's agent, CRI and the runtime, kube-proxy, the full twelve-step journey, and what a dead node really costs |
+| 05 | [Choosing a lab](lessons/05-lab-setup-options.md) | kubeadm, EKS/AKS/GKE, kind, k3s, k3d and minikube - the names decoded, the tradeoffs, and the one to actually use |
+| 06 | [Building the lab, step by step](lessons/06-lab-build.md) | Windows to VMware to Ubuntu to Docker to k3d, in 30 minutes - with the networking fix, the troubleshooting table, and an nginx page as proof |
+| 07 | [Removing lab friction, and a 30-day plan](lessons/07-lab-friction-and-plan.md) | Bootstrap scripts, OVA appliances, the guided-practice-challenge ladder, self-validation, the CKA, and a day-by-day plan |
+| 08 | [kubectl: the remote control](lessons/08-kubectl.md) | Why kubectl is *not* Kubernetes, kubeconfig and contexts, the verbs that do 90% of the work, output formats, and the wrong-cluster trap |
 
 Every module follows the same six blocks: **mental model → mechanics → build it → what breaks →
 cost & performance → interview drill**.
