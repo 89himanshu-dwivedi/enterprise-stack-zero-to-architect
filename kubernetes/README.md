@@ -41,7 +41,7 @@ Building now. Modules land here as each one is finished.
 
 | # | Module | What it covers |
 | --- | --- | --- |
-| 01 | _in progress_ | |
+| 01 | [What is Kubernetes](lessons/01-what-is-kubernetes.md) | Containers, microservices, why one host is a liability, and what orchestration actually owns |
 
 Every module follows the same six blocks: **mental model → mechanics → build it → what breaks →
 cost & performance → interview drill**.

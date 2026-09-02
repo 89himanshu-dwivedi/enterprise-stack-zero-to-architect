@@ -57,7 +57,19 @@ flowchart LR
 
 ## Modules
 
-Building now. Cards appear here as each module is finished.
+### [What is Kubernetes](lessons/01-what-is-kubernetes.md)
+
+`MODULE 01`
+
+The definition, and the two words hiding inside it.
+
+- physical machine to VM to container, and why the unit kept shrinking
+- monolith to microservices, and what that did to the runtime
+- why a container is "lightweight" - and where the "lightweight VM" analogy breaks
+- the container host, and its single point of failure
+- why more hosts alone gives you islands, not availability
+- the eight jobs an orchestrator actually owns
+- when Kubernetes is the wrong answer
 
 ---
 
