@@ -38,7 +38,8 @@ For each tool: what problem it solves, when **not** to use it, the config that b
 
 | Folder | Course | Size |
 | --- | --- | --- |
-| [docker](docker/README.md) | **Docker: Zero to Architect** — containers from the kernel up: OS-level virtualisation, images and layers, Dockerfiles, registries, storage and networking, Compose, production hardening | 13 modules |
+| [docker](docker/README.md) | **Docker: Zero to Architect** — containers from the kernel up: OS-level virtualisation, images and layers, Dockerfiles, registries, storage and networking, Compose, Swarm, production hardening, and Docker in Salesforce/AI work | 19 modules |
+| [kubernetes](kubernetes/README.md) | **Kubernetes Administration: Zero to Architect** — the control loop, Pods, workloads, networking, storage, and running a cluster you can defend | Building now |
 | [kafka](kafka/README.md) | Kafka ↔ Salesforce integration patterns — bridges, Platform Events, governor limits, end-to-end flows | Notes + code |
 
 Everything is Markdown with Mermaid diagrams, so it reads directly here on GitHub — no downloads, no build step.
