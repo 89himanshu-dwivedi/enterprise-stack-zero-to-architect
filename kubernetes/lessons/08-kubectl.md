@@ -377,7 +377,7 @@ keep production behind a separate, deliberately awkward context.
 
 ---
 
-[← Module 07](07-lab-friction-and-plan.md) &nbsp;&nbsp;|&nbsp;&nbsp; Module 09 coming next
+[← Module 07](07-lab-friction-and-plan.md) &nbsp;&nbsp;|&nbsp;&nbsp; [Module 09: kubectl actions →](09-kubectl-actions.md)
 
 ---
 

@@ -49,6 +49,16 @@ Building now. Modules land here as each one is finished.
 | 06 | [Building the lab, step by step](lessons/06-lab-build.md) | Windows to VMware to Ubuntu to Docker to k3d, in 30 minutes - with the networking fix, the troubleshooting table, and an nginx page as proof |
 | 07 | [Removing lab friction, and a 30-day plan](lessons/07-lab-friction-and-plan.md) | Bootstrap scripts, OVA appliances, the guided-practice-challenge ladder, self-validation, the CKA, and a day-by-day plan |
 | 08 | [kubectl: the remote control](lessons/08-kubectl.md) | Why kubectl is *not* Kubernetes, kubeconfig and contexts, the verbs that do 90% of the work, output formats, and the wrong-cluster trap |
+| 09 | [kubectl actions](lessons/09-kubectl-actions.md) | get, run, describe, create, delete - one object born, inspected and destroyed, plus namespaces and why deleted Pods come back |
+| 10 | [Discovering resources](lessons/10-api-resources-and-explain.md) | `api-resources` and `explain` - never memorise the object model, never guess an apiVersion, never search the web for a field name |
+| 11 | [Output formats](lessons/11-output-formats.md) | default, wide, YAML and JSON - the escalation ladder for troubleshooting, spec vs status, jsonpath and custom-columns |
+| 12 | [Imperative vs declarative](lessons/12-imperative-vs-declarative.md) | The same Pod built two ways, the full comparison, why `apply` can update when `create` cannot, drift and GitOps |
+| 13 | [What is a Pod](lessons/13-what-is-a-pod.md) | Code to container to Pod, and the two reasons the Pod abstraction exists at all |
+| 14 | [Creating and inspecting a Pod](lessons/14-creating-pods.md) | `kubectl run` word by word, where the image comes from, `-o wide`, `describe`, and why a bare Pod is not resilient |
+| 15 | [Pod status and lifecycle](lessons/15-pod-status-lifecycle.md) | Running, Completed, Error and CrashLoopBackOff produced deliberately, exit codes, restart policies, and a triage table |
+| 16 | [Logs, exec and port-forward](lessons/16-logs-exec-portforward.md) | What it printed, getting inside it, and opening it in a browser - plus why `--previous` saves you |
+| 17 | [Creating a Pod with YAML](lessons/17-pod-yaml.md) | The four keys every manifest has, written by hand, plus the YAML errors you will actually meet |
+| 18 | [Pod environment variables](lessons/18-pod-environment-variables.md) | Why hard-coded values cost you an image rebuild, `printenv` from inside, and the `Forbidden: pod updates` error |
 
 Every module follows the same six blocks: **mental model → mechanics → build it → what breaks →
 cost & performance → interview drill**.

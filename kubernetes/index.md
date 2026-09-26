@@ -171,6 +171,139 @@ The client. Not Kubernetes - and everything that follows from that.
 - output formats, jsonpath, and generating YAML with `--dry-run=client`
 - namespaces, RBAC, `auth can-i`, autocompletion and speed
 
+### [kubectl actions](lessons/09-kubectl-actions.md)
+
+`MODULE 09`
+
+The five buttons on the remote that do almost everything.
+
+- get, run, describe, create, delete - actions, not commands
+- one Pod born, inspected and destroyed, step by step
+- why `run` for Pods but `create` for everything else
+- namespaces as folders, and the delete that takes everything with it
+- `delete` is asynchronous, and why a deleted Pod comes straight back
+
+### [Discovering resources](lessons/10-api-resources-and-explain.md)
+
+`MODULE 10`
+
+Used smartly, kubectl means you memorise nothing.
+
+- `api-resources`: every kind, short name, apiVersion and scope
+- why a Pod is `v1` but a Deployment is `apps/v1`
+- the `no matches for kind` error, explained once and for all
+- short names, and why they matter under exam pressure
+- `kubectl explain`, drilled level by level, to a working manifest
+- `--recursive`, and generating skeletons with `--dry-run=client`
+
+### [Output formats](lessons/11-output-formats.md)
+
+`MODULE 11`
+
+Where you stop reading Kubernetes and start querying it.
+
+- YAML for humans, JSON for machines - and why that is the whole rule
+- the escalation ladder: default → wide → yaml → json
+- `spec` vs `status`, and why the gap between them is your bug
+- the defaults Kubernetes filled in that you never wrote
+- jsonpath, custom-columns, `--sort-by`, and `jq`
+- why `-o yaml > file.yaml` is not really a backup
+
+### [Imperative vs declarative](lessons/12-imperative-vs-declarative.md)
+
+`MODULE 12`
+
+Practical first, theory second - the same Pod, two roads.
+
+- `kubectl run` versus a file and `kubectl apply -f`
+- the full comparison: speed, reuse, review, version control, production
+- why `apply` can update an object when `create` cannot
+- `kubectl diff` before `kubectl apply`, every time
+- configuration drift, and the fix that silently disappears
+- GitOps as the reconciliation loop, one level up
+
+### [What is a Pod](lessons/13-what-is-a-pod.md)
+
+`MODULE 13`
+
+Understand the Pod and you understand half of Kubernetes.
+
+- the journey: code → Dockerfile → image → container
+- the twist: Kubernetes never places a container, only a Pod
+- reason 1: some containers must live together - the sidecar pattern
+- reason 2: one standard layer over containerd, CRI-O and anything next
+- what "share network and storage" really means
+- the pause container you never asked for
+- why Pods are ephemeral, and why that explains everything later
+
+### [Creating and inspecting a Pod](lessons/14-creating-pods.md)
+
+`MODULE 14`
+
+The commands you will type thousands of times.
+
+- `kubectl run` broken down word by word
+- where the image comes from when you never downloaded it
+- `0/1 ContainerCreating` → `1/1 Running`, read properly
+- `-o wide`: the Pod's IP, the node, and who chose it
+- `describe`: the image digest, and the twelve-step flow in the Events
+- why `nginx` is really `docker.io/library/nginx:latest`
+- why a bare Pod dies with its node
+
+### [Pod status and lifecycle](lessons/15-pod-status-lifecycle.md)
+
+`MODULE 15`
+
+Four statuses, produced on purpose so you never have to guess.
+
+- reading `READY` and `STATUS` as two different questions
+- `Running`, `Completed`, `Error` - and exit code 0 versus everything else
+- the `--restart=Never` mystery, and why `CrashLoopBackOff` is not an error
+- "BackOff" is the delay, not the crash
+- exit codes worth recognising, including 137 and OOMKilled
+- the wider status list, with the first command for each
+
+### [Logs, exec and port-forward](lessons/16-logs-exec-portforward.md)
+
+`MODULE 16`
+
+What it printed, getting inside it, and opening it in a browser.
+
+- `logs` versus `describe` - instruction is not result
+- `-f`, `--tail`, `--since`, and the `--previous` that saves you
+- why an app logging to a file produces no logs at all
+- `exec`, the `--` separator, and shells that do not exist
+- why fixing production with `exec` is drift you cannot see
+- `port-forward` tunnels through the API server, not the Pod network
+- the four-command debugging loop, in order
+
+### [Creating a Pod with YAML](lessons/17-pod-yaml.md)
+
+`MODULE 17`
+
+The one file in this course worth typing by hand.
+
+- get the apiVersion from `api-resources`, never guess it
+- `apiVersion`, `kind`, `metadata`, `spec` - the shape of every manifest
+- why `containers` needs a dash and `name` does not
+- two spaces, never a tab - and the exact errors when you get it wrong
+- `--dry-run=client` and `diff` before you apply
+- everything you will later add to this same file
+
+### [Pod environment variables](lessons/18-pod-environment-variables.md)
+
+`MODULE 18`
+
+Why a hard-coded value costs you an image rebuild.
+
+- the 10.10.10.10 to 11.11.11.11 problem, drawn
+- variable defined in the code, value supplied in the YAML
+- `printenv` from inside a running container
+- `spec: Forbidden: pod updates may not change fields...` - on purpose
+- recreate the **Pod**, but never the **image**
+- ConfigMaps, Secrets, `envFrom` and the Downward API
+- why a password must never go in `value:`
+
 ---
 
 ## Before you start
