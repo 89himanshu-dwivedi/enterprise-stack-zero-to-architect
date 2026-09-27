@@ -1,19 +1,1071 @@
-# Kubernetes — Missing Topics Add-On (Enriched Edition)
-## Zero → Architect | Source Roadmap + Important Gaps
+# Kubernetes — Zero → Architect Master Notes (Complete Edition)
+## 61 Modules • Foundations Through Enterprise Architecture • Hinglish • Interview Ready
 
-> This add-on is based on the uploaded Kubernetes roadmap. The supplied roadmap currently covers foundations, architecture, lab/setup, kubectl, API resources/output/declarative concepts, and Pods through environment variables.
->
-> The goal here is **not to replace those modules**. These are the important topics needed so the track reaches Developer → Senior → Lead → Architect depth.
+> This is the complete track: **Modules 1–18** (foundations, architecture, lab/setup, kubectl, API resources/output/declarative concepts, and Pods through environment variables) plus **Modules 19–61** (workloads through enterprise architecture, DR, and platform engineering) — all in one file, at the same depth throughout.
 
-**What's new in this enriched edition:** every module (19–61) now has a **🧪 Try It Yourself** hands-on lab or design exercise, a **💡 Extra Insight** that goes one layer deeper than the standard explanation, and a **🩹 Common Error & Fix** for the mistake people hit first. A new **Glossary**, **Common Error Messages Reference**, and **Command Reference by Task** sit at the end, along with two additional real-world scenarios.
+**What's in every module:** the core concept explanation (🟢/🔵/🟡/🟠/🔴 depth ladder where relevant), a **🧪 Try It Yourself** hands-on lab or design exercise, a **💡 Extra Insight** that goes one layer deeper than the standard explanation, a **🩹 Common Error & Fix** for the mistake people hit first, and a **🎤 Interview** set spanning Beginner → Architect. A full **Glossary**, **Common Error Messages Reference**, **Command Reference by Task**, **Master Interview Ladder**, and **Final Architect Map** sit at the end, covering all 61 modules.
 
 ---
 
-# 🔴 BIGGEST MISSING AREAS
+# 🧭 MASTER ROADMAP (1–61)
 
-The current source list is heavily focused on: Kubernetes fundamentals, control plane / worker node, kubectl, Pods, basic lab.
+| # | Module | Core Focus |
+|---|---|---|
+| 01 | Why Kubernetes Exists | The container-orchestration problem it solves |
+| 02 | Kubernetes Architecture Overview | Control plane vs. worker nodes, the big picture |
+| 03 | Control Plane Deep Dive | API Server, etcd, Scheduler, Controller Manager |
+| 04 | Worker Node Deep Dive | kubelet, kube-proxy, container runtime/CRI |
+| 05 | Cluster Setup Options | minikube, kind, kubeadm, managed clusters |
+| 06 | Local Lab Setup | Hands-on: standing up a real cluster |
+| 07 | kubectl Basics & Configuration | kubeconfig, contexts, cluster switching |
+| 08 | kubectl Command Grammar | get/describe/create/apply/delete/explain |
+| 09 | Imperative vs Declarative Management | `kubectl run` vs `kubectl apply -f` |
+| 10 | API Resources & API Groups | core/apps/batch/networking groups, versions |
+| 11 | YAML Manifest Anatomy | apiVersion, kind, metadata, spec, status |
+| 12 | kubectl Output Formats | `-o wide/yaml/json/jsonpath/custom-columns` |
+| 13 | Labels and Selectors | The tagging system everything else depends on |
+| 14 | Annotations | Non-identifying metadata |
+| 15 | Namespaces | Logical partitioning basics |
+| 16 | Pods — The Basic Unit | What a Pod actually is |
+| 17 | Multi-Container Pods | Init containers, sidecars |
+| 18 | Pod Lifecycle, Restart Policy & Environment Variables | Phases, restarts, configuring env vars |
+| 19 | Workload Controllers | Deployment, StatefulSet, DaemonSet, Job, CronJob |
+| 20 | Deployment Strategies | Rolling, Recreate, Canary, Blue/Green, A/B |
+| 21 | Service & Service Discovery | ClusterIP, NodePort, LoadBalancer, EndpointSlice |
+| 22 | Kubernetes Networking | CNI, Pod network, Service network |
+| 23 | NetworkPolicy | Segmentation and default-deny |
+| 24 | Ingress + Gateway API | Traffic routing, old vs new model |
+| 25 | DNS / CoreDNS | Service discovery via names |
+| 26 | Storage | PV, PVC, StorageClass, access modes |
+| 27 | CSI & Stateful Architecture | Container Storage Interface |
+| 28 | ConfigMap & Secrets | Configuration and sensitive data |
+| 29 | Resource Management | Requests, limits, QoS |
+| 30 | LimitRange & ResourceQuota | Namespace governance |
+| 31 | Scheduling Deep Dive | Affinity, taints, topology spread |
+| 32 | Health Checks | Startup, readiness, liveness probes |
+| 33 | Pod Disruption & High Availability | PDB, voluntary vs involuntary disruption |
+| 34 | Security | AuthN/AuthZ, Pod Security Standards, admission |
+| 35 | RBAC Deep Dive | Role, ClusterRole, bindings, least privilege |
+| 36 | Autoscaling | HPA, VPA, cluster autoscaler, KEDA |
+| 37 | Rollout / Rollback / Progressive Delivery | Safe deployment operations |
+| 38 | Observability | Logs, metrics, traces |
+| 39 | Debugging / Troubleshooting | The systematic diagnosis sequence |
+| 40 | Namespaces & Multi-Tenancy | Beyond logical isolation |
+| 41 | CRD & Operators | Extending the Kubernetes API |
+| 42 | Finalizers & Owner References | Ownership and deletion semantics |
+| 43 | Helm / Kustomize / Packaging | Templating vs overlays |
+| 44 | GitOps | Git as source of truth, drift, reconciliation |
+| 45 | Image / Supply-Chain Security | Provenance, SBOM, scanning, signing |
+| 46 | Secrets Management | Vault, KMS, workload identity |
+| 47 | Node Lifecycle & Maintenance | Cordon, drain, uncordon |
+| 48 | Cluster Upgrade | Version compatibility, deprecated APIs |
+| 49 | etcd | Cluster state, quorum, backup/restore |
+| 50 | API Server / Admission Deep Dive | Full request flow |
+| 51 | Controller / Reconciliation Model | Desired state vs actual state |
+| 52 | Cloud Kubernetes | EKS/AKS/GKE/self-managed/OpenShift |
+| 53 | Serverless / Kubernetes Boundary | When NOT to use Kubernetes |
+| 54 | Multi-Cluster | Fleet management, cross-cluster discovery |
+| 55 | Service Mesh | mTLS, traffic policy, sidecar vs ambient |
+| 56 | Networking Architecture Deep Dive | SNAT/DNAT, iptables/IPVS/eBPF |
+| 57 | eBPF Current Scene | Modern dataplane technology |
+| 58 | Cost / Capacity / FinOps | Right-sizing, autoscaling economics |
+| 59 | SLO / SLA / SLI | Connecting Kubernetes to business reliability |
+| 60 | Kubernetes Architect Interview Scenarios | End-to-end diagnosis chains |
+| 61 | Master Interview Ladder | Beginner → Architect question bank |
 
-The major next layers should be:
+---
+
+# 🟦 MODULES 1–18: FOUNDATIONS
+
+---
+
+# 01 — WHY KUBERNETES EXISTS
+
+## 🟢 Simple
+
+Before orchestration:
+
+```text
+Server → App running directly, or in one container
+```
+
+Problems at scale: if the container crashes, nobody restarts it automatically. If traffic grows, nobody adds more copies. If a host dies, nobody moves the workload elsewhere. If you have 50 services across 200 containers, nobody can track "what's running where" by hand.
+
+## What Kubernetes actually gives you
+
+```text
+Desired state ("I want 3 replicas of this app, always")
+      ↓
+Kubernetes
+      ↓
+Continuously makes reality match that desired state
+```
+
+Core capabilities: self-healing (restart/reschedule failed containers), scaling (more/fewer replicas), service discovery (find the right Pod without hardcoding IPs), rollouts/rollbacks, storage orchestration, secret/config management, automatic bin-packing (placing containers where resources fit).
+
+## 🔵 Junior
+
+Kubernetes doesn't run containers itself — it runs Pods (a thin wrapper around one or more containers) and delegates actual container execution to a **container runtime** on each node (Module 04).
+
+## 🟡 Senior
+
+Kubernetes is fundamentally a **declarative, reconciliation-driven system** (fully explored in Module 51) — you describe desired state, and a collection of independent controllers continuously work to make actual state match it. This is philosophically different from an imperative deployment script that runs once and stops.
+
+## 🔴 Architect
+
+Kubernetes' real value isn't "runs containers" — plenty of simpler tools do that. It's a **general-purpose platform for building infrastructure automation on top of a consistent API and reconciliation model** — which is why CRDs/Operators (Module 41) exist and why "Kubernetes as a platform for platforms" is a common enterprise framing.
+
+### 🧪 Try It Yourself
+
+Design exercise: list the last 3 production incidents (real or hypothetical) at a company running containers *without* orchestration — "container crashed at 2am, nobody restarted it until a human noticed" is a classic. Map each one to which specific Kubernetes capability (self-healing, scaling, service discovery) would have prevented or shortened it. This exercise is worth more than any abstract definition for actually internalizing *why* this tool exists.
+
+### 💡 Extra Insight
+
+"Kubernetes" (Greek for "helmsman/pilot") is often abbreviated **K8s** — the "8" replacing the 8 letters between the K and the s. This isn't just trivia: the nautical naming (helmsman steering a ship) is a deliberate metaphor for its actual job — not building the ship (the containers/apps), but steering and correcting course continuously (reconciliation).
+
+### 🩹 Common Error & Fix
+
+The most common early misconception isn't a command error — it's believing "Kubernetes runs my containers directly." It doesn't; it delegates that to a container runtime via the kubelet (Module 04). Getting this layering right early prevents a lot of confusion later when debugging "why won't my container start."
+
+### 🎤 Interview
+
+**🟢:** Kubernetes kya problem solve karta hai?
+**🔵:** Kubernetes container khud run karta hai kya?
+**🟡:** Declarative vs imperative model ka difference kya hai?
+**🔴:** "Kubernetes is a platform for platforms" — is statement ko justify karo.
+
+---
+
+# 02 — KUBERNETES ARCHITECTURE OVERVIEW
+
+## 🟢 Simple
+
+A cluster has two halves:
+
+```text
+Control Plane (the "brain")   → decides what should run, where
+Worker Nodes (the "muscle")   → actually run the workloads
+```
+
+```text
+                CONTROL PLANE
+        ┌───────────────────────────┐
+        │ API Server │ etcd         │
+        │ Scheduler  │ Controllers  │
+        └───────────────────────────┘
+                     │
+        ┌────────────┼────────────┐
+        ▼            ▼            ▼
+   Worker Node1  Worker Node2  Worker Node3
+   (kubelet,     (kubelet,     (kubelet,
+    kube-proxy,   kube-proxy,   kube-proxy,
+    runtime)      runtime)      runtime)
+```
+
+## 🔵 Junior
+
+Every interaction with the cluster — `kubectl`, a controller, the scheduler itself — goes **through the API Server**. Nothing talks to etcd directly except the API Server; nothing bypasses the API Server to directly command a kubelet.
+
+## 🟡 Senior
+
+The control plane components are themselves mostly stateless and horizontally replicable (except etcd, which has its own quorum-based replication model) — a production cluster typically runs 3+ control plane replicas for HA, fronted by a load balancer.
+
+## 🔴 Architect
+
+The entire architecture is a deliberate **separation of "what should exist" (declared via API Server/etcd) from "make it exist" (executed by independent controllers and kubelets)** — no single component has end-to-end responsibility for any one workload's full lifecycle, which is precisely what makes the system resilient to any single component restarting or briefly failing.
+
+### 🧪 Try It Yourself
+
+```bash
+kubectl get componentstatuses    # deprecated in newer versions, but conceptually useful
+kubectl get pods -n kube-system -o wide
+```
+
+`kube-system`'s Pods (`kube-apiserver`, `etcd`, `kube-scheduler`, `kube-controller-manager`, `coredns`, and your CNI's Pods) are usually themselves regular Kubernetes objects — inspect them exactly like you'd inspect any application Pod, which demystifies "the control plane" into "a set of Pods just like the ones I deploy."
+
+### 💡 Extra Insight
+
+On managed Kubernetes (EKS/AKS/GKE), you typically **can't see the control plane's Pods at all** — the provider hides/manages them entirely, only exposing the API Server endpoint. On a self-managed (kubeadm) cluster, you can literally `kubectl get pods -n kube-system` and see `kube-apiserver-<node>` running as a static Pod. This single difference is often people's first "oh, managed vs self-managed is a real architectural distinction" moment (tying directly into Module 52).
+
+### 🩹 Common Error & Fix
+
+Symptom: `kubectl` commands suddenly all fail with connection errors. Check whether this is a control-plane-availability problem (API Server down/unreachable) versus a local kubeconfig problem (Module 07) — `curl` the API server's health endpoint directly, or check `kubectl cluster-info`, before assuming the whole cluster is down.
+
+### 🎤 Interview
+
+**🟢:** Control plane vs worker node?
+**🔵:** Sab kuch API Server se hi kyun guzarta hai?
+**🟡:** Control plane HA kaise achieve hoti hai?
+**🔴:** "No single component owns a workload's full lifecycle" — is design principle ka value samjhao.
+
+---
+
+# 03 — CONTROL PLANE DEEP DIVE
+
+## Components
+
+```text
+API Server           → the front door; everything talks to this
+etcd                 → the cluster's database (all desired + observed state)
+Scheduler             → decides WHICH node a new Pod should run on
+Controller Manager    → runs the built-in reconciliation loops (Module 51)
+Cloud Controller Mgr  → cloud-provider-specific integrations (LBs, nodes, routes)
+```
+
+## API Server
+
+Stateless, horizontally scalable, the only component that talks to etcd. Every `kubectl` command, every controller's watch, every kubelet's status report — all flow through here.
+
+## etcd
+
+A consistent, distributed key-value store using the Raft consensus algorithm. It is the **single source of truth** for cluster state. (Full deep dive in Module 49.)
+
+## Scheduler
+
+Watches for Pods with no assigned node, runs them through **Filter → Score → Bind** (Module 31), and writes the decision back via the API Server.
+
+## Controller Manager
+
+Actually a single binary running *many* independent controllers (Node controller, ReplicaSet controller, Endpoint controller, and more) — each watching a narrow slice of state and reconciling it.
+
+### 🧪 Try It Yourself
+
+```bash
+kubectl get pods -n kube-system -l component=kube-scheduler -o wide
+kubectl logs -n kube-system -l component=kube-scheduler --tail=20
+```
+
+Create a Pod with an impossible resource request (e.g., 1000 CPU cores) and watch the scheduler's logs / the Pod's events show it repeatedly failing to find a node — this is the scheduler's Filter step rejecting every candidate, made visible.
+
+### 💡 Extra Insight
+
+The Controller Manager running "many controllers in one binary" is a **deployment simplification**, not an architectural requirement — conceptually, each controller (ReplicaSet controller, Node controller, etc.) is independent and could run separately; they're bundled together operationally for convenience. This matters when reasoning about failure: a bug in one controller's logic doesn't necessarily require restarting the entire binary, though in practice a crash of the shared process does affect all bundled controllers simultaneously.
+
+### 🩹 Common Error & Fix
+
+Symptom: Pods stay `Pending` forever with no scheduling attempt visible at all (not even a rejection). Check whether the scheduler component itself is actually running and healthy (`kubectl get pods -n kube-system | grep scheduler`) — a genuinely down scheduler looks different from a scheduler that's running but rejecting every candidate node.
+
+### 🎤 Interview
+
+**🟢:** Control plane ke 4-5 core components kaunse hain?
+**🔵:** etcd ka role kya hai?
+**🟡:** Scheduler decision kaise leta hai (high level)?
+**🔴:** Controller Manager ke andar multiple controllers bundle hone ka trade-off kya hai?
+
+---
+
+# 04 — WORKER NODE DEEP DIVE
+
+## Components
+
+```text
+kubelet          → the node-level agent; talks to API Server, runs Pods via the runtime
+kube-proxy       → implements Service routing on this node (Module 56)
+Container runtime → actually starts/stops containers (via CRI)
+```
+
+## kubelet
+
+Watches the API Server for Pods assigned to its node, then ensures those containers are actually running (via the container runtime), reports status back, and executes probes (Module 32).
+
+## Container Runtime & CRI
+
+Kubernetes doesn't hardcode a specific runtime — it talks to any CRI (Container Runtime Interface)-compliant runtime (containerd, CRI-O being common choices) through a standard plugin interface, mirroring the CNI/CSI pattern for networking/storage (Modules 22/27).
+
+```text
+kubelet → CRI → container runtime → actual container process
+```
+
+### 🧪 Try It Yourself
+
+```bash
+kubectl get nodes -o wide
+kubectl describe node <node-name> | grep -A5 "System Info"
+```
+
+The `Container Runtime Version` field in a node's system info shows exactly which CRI-compliant runtime that node uses (e.g., `containerd://1.7.x`) — confirming this pluggable-runtime architecture is real and inspectable, not just theoretical.
+
+### 💡 Extra Insight
+
+Docker itself is **not** a CRI-compliant runtime and hasn't been directly supported by kubelet for some time now (the old `dockershim` compatibility shim was removed) — modern clusters run `containerd` (which Docker itself is actually built on top of) directly. If you build container images with `docker build`, those images still run fine on Kubernetes, because the OCI image format is standardized independently of which specific runtime executes it.
+
+### 🩹 Common Error & Fix
+
+```text
+Failed to pull image ... rpc error: code = Unknown desc = failed to pull and unpack image
+```
+often points at a runtime-level (CRI) pull failure — registry auth, network reachability from the *node* (not your laptop), or image architecture mismatch (e.g., an amd64-only image on an arm64 node) are the usual suspects; `crictl` (the CRI-level debugging CLI) on the node itself can diagnose below what kubectl shows.
+
+### 🎤 Interview
+
+**🟢:** kubelet kya karta hai?
+**🔵:** CRI kya hai?
+**🟡:** Docker aur containerd ka relationship kya hai in this context?
+**🔴:** Multi-architecture node pool (amd64 + arm64) ke liye image/runtime strategy design karo.
+
+---
+
+# 05 — CLUSTER SETUP OPTIONS
+
+## The landscape
+
+```text
+minikube      → single-node local cluster, great for quick learning/testing
+kind          → "Kubernetes IN Docker" — runs cluster nodes as containers, fast, great for CI
+kubeadm       → the standard tool for bootstrapping a real (self-managed) multi-node cluster
+Managed (EKS/AKS/GKE) → provider runs/manages the control plane for you (Module 52)
+OpenShift / Rancher   → enterprise distributions layering extra tooling/policy on top of vanilla Kubernetes
+```
+
+## Choosing for learning vs production
+
+For learning/local dev: `kind` or `minikube`. For understanding real bootstrap mechanics: `kubeadm` on VMs. For actual production: almost always managed Kubernetes, unless you have a specific reason (compliance, cost at extreme scale, on-prem/air-gapped requirements) to self-manage.
+
+### 🧪 Try It Yourself
+
+```bash
+kind create cluster --name learning
+kubectl cluster-info --context kind-learning
+kind get clusters
+kind delete cluster --name learning
+```
+
+Notice how fast this is compared to any cloud-based cluster creation — `kind`'s "nodes are just containers" trick is exactly why it's the default choice for CI pipelines that need a real (if small) Kubernetes cluster in under a minute.
+
+### 💡 Extra Insight
+
+`kind` runs entire Kubernetes **nodes** as Docker containers (a container pretending to be a node, itself then running more containers as Pods inside it) — this nested-container architecture is genuinely clever but also means `kind` clusters have some real limitations (certain networking/storage features behave differently than genuine separate machines) that make it excellent for learning/CI but not a perfect stand-in for production-shaped multi-machine behavior.
+
+### 🩹 Common Error & Fix
+
+Symptom: `kind` cluster creation hangs or fails on a machine with limited resources. `kind` nodes are real containers needing real CPU/memory — a laptop already under memory pressure (many browser tabs, IDEs, etc.) can genuinely starve a `kind` cluster; check `docker stats` for available headroom before assuming a `kind`-specific bug.
+
+### 🎤 Interview
+
+**🟢:** minikube vs kind vs kubeadm — sabse simple explanation?
+**🔵:** kind itni fast kyun hai?
+**🟡:** Production ke liye self-managed vs managed kab choose karoge?
+**🔴:** On-prem/air-gapped environment ke liye cluster bootstrap strategy design karo.
+
+---
+
+# 06 — LOCAL LAB SETUP
+
+## The goal
+
+Get a real, working cluster you can break and fix safely, before touching anything production-adjacent.
+
+## Minimal working setup (kind example)
+
+```bash
+# 1. Install kind + kubectl (once)
+# 2. Create a cluster
+kind create cluster --name lab
+
+# 3. Verify
+kubectl get nodes
+kubectl get pods -A
+
+# 4. Deploy something real
+kubectl create deployment hello --image=nginx
+kubectl expose deployment hello --port=80
+kubectl port-forward svc/hello 8080:80
+```
+
+Then open `localhost:8080` — a real request travelling through a real (if local) Kubernetes Service and Pod.
+
+### 🧪 Try It Yourself
+
+Do the exact sequence above, then deliberately break something and fix it — scale the Deployment to 0 and back, delete the Pod directly and watch it get recreated, edit the Service's selector to break it (Module 21) and then fix it. Building the habit of "break it on purpose, then diagnose" in a safe lab is the single highest-leverage learning activity in this entire track.
+
+### 💡 Extra Insight
+
+`kubectl port-forward` is a **debugging/development tool**, not a production traffic path — it opens a direct tunnel from your local machine to a specific Pod/Service through the API Server, which doesn't scale, isn't load-balanced properly across replicas the way a real Service/Ingress is, and stops the moment you close the terminal. It's perfect for "let me quickly check something" and wrong for anything resembling real traffic.
+
+### 🩹 Common Error & Fix
+
+```text
+Unable to connect to the server: dial tcp ... connect: connection refused
+```
+right after creating a `kind` cluster — often just a timing issue (the API server isn't fully up yet); wait a few seconds and retry, or check `kind get clusters` and `docker ps` to confirm the cluster's containers are actually running.
+
+### 🎤 Interview
+
+**🟢:** Local lab setup ka purpose kya hai?
+**🔵:** `port-forward` production traffic ke liye use kar sakte ho kya?
+**🟡:** "Break it on purpose" learning approach ka value kya hai?
+**🔴:** N/A (this module is foundational, not architect-scenario-driven).
+
+---
+
+# 07 — KUBECTL BASICS & CONFIGURATION
+
+## kubeconfig
+
+`kubectl` doesn't know which cluster to talk to by magic — it reads a **kubeconfig** file (default: `~/.kube/config`) containing clusters, users (credentials), and **contexts** (a named cluster+user+namespace combination).
+
+```text
+kubeconfig
+ ├── clusters:  [{name, server address, CA cert}]
+ ├── users:     [{name, credentials}]
+ └── contexts:  [{name, cluster, user, namespace}]
+```
+
+## Switching context
+
+```bash
+kubectl config get-contexts
+kubectl config use-context <name>
+kubectl config current-context
+```
+
+## Multiple clusters
+
+A single kubeconfig file can (and in real workflows, usually does) contain entries for several clusters — dev, staging, prod — switched between via context, which is exactly why "which context am I in right now" is a genuinely important habit to check before running anything destructive.
+
+### 🧪 Try It Yourself
+
+```bash
+kubectl config view --minify   # shows only the CURRENT context's details, cleanly
+kubectl config set-context --current --namespace=my-namespace
+```
+
+The second command is worth knowing well — it sets a **default namespace** for your current context, so you stop needing `-n my-namespace` on every single command, a genuinely large quality-of-life improvement once you're working in one namespace for a while.
+
+### 💡 Extra Insight
+
+The scariest real production incident category in this entire area isn't a command error — it's running a destructive command (`kubectl delete deployment --all`) while believing you're in a dev context, when you're actually pointed at prod. `kubectl config current-context` before anything destructive, or shell-prompt integrations that visibly display the current context/namespace, are cheap habits that prevent expensive mistakes.
+
+### 🩹 Common Error & Fix
+
+```text
+error: You must be logged in to the server (Unauthorized)
+```
+Usually an expired or invalid credential in the kubeconfig's `users` section (a token expired, a client cert rotated) — for managed clusters this often means re-running the provider's CLI command to refresh kubeconfig credentials (e.g., `aws eks update-kubeconfig`), not a kubectl bug.
+
+### 🎤 Interview
+
+**🟢:** kubeconfig kya store karta hai?
+**🔵:** Context kya hai?
+**🟡:** Multiple clusters ke saath kaam karte waqt safety habit kya honi chahiye?
+**🔴:** Multi-cluster credential management ka enterprise process design karo.
+
+---
+
+# 08 — KUBECTL COMMAND GRAMMAR
+
+## The core verbs
+
+```text
+kubectl get <resource>          → list/show current state
+kubectl describe <resource> <n> → detailed info + EVENTS (the most useful debugging section)
+kubectl create <resource>       → imperative creation
+kubectl apply -f <file>         → declarative create-or-update
+kubectl delete <resource> <n>   → remove
+kubectl explain <resource>      → shows the schema/docs for a resource, offline
+```
+
+## `explain` is underused
+
+```bash
+kubectl explain pod.spec.containers.resources
+```
+
+This walks the actual API schema for that field, including required/optional status and a description — genuinely faster than searching documentation for "what fields does resources support" while writing a manifest.
+
+### 🧪 Try It Yourself
+
+```bash
+kubectl explain deployment.spec.strategy.rollingUpdate
+kubectl explain deployment.spec.strategy.rollingUpdate.maxSurge
+```
+
+Drill down field by field on a resource you're about to configure — this "ask the API itself" habit beats guessing field names from memory or outdated blog posts, since `explain` always reflects your *actual* cluster's API version.
+
+### 💡 Extra Insight
+
+`kubectl describe`'s **Events** section is, in practice, the single most useful piece of troubleshooting information in the entire CLI — it's a chronological log of everything the control plane has tried/decided about that specific object (scheduling attempts, image pulls, probe failures), in relatively plain language, and is almost always faster to read than jumping straight to container logs.
+
+### 🩹 Common Error & Fix
+
+```text
+error: the server doesn't have a resource type "pod"
+```
+(note: singular, no typo otherwise) — usually a genuine typo in the resource name/kind, or attempting to use a resource type that doesn't exist in this specific cluster (a CRD that isn't installed) — `kubectl api-resources | grep -i <partial-name>` confirms what's actually available.
+
+### 🎤 Interview
+
+**🟢:** `get` vs `describe`?
+**🔵:** `explain` kis liye useful hai?
+**🟡:** Describe ke Events section itna important kyun hai?
+**🔴:** N/A (foundational CLI module).
+
+---
+
+# 09 — IMPERATIVE VS DECLARATIVE MANAGEMENT
+
+## Imperative
+
+```bash
+kubectl create deployment demo --image=nginx
+kubectl scale deployment demo --replicas=5
+kubectl set image deployment/demo demo=nginx:1.27
+```
+
+Direct commands describing an *action* to take right now.
+
+## Declarative
+
+```bash
+kubectl apply -f deployment.yaml
+```
+
+You describe the *desired end state* in a file; `kubectl apply` computes and applies whatever diff is needed to get there — and re-running the same `apply` repeatedly is safe (idempotent).
+
+## When each fits
+
+Imperative: quick one-off exploration, learning, throwaway testing. Declarative: literally everything else — anything version-controlled, anything a team collaborates on, anything GitOps-managed (Module 44) *requires* declarative manifests as its foundation.
+
+### 🧪 Try It Yourself
+
+```bash
+kubectl create deployment demo --image=nginx --dry-run=client -o yaml > deployment.yaml
+```
+
+This is a genuinely great habit: use the imperative command's `--dry-run=client -o yaml` output as a **starting point** for a real declarative manifest, rather than hand-writing YAML from scratch or memory — you get correct structure for free, then edit from there.
+
+### 💡 Extra Insight
+
+`kubectl apply` tracks changes via a `last-applied-configuration` annotation stored on the object itself, which is *how* it computes a 3-way diff (last-applied vs. your new file vs. live cluster state) to figure out what changed — this is why fields removed from your YAML but never explicitly set to null can sometimes behave surprisingly (they may or may not get cleared, depending on this mechanism), a genuinely subtle `apply` behavior worth knowing exists even if you don't memorize every edge case.
+
+### 🩹 Common Error & Fix
+
+```text
+error: unable to recognize "deployment.yaml": no matches for kind "Deployment" in version "apps/v1beta1"
+```
+An old/removed `apiVersion` in a hand-written or copy-pasted-from-an-old-tutorial manifest — check current valid `apiVersion` values with `kubectl api-resources` or `kubectl explain <kind>` before assuming the resource itself doesn't exist.
+
+### 🎤 Interview
+
+**🟢:** Imperative vs declarative — example do.
+**🔵:** `apply` idempotent kyun hai?
+**🟡:** `last-applied-configuration` annotation kya karta hai?
+**🔴:** GitOps ke liye declarative-only enforcement policy design karo (imperative commands block karna production mein).
+
+---
+
+# 10 — API RESOURCES & API GROUPS
+
+## The API is organized into groups
+
+```text
+core (legacy "v1", no group name)  → Pod, Service, ConfigMap, Secret, Namespace, Node
+apps/v1                            → Deployment, ReplicaSet, StatefulSet, DaemonSet
+batch/v1                           → Job, CronJob
+networking.k8s.io/v1                → NetworkPolicy, Ingress
+rbac.authorization.k8s.io/v1         → Role, ClusterRole, bindings
+```
+
+Every resource's manifest specifies exactly which group+version it belongs to via `apiVersion`.
+
+### 🧪 Try It Yourself
+
+```bash
+kubectl api-resources
+kubectl api-versions
+kubectl api-resources --api-group=apps
+```
+
+Scan the full `api-resources` output once, deliberately — noticing which resources are namespaced (`NAMESPACED: true`) versus cluster-scoped (`false`, like `Node` or `ClusterRole`) is a small habit that prevents a lot of "why can't I find this object" confusion later (you were looking in the wrong namespace, or it was never namespaced to begin with).
+
+### 💡 Extra Insight
+
+API groups can have **multiple versions simultaneously** (e.g., a resource might be available as both `v1beta1` and `v1`) during a migration period, with Kubernetes marking older versions deprecated before eventually removing them (Module 48) — this versioning-per-group design is exactly what allows the API to evolve without breaking every existing manifest overnight.
+
+### 🩹 Common Error & Fix
+
+```text
+error: the server could not find the requested resource
+```
+for a resource you're sure exists — check you're using the correct `apiVersion`/group for your specific cluster's Kubernetes version; a resource available in `v1` on a newer cluster might still need `v1beta1` on an older one, or vice versa for something recently promoted to stable.
+
+### 🎤 Interview
+
+**🟢:** API group kya hai?
+**🔵:** Namespaced vs cluster-scoped resource?
+**🟡:** Ek resource ke multiple API versions kyun exist kar sakte hain?
+**🔴:** N/A (foundational API-model module).
+
+---
+
+# 11 — YAML MANIFEST ANATOMY
+
+## The four required top-level fields
+
+```yaml
+apiVersion: apps/v1     # which API group+version this object belongs to
+kind: Deployment        # what type of object
+metadata:                # name, namespace, labels, annotations — identity/organization
+  name: demo
+  labels:
+    app: demo
+spec:                    # DESIRED state — what you want
+  replicas: 3
+  ...
+status:                  # ACTUAL state — filled in by Kubernetes, you don't write this
+  readyReplicas: 3
+```
+
+## The `spec` vs `status` split is the single most important structural idea
+
+You (or GitOps) only ever write `spec`. Kubernetes itself continuously fills in and updates `status` to reflect reality — this split *is* the reconciliation model (Module 51) expressed directly in every object's schema.
+
+### 🧪 Try It Yourself
+
+```bash
+kubectl get deployment demo -o yaml
+```
+
+Look at the full output — your `spec` section is exactly what you wrote (plus some defaults Kubernetes filled in), while the `status` section (replica counts, conditions) is entirely generated by controllers watching this object. Editing `status` by hand via `kubectl edit` generally won't stick — the real controller will overwrite it on its next reconciliation pass, another small, concrete proof of the reconciliation model in action.
+
+### 💡 Extra Insight
+
+Many resources also expose a `status.conditions` array (a list of `{type, status, reason, message, lastTransitionTime}` entries) — this is a genuinely useful, semi-standardized way controllers communicate *why* something is in its current state (e.g., a Deployment's `Progressing` or `Available` conditions), and operators/CRDs (Module 41) are expected to follow this same pattern for consistency across the ecosystem.
+
+### 🩹 Common Error & Fix
+
+```text
+error: error validating "deployment.yaml": error validating data: ValidationError(Deployment.spec): unknown field "replica"
+```
+A typo (`replica` instead of `replicas`) — YAML validation errors are usually exactly this literal; read the field name in the error message carefully rather than re-reading your entire file top to bottom.
+
+### 🎤 Interview
+
+**🟢:** apiVersion/kind/metadata/spec — chaaron ka role?
+**🔵:** spec vs status?
+**🟡:** status.conditions kya represent karta hai?
+**🔴:** Custom Resource design karte waqt status/conditions convention follow karna kyun zaroori hai (links to Module 41)?
+
+---
+
+# 12 — KUBECTL OUTPUT FORMATS
+
+## Formats worth knowing
+
+```bash
+kubectl get pods                          # default table
+kubectl get pods -o wide                  # table + IP, node
+kubectl get pods -o yaml                  # full object, YAML
+kubectl get pods -o json                  # full object, JSON
+kubectl get pods -o jsonpath='{.items[0].status.podIP}'   # extract exactly one field
+kubectl get pods -o custom-columns=NAME:.metadata.name,IP:.status.podIP
+```
+
+## Why this matters beyond convenience
+
+Scripts/CI/automation need **exact, parseable values**, not human-friendly tables — `jsonpath` and `custom-columns` are how `kubectl` output becomes a real building block for automation, not just something a human reads.
+
+### 🧪 Try It Yourself
+
+```bash
+kubectl get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.phase}{"\n"}{end}'
+```
+
+Build this up piece by piece rather than copying it wholesale — `jsonpath`'s syntax is genuinely awkward at first, and the only way it becomes fluent is trial and error against real objects, checking the raw `-o yaml`/`-o json` output first to know exactly which field path you're targeting.
+
+### 💡 Extra Insight
+
+`-o wide` isn't just "more columns" — for Pods specifically, it's often the fastest way to spot a real problem at a glance (a Pod's `NODE` column showing `<none>` means it's not yet scheduled at all; a `READY` column showing `1/2` on a multi-container Pod tells you exactly which fraction of containers are actually up), all without a single `describe` call.
+
+### 🩹 Common Error & Fix
+
+```text
+error: error parsing jsonpath {.status.podIP}: unrecognized character in action
+```
+Usually a quoting issue in the shell (the outer quotes around the jsonpath expression getting mangled) — different shells (bash vs PowerShell vs a CI YAML string) quote differently; test the exact jsonpath expression against `-o yaml` output structure first before debugging shell-quoting issues.
+
+### 🎤 Interview
+
+**🟢:** `-o wide` kya add karta hai?
+**🔵:** jsonpath kis liye use karte hain?
+**🟡:** Automation/scripts ke liye kaunsa output format best hai aur kyun?
+**🔴:** N/A (foundational tooling module).
+
+---
+
+# 13 — LABELS AND SELECTORS
+
+## Labels
+
+Arbitrary key-value pairs attached to objects, used for **identification and grouping** — not for storing arbitrary data (that's what annotations, Module 14, are for).
+
+```yaml
+metadata:
+  labels:
+    app: demo
+    tier: backend
+    environment: production
+```
+
+## Selectors
+
+How other objects *find* Pods (or other resources) by label — this is the mechanism underneath Services (Module 21), ReplicaSets (Module 19), NetworkPolicies (Module 23), and much more.
+
+```yaml
+selector:
+  matchLabels:
+    app: demo
+```
+
+## Why this is foundational, not a side detail
+
+Nearly every "how does X find Y" question in Kubernetes reduces to "labels and selectors" — a Service finding its Pods, a ReplicaSet finding "its" Pods, a NetworkPolicy deciding which Pods a rule applies to, all use exactly this same mechanism.
+
+### 🧪 Try It Yourself
+
+```bash
+kubectl label pod demo-xyz tier=backend --overwrite
+kubectl get pods -l tier=backend
+kubectl get pods -l 'tier in (backend,frontend)'
+kubectl get pods --show-labels
+```
+
+Practice both equality-based (`tier=backend`) and set-based (`tier in (backend,frontend)`) selector syntax — set-based selectors are genuinely more expressive (also supporting `NotIn`, `Exists`) and worth knowing exist beyond simple equality matching.
+
+### 💡 Extra Insight
+
+A Deployment's Pod-template labels and its `spec.selector.matchLabels` are **two separate fields that must be compatible but are written in two different places** — this is exactly the mechanism behind the "Service selector doesn't match Pod labels" gotcha explored in Module 21, and understanding labels/selectors deeply *here* is what makes that later gotcha instantly diagnosable instead of mysterious.
+
+### 🩹 Common Error & Fix
+
+```text
+error: field is immutable
+```
+When trying to change a Deployment's `spec.selector` on an existing Deployment — selectors on core workload controllers are intentionally immutable after creation (changing which Pods a Deployment "owns" retroactively would be far too dangerous to allow casually); you'd need to delete and recreate the Deployment to genuinely change its selector.
+
+### 🎤 Interview
+
+**🟢:** Label kya hai?
+**🔵:** Equality-based vs set-based selector?
+**🟡:** Service selector aur Pod labels ka relationship kya hai?
+**🔴:** Large multi-team cluster ke liye labeling convention/taxonomy design karo (for cost allocation, ownership, environment tracking).
+
+---
+
+# 14 — ANNOTATIONS
+
+## Annotations vs Labels
+
+```text
+Labels      → used for identification/selection (small, structured, queryable)
+Annotations → used for arbitrary metadata NOT meant for selection (larger, freeform)
+```
+
+```yaml
+metadata:
+  annotations:
+    kubernetes.io/change-cause: "Bumped image to v1.27 for security patch"
+    example.com/build-info: '{"commit":"a1b2c3","pipeline":"ci-42"}'
+```
+
+## Common real-world uses
+
+Build/commit metadata, tool-specific configuration hints (many Ingress controllers configure behavior via annotations — Module 24's gotcha about annotation portability), `kubectl apply`'s own `last-applied-configuration` tracking (Module 09), documentation/contact info for on-call purposes.
+
+### 🧪 Try It Yourself
+
+```bash
+kubectl annotate deployment demo owner="platform-team" --overwrite
+kubectl get deployment demo -o jsonpath='{.metadata.annotations}'
+```
+
+Try (and fail) to select objects by an annotation the way you would with a label — `kubectl get pods -l owner=platform-team` won't find annotation-only metadata, only label-based selectors work that way. This failed attempt is the fastest way to internalize the labels-vs-annotations boundary.
+
+### 💡 Extra Insight
+
+Because annotations aren't indexed/queryable the way labels are, the API server treats them more loosely (larger size limits, no restriction on being a "flat" key-value structure the way labels effectively are) — this is exactly why tools embed entire JSON blobs in annotations (like the `last-applied-configuration` example) when they need to stash structured data on an object without needing it to be selector-searchable.
+
+### 🩹 Common Error & Fix
+
+Symptom: "I added a label thinking it was just documentation, and now it's accidentally matched by a Service/selector I didn't expect." This is the opposite direction of the labels/annotations mix-up — anything meant to be pure documentation/metadata that should *never* accidentally match a selector belongs in annotations, not labels, specifically to avoid this failure mode.
+
+### 🎤 Interview
+
+**🟢:** Annotation vs label — one-line difference?
+**🔵:** Annotation selector se query ho sakta hai kya?
+**🟡:** Ingress controllers annotations kyun heavily use karte hain?
+**🔴:** N/A (foundational metadata module).
+
+---
+
+# 15 — NAMESPACES
+
+## What a namespace is
+
+A way to divide a single cluster into multiple **logical** partitions — most namespaced resources (Pods, Deployments, Services, ConfigMaps) exist *within* exactly one namespace; some resources (Nodes, PersistentVolumes, ClusterRoles) are cluster-scoped and don't belong to any namespace.
+
+```bash
+kubectl get namespaces
+kubectl create namespace team-a
+kubectl get pods -n team-a
+kubectl get pods --all-namespaces   # or -A
+```
+
+## Default namespaces
+
+```text
+default       → where objects land if you don't specify one
+kube-system   → control plane / core add-on components (Module 03/04)
+kube-public   → readable by all, rarely used for anything sensitive
+kube-node-lease → node heartbeat/lease objects
+```
+
+## Important limitation (previewed here, expanded in Module 40)
+
+> Namespace is logical isolation, not a complete security boundary by itself.
+
+### 🧪 Try It Yourself
+
+```bash
+kubectl create namespace team-a
+kubectl create namespace team-b
+kubectl config set-context --current --namespace=team-a
+kubectl run demo --image=nginx    # lands in team-a automatically now
+```
+
+Confirm two Pods with the identical name `demo` can coexist, one in `team-a` and one in `team-b` — names are only required to be unique *within* a namespace, not cluster-wide, which is the whole point of the partitioning.
+
+### 💡 Extra Insight
+
+Deleting a namespace **cascades** — every namespaced object inside it (Pods, Deployments, Secrets, everything) gets deleted too, and this can take a genuinely long time on a namespace with a lot of objects or objects with finalizers (Module 42) stuck waiting on cleanup. `kubectl delete namespace <name>` is one of the most quietly destructive single commands in the entire CLI and deserves real caution before running against anything you're not certain about.
+
+### 🩹 Common Error & Fix
+
+```text
+Error from server (NotFound): pods "demo" not found
+```
+when you're *sure* the Pod exists — almost always means it exists in a *different* namespace than the one your current context defaults to; `kubectl get pods -A | grep demo` to find it, then either switch namespace context or use `-n <correct-namespace>` explicitly.
+
+### 🎤 Interview
+
+**🟢:** Namespace kya hai?
+**🔵:** Kaunse objects namespaced hote hain, kaunse nahi?
+**🟡:** Namespace delete karne ka cascading effect kya hai?
+**🔴:** N/A (foundational; full multi-tenancy depth is Module 40).
+
+---
+
+# 16 — PODS — THE BASIC UNIT
+
+## What a Pod actually is
+
+The smallest deployable unit in Kubernetes — **not** a container itself, but a wrapper around one or more containers that share:
+
+```text
+Network namespace  → same IP, same localhost, can reach each other via 127.0.0.1
+Storage volumes    → can share mounted volumes between containers in the Pod
+Lifecycle          → scheduled together, live/die together as a unit
+```
+
+## Minimal Pod manifest
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo
+spec:
+  containers:
+    - name: app
+      image: nginx
+      ports:
+        - containerPort: 80
+```
+
+## Why "Pod," not "container," is the unit
+
+Some applications genuinely need multiple tightly-coupled processes sharing network/storage (a main app + a log-shipping sidecar, Module 17) — Kubernetes needed a grouping concept above "single container" to represent that co-location cleanly, hence the Pod.
+
+### 🧪 Try It Yourself
+
+```bash
+kubectl run demo --image=nginx
+kubectl get pod demo -o wide
+kubectl exec demo -- hostname
+kubectl exec demo -- cat /etc/hosts
+```
+
+For a single-container Pod, this feels unremarkable — but repeat it with a two-container Pod (Module 17) and `kubectl exec -c <container-name> demo -- curl localhost:<other-container-port>` to prove the two containers really do share one network namespace and can reach each other over plain `localhost`.
+
+### 💡 Extra Insight
+
+You almost never create bare Pods directly in real usage (as in the example above) — nearly always a workload controller (Deployment, StatefulSet, Job — Module 19) creates and manages Pods on your behalf, because a bare Pod that dies is simply gone forever, with nothing watching to recreate it. Learning to create bare Pods first is purely pedagogical, to isolate "what is a Pod" from "what manages Pods" before combining the two concepts.
+
+### 🩹 Common Error & Fix
+
+```text
+error: unable to create pod: pods "demo" already exists
+```
+A leftover Pod from a previous exercise with the same name — since a bare Pod isn't managed by any controller, it doesn't get cleaned up automatically; `kubectl delete pod demo` first, a small but real reminder of the "nothing's watching a bare Pod" point above.
+
+### 🎤 Interview
+
+**🟢:** Pod kya hai?
+**🔵:** Pod aur container mein farak?
+**🟡:** Ek Pod ke multiple containers network kaise share karte hain?
+**🔴:** N/A (foundational; StatefulSet/DaemonSet architecture depth is Module 19).
+
+---
+
+# 17 — MULTI-CONTAINER PODS
+
+## Init containers
+
+Run **to completion, in order, before** any regular container in the Pod starts. Used for setup work — waiting for a dependency, fetching config, running a migration — that must finish before the main app starts.
+
+```yaml
+spec:
+  initContainers:
+    - name: wait-for-db
+      image: busybox
+      command: ["sh", "-c", "until nc -z db 5432; do sleep 2; done"]
+  containers:
+    - name: app
+      image: myapp
+```
+
+## Sidecar containers
+
+Run **alongside** the main container for the Pod's entire lifetime — a log shipper, a service-mesh proxy (Module 55), a metrics exporter.
+
+```text
+Main container   → does the actual application work
+Sidecar container → does one focused supporting job, sharing the Pod's network/storage
+```
+
+### 🧪 Try It Yourself
+
+```yaml
+spec:
+  initContainers:
+    - name: init-delay
+      image: busybox
+      command: ["sh", "-c", "echo Setting up...; sleep 10"]
+  containers:
+    - name: app
+      image: nginx
+```
+
+Apply this and watch `kubectl get pods -w` — the Pod shows `Init:0/1` for the first ~10 seconds, then transitions to `Running` only once the init container has fully completed. Try adding a *second* init container and confirm they run strictly in order, not in parallel.
+
+### 💡 Extra Insight
+
+If an init container **fails** (non-zero exit), the kubelet restarts *just that init container* (subject to the Pod's `restartPolicy`) — the main containers never even attempt to start until every init container has succeeded in order. This "fail-fast, block progression" behavior is precisely why init containers are the right tool for genuine hard prerequisites (a database that must exist first), not just optional nice-to-haves.
+
+### 🩹 Common Error & Fix
+
+Symptom: Pod stuck showing `Init:0/1` (or similar) indefinitely, never reaching `Running`. Check the init container's own logs specifically (`kubectl logs <pod> -c <init-container-name>`) — it's very likely stuck retrying a condition (like the `wait-for-db` example) that will never become true, which is expected/correct behavior for a genuinely unmet hard dependency, not a Kubernetes bug.
+
+### 🎤 Interview
+
+**🟢:** Init container kya karta hai?
+**🔵:** Init container vs sidecar?
+**🟡:** Init container fail hone par kya hota hai?
+**🔴:** N/A (foundational; service-mesh sidecar architecture depth is Module 55).
+
+---
+
+# 18 — POD LIFECYCLE, RESTART POLICY & ENVIRONMENT VARIABLES
+
+## Pod phases
+
+```text
+Pending   → accepted by the cluster, but not all containers created yet (often: not yet scheduled, or pulling images)
+Running   → bound to a node, at least one container running (or starting/restarting)
+Succeeded → all containers terminated successfully, won't restart
+Failed    → all containers terminated, at least one failed, won't restart
+Unknown   → the Pod's state can't be determined (usually a node communication problem)
+```
+
+## Restart policy
+
+```text
+Always     → default; restart containers on any exit (used by Deployments/long-running apps)
+OnFailure  → restart only on non-zero exit (common for Jobs)
+Never      → never restart this container once it exits (also common for one-shot Jobs)
+```
+
+## Environment variables
+
+```yaml
+env:
+  - name: MODE
+    value: "production"
+  - name: POD_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.name
+  - name: DB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: db-secret
+        key: password
+envFrom:
+  - configMapRef:
+      name: app-config
+```
+
+Three ways in: a literal `value`, a `valueFrom.fieldRef` (pulling from the Pod's own metadata — genuinely useful for things like injecting the Pod's own name/IP into the app), or a `valueFrom.secretKeyRef`/`configMapKeyRef` (pulling from a Secret/ConfigMap — the far more common real-world pattern, previewed here and fully covered in Module 28).
+
+### 🧪 Try It Yourself
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata: { name: envdemo }
+spec:
+  containers:
+    - name: app
+      image: busybox
+      command: ["sh", "-c", "env; sleep 3600"]
+      env:
+        - name: POD_NAME
+          valueFrom: { fieldRef: { fieldPath: metadata.name } }
+        - name: POD_IP
+          valueFrom: { fieldRef: { fieldPath: status.podIP } }
+```
+
+```bash
+kubectl logs envdemo | grep POD_
+```
+
+Confirm `POD_NAME` and `POD_IP` show up correctly populated from the Pod's own live metadata — a genuinely useful pattern (e.g., for structured logging that tags every log line with which Pod produced it) made concrete instead of abstract.
+
+### 💡 Extra Insight
+
+Environment variables are **read once, at container start** — if the underlying Secret/ConfigMap changes later, an already-running container's environment variables do **not** update automatically (unlike a *mounted volume* from a ConfigMap/Secret, which can update live depending on configuration — see Module 28's rotation gotcha). This is exactly why "we rotated the secret but the running Pod is still using the old value" is such a common real-world surprise — the fix is restarting the Pod, not just updating the Secret.
+
+### 🩹 Common Error & Fix
+
+```text
+CreateContainerConfigError: secret "db-secret" not found
+```
+The Pod references a Secret/ConfigMap key via `valueFrom` that doesn't exist (wrong name, wrong namespace, or genuinely not created yet) — this specific failure blocks the container from even starting (distinct from a runtime crash), and `kubectl describe pod` will show it clearly in the Events section before you ever need to check logs.
+
+### 🎤 Interview
+
+**🟢:** Pod phases kya-kya hain?
+**🔵:** restartPolicy Always/OnFailure/Never — kab kaunsa?
+**🟡:** Environment variables live-update kyun nahi hoti Secret change hone par?
+**🔴:** N/A (foundational; full ConfigMap/Secret architecture depth is Module 28).
+
+---
+
+# 🔴 FROM FOUNDATIONS TO ARCHITECTURE
+
+Modules 1–18 above cover the foundations: Kubernetes fundamentals, control plane / worker node, kubectl, Pods, basic lab, API resources, and environment variables.
+
+The major next layers (Modules 19–61, below) build on that foundation:
 
 ```text
 PODS → WORKLOADS → SERVICES → NETWORKING → STORAGE → CONFIG / SECRETS
@@ -23,6 +1075,10 @@ PODS → WORKLOADS → SERVICES → NETWORKING → STORAGE → CONFIG / SECRETS
 ```
 
 Kubernetes itself organizes the platform around workloads, services/networking, storage, configuration, security, policies, scheduling/resource management, administration and extensibility.
+
+---
+
+# 🟩 MODULES 19–61: WORKLOADS → ENTERPRISE ARCHITECTURE
 
 ---
 
@@ -1849,6 +2905,11 @@ A meta-error worth naming: jumping straight to `kubectl logs` or restarting thin
 8. What is a Namespace?
 9. What is ConfigMap?
 10. What is Secret?
+11. What is kubeconfig, and what is a context? *(new)*
+12. What's the difference between a label and an annotation? *(new)*
+13. What's the difference between an init container and a sidecar? *(new)*
+14. What are the Pod phases? *(new)*
+15. Imperative vs declarative kubectl usage — example? *(new)*
 
 ## 🔵 DEVELOPER
 
@@ -1910,10 +2971,26 @@ A meta-error worth naming: jumping straight to `kubectl logs` or restarting thin
 
 ---
 
-# 📖 GLOSSARY (New)
+# 📖 GLOSSARY (Covers Modules 1–61)
 
 | Term | Plain-language meaning |
 |---|---|
+| **Control plane** | The cluster's "brain" — API Server, etcd, Scheduler, Controller Manager. |
+| **Worker node** | A machine (VM or physical) that actually runs Pods, via kubelet + container runtime. |
+| **kubelet** | The node-level agent ensuring assigned Pods are actually running as described. |
+| **kube-proxy** | Implements Service routing/load-balancing on each node. |
+| **CRI (Container Runtime Interface)** | The pluggable interface letting kubelet talk to any compliant container runtime (containerd, CRI-O). |
+| **kubeconfig** | The file (clusters/users/contexts) `kubectl` reads to know which cluster and identity to use. |
+| **Context** | A named cluster+user+namespace combination inside a kubeconfig, switched via `kubectl config use-context`. |
+| **API group** | A named collection of related API resources and versions (e.g., `apps/v1`, `batch/v1`). |
+| **spec vs status** | The desired-state (`spec`, you write it) vs actual-state (`status`, Kubernetes fills it in) split on every object. |
+| **Label** | A key-value tag on an object used for identification/selection. |
+| **Selector** | A query (equality- or set-based) matching objects by their labels. |
+| **Annotation** | Freeform, non-selectable metadata attached to an object. |
+| **Namespace** | A logical partition of a cluster; most namespaced resources exist within exactly one. |
+| **Init container** | A container that must run to completion, in order, before any main container in the Pod starts. |
+| **Sidecar container** | A container running alongside the main container for the Pod's whole lifetime, sharing its network/storage. |
+| **Pod phase** | The Pod's coarse lifecycle state: Pending, Running, Succeeded, Failed, Unknown. |
 | **ReplicaSet** | Ensures a specified number of Pod replicas are running; usually managed by a Deployment, not directly. |
 | **EndpointSlice** | Tracks the current set of ready backend addresses for a Service, replacing the older single `Endpoints` object at scale. |
 | **CNI** | Container Network Interface — the pluggable layer implementing Pod networking. |
@@ -1936,10 +3013,18 @@ A meta-error worth naming: jumping straight to `kubectl logs` or restarting thin
 
 ---
 
-# 🩺 COMMON ERROR MESSAGES REFERENCE (New)
+# 🩺 COMMON ERROR MESSAGES REFERENCE (Covers Modules 1–61)
 
 | Error message (shortened) | Likely cause | Typical fix |
 |---|---|---|
+| `Unable to connect to the server: dial tcp ... connection refused` | API server not up yet, or wrong cluster address in kubeconfig | Wait/retry for a fresh cluster; check `kubectl config current-context` |
+| `error: You must be logged in to the server (Unauthorized)` | Expired/invalid credential in kubeconfig | Refresh credentials (e.g., re-run the managed cluster's kubeconfig-update CLI command) |
+| `error: unable to recognize "x.yaml": no matches for kind "Deployment" in version "apps/v1beta1"` | Old/removed `apiVersion` in the manifest | Check current valid apiVersion via `kubectl api-resources`/`kubectl explain` |
+| `error: the server doesn't have a resource type "pod"` | Typo in resource name, or a CRD not installed | `kubectl api-resources \| grep -i <name>` to confirm what actually exists |
+| `Error from server (NotFound): pods "demo" not found` | Looking in the wrong namespace | `kubectl get pods -A \| grep demo`, then use `-n <namespace>` |
+| `error: field is immutable` | Trying to change a Deployment's `spec.selector` after creation | Delete and recreate the object if the selector must genuinely change |
+| `CreateContainerConfigError: secret "x" not found` | Pod's `env.valueFrom` references a missing Secret/ConfigMap | Verify name/namespace/key actually exist before the Pod starts |
+| `Failed to pull image ... failed to pull and unpack image` | Registry auth, node network reachability, or image architecture mismatch | Debug at the node/CRI level (`crictl`), not just `kubectl` |
 | `Service has no endpoints` | Selector doesn't match Pod labels | Compare `kubectl get endpointslices` and `kubectl get pods --show-labels` |
 | `0/N nodes are available: Insufficient cpu/memory` | Requests exceed available node capacity | Right-size requests, or add node capacity |
 | `0/N nodes are available: node(s) had volume node affinity conflict` | PV provisioned in a different zone than eligible nodes | Align node affinity/zone with the PV's actual zone |
@@ -1955,9 +3040,43 @@ A meta-error worth naming: jumping straight to `kubectl logs` or restarting thin
 
 ---
 
-# ⚡ COMMAND REFERENCE BY TASK (New)
+# ⚡ COMMAND REFERENCE BY TASK (Covers Modules 1–61)
 
 ```bash
+# ---- kubeconfig & context (Module 07) ----
+kubectl config get-contexts
+kubectl config use-context <name>
+kubectl config current-context
+kubectl config set-context --current --namespace=<ns>
+
+# ---- Discovery & schema (Modules 08, 10, 12) ----
+kubectl api-resources
+kubectl api-versions
+kubectl explain <kind>.<field>
+kubectl get pods -o wide
+kubectl get pods -o yaml
+kubectl get pods -o jsonpath='{.items[0].status.podIP}'
+kubectl get pods -o custom-columns=NAME:.metadata.name,IP:.status.podIP
+
+# ---- Imperative vs declarative (Module 09) ----
+kubectl create deployment demo --image=nginx --dry-run=client -o yaml > deployment.yaml
+kubectl apply -f deployment.yaml
+
+# ---- Labels, selectors, annotations (Modules 13, 14) ----
+kubectl label pod demo tier=backend --overwrite
+kubectl get pods -l 'tier in (backend,frontend)'
+kubectl get pods --show-labels
+kubectl annotate deployment demo owner="platform-team" --overwrite
+
+# ---- Namespaces (Module 15) ----
+kubectl create namespace team-a
+kubectl get pods --all-namespaces
+
+# ---- Pods & lifecycle (Modules 16-18) ----
+kubectl run demo --image=nginx
+kubectl exec demo -- hostname
+kubectl logs demo | grep POD_
+
 # ---- Workloads ----
 kubectl create deployment demo --image=nginx --replicas=3
 kubectl get rs,pods -o wide
@@ -2034,7 +3153,7 @@ kubectl api-resources --verbs=list --api-group=extensions
 ```text
 KUBERNETES
 │
-├── FOUNDATION:      Pod, Node, Cluster, kubectl
+├── FOUNDATION:      Pod, Node, Cluster, kubectl, kubeconfig/contexts, API groups, YAML anatomy, labels/selectors, annotations, namespaces, init/sidecar containers, Pod lifecycle
 ├── CONTROL PLANE:   API Server, etcd, Scheduler, Controllers, Admission
 ├── WORKLOADS:       Deployment, StatefulSet, DaemonSet, Job, CronJob
 ├── NETWORKING:      CNI, Service, DNS, NetworkPolicy, Ingress, Gateway API, eBPF
